@@ -2,13 +2,13 @@
 
 An open source interface for Starswap -- a protocol for decentralized exchange of Starcoin tokens.
 
-## Accessing the Uniswap Interface
+## Accessing the Starswap Interface
 
-To access the Uniswap Interface, use an IPFS gateway link from the
+To access the Starswap Interface, use an IPFS gateway link from the
 [latest release](https://github.com/Uniswap/uniswap-interface/releases/latest),
 or visit [app.uniswap.org](https://app.uniswap.org).
 
-## Run the Uniswap Interface
+## Run the Starswap Interface
 
 ```
 yarn install
@@ -17,7 +17,22 @@ export REACT_APP_INFURA_KEY=538f147a2d66487d86f0a2fcc2afdcb5
 yarn start
 ```
 
-Open browser and go to `http://localhost:3000`.
+Open Chrome and go to `http://localhost:3000`. Make sure you have installed Metamask and have some tokens in it.
+
+## Build the Starswap Interface
+
+```
+yarn build
+```
+
+If you want to see it locally, try to use `serve` to serve the static files:
+
+```
+npm install -g serve
+serve -s build
+```
+
+Open Chrome and go to `http://localhost:5000`. Make sure you have installed Metamask and have some tokens in it.
 
 ---
 

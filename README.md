@@ -1,3 +1,26 @@
+# Starswap Interface
+
+An open source interface for Starswap -- a protocol for decentralized exchange of Starcoin tokens.
+
+## Accessing the Uniswap Interface
+
+To access the Uniswap Interface, use an IPFS gateway link from the
+[latest release](https://github.com/Uniswap/uniswap-interface/releases/latest),
+or visit [app.uniswap.org](https://app.uniswap.org).
+
+## Run the Uniswap Interface
+
+```
+yarn install
+yarn i18n:extract
+export REACT_APP_INFURA_KEY=538f147a2d66487d86f0a2fcc2afdcb5
+yarn start
+```
+
+Open browser and go to `http://localhost:3000`.
+
+---
+
 # Uniswap Interface
 
 [![Unit Tests](https://github.com/Uniswap/uniswap-interface/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/Uniswap/uniswap-interface/actions/workflows/unit-tests.yaml)

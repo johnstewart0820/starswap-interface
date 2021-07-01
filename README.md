@@ -4,9 +4,7 @@ An open source interface for Starswap -- a protocol for decentralized exchange o
 
 ## Accessing the Starswap Interface
 
-To access the Starswap Interface, use an IPFS gateway link from the
-[latest release](https://github.com/Uniswap/uniswap-interface/releases/latest),
-or visit [app.uniswap.org](https://app.uniswap.org).
+To access the Starswap Interface, visit [starswap.git.xin](https://starswap.git.xin) in Chrome.
 
 ## Run the Starswap Interface
 

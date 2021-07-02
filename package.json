@@ -1,7 +1,7 @@
 {
-  "name": "@uniswap/interface",
-  "description": "Uniswap Interface",
-  "homepage": ".",
+  "name": "@starswap/interface",
+  "description": "Starswap Interface",
+  "homepage": "https://starcoin.org",
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.2.0",

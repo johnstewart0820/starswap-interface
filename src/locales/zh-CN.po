@@ -1876,6 +1876,10 @@ msgstr "您的 UNI 代币明细表"
 msgid "Your V2 liquidity"
 msgstr "您的V2流动资金"
 
+#: src/pages/Pool/v2.tsx
+msgid "Your liquidity"
+msgstr "您的流动资金"
+
 #: src/pages/Pool/index.tsx
 msgid "Your V3 liquidity positions will appear here."
 msgstr "您的 V3 流动资金将在此显示。"

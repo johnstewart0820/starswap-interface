@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import AddressClaimModal from '../components/claim/AddressClaimModal'
 import Header from '../components/Header'
-import Polling from '../components/Header/Polling'
+// import Polling from '../components/Header/Polling'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import ErrorBoundary from '../components/ErrorBoundary'
@@ -81,7 +81,9 @@ export default function App() {
         </HeaderWrapper>
         <BodyWrapper>
           <Popups />
+          {/*
           <Polling />
+          */}
           <TopLevelModals />
           <Web3ReactManager>
             <Switch>

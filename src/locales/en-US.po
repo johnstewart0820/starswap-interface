@@ -28,6 +28,10 @@ msgstr "${0}"
 msgid "${0} ETH"
 msgstr "${0} ETH"
 
+#: 
+#~ msgid "${0} STC"
+#~ msgstr "${0} STC"
+
 #: src/components/CurrencyInputPanel/index.tsx
 msgid "(Max)"
 msgstr "(Max)"
@@ -231,9 +235,9 @@ msgstr "Amount"
 msgid "An error occurred when trying to execute this swap. You may need to increase your slippage tolerance. If that does not work, there may be an incompatibility with the token you are trading. Note: fee on transfer and rebase tokens are incompatible with Uniswap V3."
 msgstr "An error occurred when trying to execute this swap. You may need to increase your slippage tolerance. If that does not work, there may be an incompatibility with the token you are trading. Note: fee on transfer and rebase tokens are incompatible with Uniswap V3."
 
-#: src/components/Menu/index.tsx
-msgid "Analytics"
-msgstr "Analytics"
+#: 
+#~ msgid "Analytics"
+#~ msgstr "Analytics"
 
 #: src/components/earn/StakingModal.tsx
 #: src/pages/RemoveLiquidity/index.tsx
@@ -343,13 +347,9 @@ msgstr "Change"
 msgid "Change your network to go back to L1"
 msgstr "Change your network to go back to L1"
 
-#: src/components/Header/index.tsx
-msgid "Charts"
-msgstr "Charts"
-
-#: src/components/Header/index.tsx
-msgid "Explorer"
-msgstr "Explorer"
+#: 
+#~ msgid "Charts"
+#~ msgstr "Charts"
 
 #: src/pages/Pool/CTACards.tsx
 msgid "Check out our v3 LP walkthrough and migration guides."
@@ -362,7 +362,6 @@ msgid "Claim"
 msgstr "Claim"
 
 #: src/components/Header/index.tsx
-#: src/components/Menu/index.tsx
 #: src/components/claim/AddressClaimModal.tsx
 #: src/components/claim/ClaimModal.tsx
 #: src/components/claim/ClaimModal.tsx
@@ -738,6 +737,10 @@ msgstr "Expert mode turns off the confirm transaction prompt and allows high sli
 #: src/pages/Pool/CTACards.tsx
 msgid "Explore popular pools on Uniswap Analytics."
 msgstr "Explore popular pools on Uniswap Analytics."
+
+#: src/components/Header/index.tsx
+msgid "Explorer"
+msgstr "Explorer"
 
 #: src/components/PositionPreview/index.tsx
 msgid "Fee Tier"
@@ -1372,6 +1375,10 @@ msgstr "Some assets are not available through this interface because they may no
 msgid "Something went wrong"
 msgstr "Something went wrong"
 
+#: src/components/SwitchLocaleLink/index.tsx
+msgid "Starswap available in: <0>{0}</0>"
+msgstr "Starswap available in: <0>{0}</0>"
+
 #: src/pages/Earn/Manage.tsx
 msgid "Step 1. Get UNI-V2 Liquidity tokens"
 msgstr "Step 1. Get UNI-V2 Liquidity tokens"
@@ -1553,6 +1560,10 @@ msgstr "Try Again"
 msgid "Turn On Expert Mode"
 msgstr "Turn On Expert Mode"
 
+#: src/components/Menu/index.tsx
+msgid "Twitter"
+msgstr "Twitter"
+
 #: src/components/Popups/ClaimPopup.tsx
 msgid "UNI has arrived"
 msgstr "UNI has arrived"
@@ -1602,13 +1613,9 @@ msgstr "Uniswap Governance"
 msgid "Uniswap V3 is here!"
 msgstr "Uniswap V3 is here!"
 
-#: src/components/SwitchLocaleLink/index.tsx
-msgid "Uniswap available in: <0>{0}</0>"
-msgstr "Uniswap available in: <0>{0}</0>"
-
-#: src/components/SwitchLocaleLink/index.tsx
-msgid "Starswap available in: <0>{0}</0>"
-msgstr "Starswap available in: <0>{0}</0>"
+#: 
+#~ msgid "Uniswap available in: <0>{0}</0>"
+#~ msgstr "Uniswap available in: <0>{0}</0>"
 
 #: src/pages/Earn/index.tsx
 msgid "Uniswap liquidity mining"
@@ -2004,9 +2011,9 @@ msgstr "{0} Custom Tokens"
 msgid "{0} Deposited"
 msgstr "{0} Deposited"
 
-#: src/components/Header/index.tsx
-msgid "{0} ETH"
-msgstr "{0} ETH"
+#: 
+#~ msgid "{0} ETH"
+#~ msgstr "{0} ETH"
 
 #: src/pages/RemoveLiquidity/V3.tsx
 #: src/pages/RemoveLiquidity/V3.tsx
@@ -2018,6 +2025,10 @@ msgstr "{0} Fees Earned:"
 #: src/components/Web3Status/index.tsx
 msgid "{0} Pending"
 msgstr "{0} Pending"
+
+#: src/components/Header/index.tsx
+msgid "{0} STC"
+msgstr "{0} STC"
 
 #: src/components/claim/AddressClaimModal.tsx
 #: src/components/claim/AddressClaimModal.tsx

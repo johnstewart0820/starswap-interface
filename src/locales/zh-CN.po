@@ -31,6 +31,10 @@ msgstr "${0}"
 msgid "${0} ETH"
 msgstr "${0} ETH"
 
+#: src/components/earn/PoolCard.tsx
+msgid "${0} STC"
+msgstr "${0} STC"
+
 #: src/components/CurrencyInputPanel/index.tsx
 msgid "(Max)"
 msgstr "(最大值)"
@@ -2010,6 +2014,10 @@ msgstr "注入 {0}"
 #: src/components/Header/index.tsx
 msgid "{0} ETH"
 msgstr "{0} ETH"
+
+#: src/components/Header/index.tsx
+msgid "{0} STC"
+msgstr "{0} STC"
 
 #: src/pages/RemoveLiquidity/V3.tsx
 #: src/pages/RemoveLiquidity/V3.tsx

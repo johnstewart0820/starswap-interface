@@ -347,6 +347,10 @@ msgstr "Change your network to go back to L1"
 msgid "Charts"
 msgstr "Charts"
 
+#: src/components/Header/index.tsx
+msgid "Explorer"
+msgstr "Explorer"
+
 #: src/pages/Pool/CTACards.tsx
 msgid "Check out our v3 LP walkthrough and migration guides."
 msgstr "Check out our v3 LP walkthrough and migration guides."

@@ -350,6 +350,10 @@ msgstr "更改您的网络以返回 L1"
 msgid "Charts"
 msgstr "图表"
 
+#: src/components/Header/index.tsx
+msgid "Explorer"
+msgstr "浏览器"
+
 #: src/pages/Pool/CTACards.tsx
 msgid "Check out our v3 LP walkthrough and migration guides."
 msgstr "查看我们的 v3 流动池介绍和迁移指南。"

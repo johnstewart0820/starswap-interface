@@ -39,7 +39,7 @@ export function SwitchLocaleLink() {
     return (
       <Container>
         <Trans>
-          Uniswap available in:{' '}
+          Starswap available in:{' '}
           {
             <StyledInternalLink
               onClick={() => {

@@ -1606,6 +1606,10 @@ msgstr "Uniswap V3 is here!"
 msgid "Uniswap available in: <0>{0}</0>"
 msgstr "Uniswap available in: <0>{0}</0>"
 
+#: src/components/SwitchLocaleLink/index.tsx
+msgid "Starswap available in: <0>{0}</0>"
+msgstr "Starswap available in: <0>{0}</0>"
+
 #: src/pages/Earn/index.tsx
 msgid "Uniswap liquidity mining"
 msgstr "Uniswap liquidity mining"

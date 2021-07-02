@@ -1609,6 +1609,10 @@ msgstr "Uniswap V3 已发布！"
 msgid "Uniswap available in: <0>{0}</0>"
 msgstr "Uniswap 可选语言：<0>{0}</0>"
 
+#: src/components/SwitchLocaleLink/index.tsx
+msgid "Starswap available in: <0>{0}</0>"
+msgstr "Starswap 可选语言: <0>{0}</0>"
+
 #: src/pages/Earn/index.tsx
 msgid "Uniswap liquidity mining"
 msgstr "Uniswap 流动资金挖矿："

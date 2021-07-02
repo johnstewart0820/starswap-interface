@@ -121,7 +121,7 @@ const InternalMenuItem = styled(Link)`
   }
 `
 
-const CODE_LINK = 'https://github.com/Uniswap/uniswap-interface'
+const CODE_LINK = 'https://github.com/starcoinorg/starswap-interface'
 
 export default function Menu() {
   const { account } = useActiveWeb3React()
@@ -141,13 +141,13 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem href="https://uniswap.org/">
+          <MenuItem href="https://starcoin.org/">
             <Info size={14} />
             <div>
               <Trans>About</Trans>
             </div>
           </MenuItem>
-          <MenuItem href="https://docs.uniswap.org/">
+          <MenuItem href="https://developer.starcoin.org/">
             <BookOpen size={14} />
             <div>
               <Trans>Docs</Trans>
@@ -159,23 +159,25 @@ export default function Menu() {
               <Trans>Code</Trans>
             </div>
           </MenuItem>
-          <MenuItem href="https://discord.gg/FCfyBSbCU5">
+          <MenuItem href="https://discord.com/invite/96tKt5exaE">
             <MessageCircle size={14} />
             <div>
               <Trans>Discord</Trans>
             </div>
           </MenuItem>
-          <MenuItem href="https://info.uniswap.org/">
+          <MenuItem href="https://twitter.com/starcoinstc">
             <PieChart size={14} />
             <div>
-              <Trans>Analytics</Trans>
+              <Trans>Twitter</Trans>
             </div>
           </MenuItem>
+          {/*
           {account && (
             <UNIbutton onClick={openClaimModal} padding="8px 16px" width="100%" borderRadius="12px" mt="0.5rem">
               <Trans>Claim UNI</Trans>
             </UNIbutton>
           )}
+          */}
         </MenuFlyout>
       )}
     </StyledMenu>

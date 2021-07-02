@@ -11,8 +11,10 @@ import { useUserHasSubmittedClaim } from 'state/transactions/hooks'
 import { useDarkModeManager } from 'state/user/hooks'
 import { useETHBalances } from 'state/wallet/hooks'
 import styled from 'styled-components/macro'
-import Logo from '../../assets/svg/logo.svg'
-import LogoDark from '../../assets/svg/logo_white.svg'
+// import Logo from '../../assets/svg/logo.svg'
+// import LogoDark from '../../assets/svg/logo_white.svg'
+import Logo from '../../assets/svg/starcoin_logo.svg'
+import LogoDark from '../../assets/svg/starcoin_logo.svg'
 import { useActiveWeb3React } from '../../hooks/web3'
 import { ExternalLink, TYPE } from '../../theme'
 import ClaimModal from '../claim/ClaimModal'
@@ -311,7 +313,7 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           <UniIcon>
-            <img width={'24px'} src={darkMode ? LogoDark : Logo} alt="logo" />
+            <img height={'32px'} src={darkMode ? LogoDark : Logo} alt="logo" />
           </UniIcon>
         </Title>
       </HeaderRow>
@@ -321,7 +323,7 @@ export default function Header() {
         </StyledNavLink>
         <StyledNavLink
           id={`pool-nav-link`}
-          to={'/pool'}
+          to={'/pool/v2'}
           isActive={(match, { pathname }) =>
             Boolean(match) ||
             pathname.startsWith('/add') ||
@@ -332,11 +334,17 @@ export default function Header() {
         >
           <Trans>Pool</Trans>
         </StyledNavLink>
+        {/*
         <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
           <Trans>Vote</Trans>
         </StyledNavLink>
-        <StyledExternalLink id={`stake-nav-link`} href={'https://info.uniswap.org'}>
-          <Trans>Charts</Trans>
+        */}
+        <StyledExternalLink id={`stake-nav-link`} href={'https://poll.starcoin.org'}>
+          <Trans>Vote</Trans>
+          <sup>↗</sup>
+        </StyledExternalLink>
+        <StyledExternalLink id={`stake-nav-link`} href={'https://explorer.starcoin.org'}>
+          <Trans>Explorer</Trans>
           <sup>↗</sup>
         </StyledExternalLink>
       </HeaderLinks>

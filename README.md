@@ -2,9 +2,11 @@
 
 An open source interface for Starswap -- a protocol for decentralized exchange of Starcoin tokens.
 
-## Accessing the Starswap Interface
+## Access the Starswap Interface
 
-To access the Starswap Interface, visit [starswap.git.xin](https://starswap.git.xin) in Chrome.
+Open this URL in Chrome:
+
+[starswap.git.xin](https://starswap.git.xin)
 
 ## Run the Starswap Interface
 

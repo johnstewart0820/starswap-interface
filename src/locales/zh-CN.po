@@ -170,6 +170,7 @@ msgid "Add Delegate +"
 msgstr "添加委托 +"
 
 #: src/components/NavigationTabs/index.tsx
+#: src/pages/Pool/v2.tsx
 msgid "Add Liquidity"
 msgstr "注入流动资金"
 

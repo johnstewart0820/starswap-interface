@@ -167,6 +167,7 @@ msgid "Add Delegate +"
 msgstr "Add Delegate +"
 
 #: src/components/NavigationTabs/index.tsx
+#: src/pages/Pool/v2.tsx
 msgid "Add Liquidity"
 msgstr "Add Liquidity"
 

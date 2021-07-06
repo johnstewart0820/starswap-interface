@@ -39,8 +39,10 @@ export default function CurrencyLogo({
   const srcs: string[] = useMemo(() => {
     if (!currency || currency.isNative) return []
 
-    if (currency.isToken) {
-      const defaultUrls = currency.chainId === 1 ? [getTokenLogoURL(currency.address)] : []
+    // if (currency.isToken) {
+    if (currency.symbol === 'Bot') {
+      // const defaultUrls = currency.chainId === 1 ? [getTokenLogoURL(currency.address)] : []
+      const defaultUrls = currency.chainId === 1 ? [getTokenLogoURL('0xdAC17F958D2ee523a2206206994597C13D831ec7')] : []
       if (currency instanceof WrappedTokenInfo) {
         return [...uriLocations, ...defaultUrls]
       }
@@ -49,9 +51,12 @@ export default function CurrencyLogo({
     return []
   }, [currency, uriLocations])
 
+  /*
   if (currency?.isNative) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} {...rest} />
   }
 
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} {...rest} />
+  */
+  return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} {...rest} />
 }

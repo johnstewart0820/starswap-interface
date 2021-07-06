@@ -191,7 +191,7 @@ export default function Pool() {
                   </Text>
                 </ResponsiveButtonPrimary>
                 */}
-                <ResponsiveButtonPrimary id="join-pool-button" as={Link} to="/add/v2/ETH" padding="6px 8px">
+                <ResponsiveButtonPrimary id="join-pool-button" as={Link} to="/add/v2/STC/Bot" padding="6px 8px">
                   <Text fontWeight={500} fontSize={16}>
                     {/*
                     <Trans>Add V2 Liquidity</Trans>

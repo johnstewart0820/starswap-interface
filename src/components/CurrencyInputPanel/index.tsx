@@ -243,7 +243,9 @@ export default function CurrencyInputPanel({
                   </StyledTokenName>
                 )}
               </RowFixed>
+              {/*
               {onCurrencySelect && <StyledDropDown selected={!!currency} />}
+              */}
             </Aligner>
           </CurrencySelect>
           {!hideInput && (
@@ -296,7 +298,8 @@ export default function CurrencyInputPanel({
       </Container>
       {onCurrencySelect && (
         <CurrencySearchModal
-          isOpen={modalOpen}
+          // isOpen={modalOpen}
+          isOpen={false}
           onDismiss={handleDismissSearch}
           onCurrencySelect={onCurrencySelect}
           selectedCurrency={currency}

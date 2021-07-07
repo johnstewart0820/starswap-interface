@@ -220,7 +220,6 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   */
 
   const { chainId } = useActiveWeb3React()
-  console.log({ currencyId });
   const isSTC = currencyId?.toUpperCase() === 'STC'
   const stcAddress = "0xD352f48899E0B51C2bC0513235A3469dcAF6f045"
   const STCToken  = new Token(
@@ -231,8 +230,8 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
       'STC'
   )
   const token = useToken(isSTC ? undefined : currencyId)
-  const extendedEther = useMemo(() => (chainId ? ExtendedEther.onChain(chainId) : undefined), [chainId])
-  console.log({ extendedEther });
+  // const extendedEther = useMemo(() => (chainId ? ExtendedEther.onChain(chainId) : undefined), [chainId])
+  // console.log({ extendedEther });
   const weth = chainId ? WETH9_EXTENDED[chainId] : undefined
   if (weth?.address?.toLowerCase() === currencyId?.toLowerCase()) return weth
   return isSTC ? STCToken : token

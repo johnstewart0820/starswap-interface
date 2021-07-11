@@ -22,7 +22,10 @@ if (typeof INFURA_KEY === 'undefined') {
 const NETWORK_URLS: {
   [chainId in SupportedChainId]: string
 } = {
-  [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+  [SupportedChainId.MAINNET]: `https://main-seed.starcoin.org`,
+  [SupportedChainId.BARNARD]: `https://barnard-seed.starcoin.org`,
+  [SupportedChainId.HALLEY]: `https://halley-seed.starcoin.org`,
+  [SupportedChainId.PROXIMA]: `https://proxima-seed.starcoin.org`,
   [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
   [SupportedChainId.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
   [SupportedChainId.GOERLI]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
@@ -33,6 +36,9 @@ const NETWORK_URLS: {
 
 const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.MAINNET,
+  SupportedChainId.PROXIMA,
+  SupportedChainId.BARNARD,
+  SupportedChainId.HALLEY,
   SupportedChainId.KOVAN,
   SupportedChainId.GOERLI,
   SupportedChainId.RINKEBY,

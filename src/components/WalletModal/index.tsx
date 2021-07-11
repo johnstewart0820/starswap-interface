@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { UnsupportedChainIdError, useWeb3React } from '@starcoin/web3-react-core'
+import { UnsupportedChainIdError, useWeb3React } from '@starcoin/starswap-web3-react-core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { AutoRow } from 'components/Row'
 import { useEffect, useState } from 'react'

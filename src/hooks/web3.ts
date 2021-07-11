@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React as useWeb3ReactCore } from '@starcoin/web3-react-core'
-import { Web3ReactContextInterface } from '@starcoin/web3-react-core/dist/types'
+import { useWeb3React as useWeb3ReactCore } from '@starcoin/starswap-web3-react-core'
+import { Web3ReactContextInterface } from '@starcoin/starswap-web3-react-core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { injected } from '../connectors'

@@ -3495,6 +3495,23 @@
     read-bigint "^0.1.6"
     ws "7.2.3"
 
+"@starcoin/starswap-web3-react-core@../web3-react/packages/core":
+  version "6.1.9"
+  dependencies:
+    "@ethersproject/keccak256" "^5.0.0-beta.130"
+    "@starcoin/stc-util" "^0.3.0"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-invariant "^1.0.6"
+    tiny-warning "^1.0.3"
+
+"@starcoin/starswap-web3-react-injected-connector@../web3-react/packages/injected-connector":
+  version "6.0.7"
+  dependencies:
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-warning "^1.0.3"
+
 "@starcoin/stc-ed25519@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@starcoin/stc-ed25519/-/stc-ed25519-0.1.0.tgz#56e65b388889a5953e01806cc3deaa20ddaf8174"
@@ -3515,7 +3532,7 @@
     safe-buffer "^5.1.1"
     secp256k1 "^3.0.1"
 
-"@starcoin/web3-react-core@../web3-react/packages/core":
+"@starcoin/starswap-web3-react-core@../web3-react/packages/core":
   version "6.1.9"
   dependencies:
     "@ethersproject/keccak256" "^5.0.0-beta.130"
@@ -3525,7 +3542,7 @@
     tiny-invariant "^1.0.6"
     tiny-warning "^1.0.3"
 
-"@starcoin/web3-react-injected-connector@../web3-react/packages/injected-connector":
+"@starcoin/starwswap-web3-react-injected-connector@../web3-react/packages/injected-connector":
   version "6.0.7"
   dependencies:
     "@web3-react/abstract-connector" "^6.0.7"
@@ -4573,6 +4590,16 @@
   integrity sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==
   dependencies:
     "@web3-react/types" "^6.0.7"
+
+"@web3-react/core@../web3-react/packages/core":
+  version "6.1.9"
+  dependencies:
+    "@ethersproject/keccak256" "^5.0.0-beta.130"
+    "@starcoin/stc-util" "^0.3.0"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-invariant "^1.0.6"
+    tiny-warning "^1.0.3"
 
 "@web3-react/fortmatic-connector@^6.0.9":
   version "6.1.6"

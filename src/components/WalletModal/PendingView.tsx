@@ -74,7 +74,7 @@ export default function PendingView({
   setPendingError: (error: boolean) => void
   tryActivation: (connector: AbstractConnector) => void
 }) {
-  const isMetamask = window?.ethereum?.isMetaMask
+  const isMetamask = window?.starcoin?.isMetaMask
 
   return (
     <PendingSection>

@@ -3500,6 +3500,31 @@
   resolved "https://registry.yarnpkg.com/@starcoin/stc-ed25519/-/stc-ed25519-0.1.0.tgz#56e65b388889a5953e01806cc3deaa20ddaf8174"
   integrity sha512-H3oz8fNQD604Ak0cSNTDcbfzLxsB9XAKw1aJO7iBPuZWcHF8bgn7xxOzsinx5V5LGaPeleWc/Qw4vCKnK6cxHQ==
 
+"@starcoin/stc-util@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@starcoin/stc-util/-/stc-util-0.3.0.tgz#c98ed5879c066e815b40c1f408204945acde9b4c"
+  integrity sha512-FUF50Di094I45llxs6/qnJaQub0+Dr/rFrM3HbictIN7SmHtikD+ZyOsF+EV/8BOjmOK5sm99ImKaj49PmMjhw==
+  dependencies:
+    bn.js "^4.11.0"
+    create-hash "^1.1.2"
+    ethjs-util "0.1.6"
+    js-sha3 "^0.8.0"
+    keccak "^1.0.2"
+    noble-ed25519 "^1.0.4"
+    rlp "^2.0.0"
+    safe-buffer "^5.1.1"
+    secp256k1 "^3.0.1"
+
+"@starcoin/web3-react-core@../web3-react/packages/core":
+  version "6.1.9"
+  dependencies:
+    "@ethersproject/keccak256" "^5.0.0-beta.130"
+    "@starcoin/stc-util" "^0.3.0"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-invariant "^1.0.6"
+    tiny-warning "^1.0.3"
+
 "@starcoin/web3-react-injected-connector@../web3-react/packages/injected-connector":
   version "6.0.7"
   dependencies:
@@ -13433,6 +13458,11 @@ no-case@^3.0.4:
   dependencies:
     lower-case "^2.0.2"
     tslib "^2.0.3"
+
+noble-ed25519@^1.0.4:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/noble-ed25519/-/noble-ed25519-1.2.5.tgz#ed6dde9213debcf121083d18daecb30bb6416753"
+  integrity sha512-7vst+4UhM5QU3jJ3pUqPMKBCOePrxBojmoQa59qcSnYvjFF/T4jqb4WISlfslcWyBw7G5H9V/acpcAxMd8DzUQ==
 
 node-addon-api@^2.0.0:
   version "2.0.2"

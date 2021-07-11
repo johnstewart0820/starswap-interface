@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@starcoin/web3-react-core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { AutoRow } from 'components/Row'
 import { useEffect, useState } from 'react'
@@ -186,6 +186,7 @@ export default function WalletModal({
         if (error instanceof UnsupportedChainIdError) {
           activate(connector) // a little janky...can't use setError because the connector isn't set
         } else {
+          console.error(error)
           setPendingError(true)
         }
       })

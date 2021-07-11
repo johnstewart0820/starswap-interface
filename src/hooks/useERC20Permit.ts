@@ -11,6 +11,7 @@ import { useActiveWeb3React } from './web3'
 import { useEIP2612Contract } from './useContract'
 import useIsArgentWallet from './useIsArgentWallet'
 import useTransactionDeadline from './useTransactionDeadline'
+import { SupportedChainId } from 'constants/chains'
 
 enum PermitType {
   AMOUNT = 1,
@@ -33,24 +34,21 @@ const PERMITTABLE_TOKENS: {
     [checksummedTokenAddress: string]: PermitInfo
   }
 } = {
-  [1]: {
+  [SupportedChainId.MAINNET]: {
     [USDC.address]: { type: PermitType.AMOUNT, name: 'USD Coin', version: '2' },
     [DAI.address]: { type: PermitType.ALLOWED, name: 'Dai Stablecoin', version: '1' },
-    [UNI[1].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
+    [UNI[SupportedChainId.MAINNET].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
   },
-  [4]: {
+  [SupportedChainId.PROXIMA]: {
     ['0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735']: { type: PermitType.ALLOWED, name: 'Dai Stablecoin', version: '1' },
-    [UNI[4].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
+    [UNI[SupportedChainId.PROXIMA].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
   },
-  [3]: {
-    [UNI[3].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
+  [SupportedChainId.BARNARD]: {
+    [UNI[SupportedChainId.BARNARD].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
     ['0x07865c6E87B9F70255377e024ace6630C1Eaa37F']: { type: PermitType.AMOUNT, name: 'USD Coin', version: '2' },
   },
-  [5]: {
-    [UNI[5].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
-  },
-  [42]: {
-    [UNI[42].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
+  [SupportedChainId.HALLEY]: {
+    [UNI[SupportedChainId.HALLEY].address]: { type: PermitType.AMOUNT, name: 'Uniswap' },
   },
 }
 

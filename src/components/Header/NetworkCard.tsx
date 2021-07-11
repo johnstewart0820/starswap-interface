@@ -169,51 +169,5 @@ export default function NetworkCard() {
     return null
   }
 
-  if (chainId === SupportedChainId.ARBITRUM_ONE) {
-    return (
-      <ArbitrumWrapper ref={node}>
-        <NetworkInfo onClick={toggle}>
-          <Icon src={arbitrumLogoUrl} />
-          <span>Arbitrum</span>
-          <L2Tag>L2 Alpha</L2Tag>
-        </NetworkInfo>
-        {open && (
-          <MenuFlyout>
-            <MenuItem href="https://bridge.arbitrum.io/">
-              <div>
-                <Trans>Arbitrum Token Bridge</Trans>
-              </div>
-              <LinkOutCircle />
-            </MenuItem>
-            <MenuItem href="https://explorer.arbitrum.io/">
-              <div>
-                <Trans>Arbitrum Explorer</Trans>
-              </div>
-              <LinkOutCircle />
-            </MenuItem>
-            <MenuItem href="https://offchainlabs.com/">
-              <div>
-                <Trans>Learn more</Trans>
-              </div>
-              <LinkOutCircle />
-            </MenuItem>
-            {implements3085 ? (
-              <ButtonMenuItem onClick={() => switchToNetwork({ library, chainId: SupportedChainId.MAINNET })}>
-                <div>
-                  <Trans>Switch to Ethereum</Trans>
-                </div>
-                <L1Tag>L1</L1Tag>
-              </ButtonMenuItem>
-            ) : (
-              <DisabledMenuItem>
-                <Trans>Change your network to go back to L1</Trans>
-              </DisabledMenuItem>
-            )}
-          </MenuFlyout>
-        )}
-      </ArbitrumWrapper>
-    )
-  }
-
   return <FallbackWrapper title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</FallbackWrapper>
 }

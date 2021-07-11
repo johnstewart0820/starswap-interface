@@ -13,6 +13,7 @@ Open this URL in Chrome:
 ```
 yarn install
 yarn i18n:extract
+export REACT_APP_INFURA_KEY=538f147a2d66487d86f0a2fcc2afdcb5
 yarn start
 ```
 
@@ -69,7 +70,7 @@ For steps on local deployment, development, and code contribution, please see [C
 
 ## Accessing Uniswap V2
 
-The Uniswap Interface supports swapping, adding liquidity, removing liquidity and migrating liquidity for
+The Uniswap Interface supports swapping, adding liquidity, removing liquidity and migrating liquidity for 
 Uniswap protocol V2.
 
 - Swap on Uniswap V2: https://app.uniswap.org/#/swap?use=v2
@@ -78,6 +79,6 @@ Uniswap protocol V2.
 - Migrate V2 liquidity to V3: https://app.uniswap.org/#/migrate/v2
 
 ## Accessing Uniswap V1
-
-The Uniswap V1 interface for mainnet and testnets is accessible via IPFS gateways
+ 
+The Uniswap V1 interface for mainnet and testnets is accessible via IPFS gateways 
 linked from the [v1.0.0 release](https://github.com/Uniswap/uniswap-interface/releases/tag/v1.0.0).

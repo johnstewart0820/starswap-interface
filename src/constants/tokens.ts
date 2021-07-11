@@ -23,6 +23,13 @@ export const USDC = new Token(
   'USDC',
   'USD//C'
 )
+export const USDC_ARBITRUM = new Token(
+  SupportedChainId.ARBITRUM_ONE,
+  '0xe865dF68133fcEd7c2285ff3896B406CAfAa2dB8',
+  6,
+  'USDC',
+  'USD//C'
+)
 export const USDT = new Token(
   SupportedChainId.MAINNET,
   '0xdAC17F958D2ee523a2206206994597C13D831ec7',
@@ -102,38 +109,29 @@ export const MIR = new Token(
   'Wrapped MIR'
 )
 export const UNI: { [chainId: number]: Token } = {
-  [SupportedChainId.MAINNET]: new Token(
-    SupportedChainId.MAINNET,
-    UNI_ADDRESS[SupportedChainId.MAINNET],
-    18,
-    'UNI',
-    'Uniswap'
-  ),
-  [SupportedChainId.PROXIMA]: new Token(
-    SupportedChainId.PROXIMA,
-    UNI_ADDRESS[SupportedChainId.PROXIMA],
-    18,
-    'UNI',
-    'Uniswap'
-  ),
-  [SupportedChainId.BARNARD]: new Token(
-    SupportedChainId.BARNARD,
-    UNI_ADDRESS[SupportedChainId.BARNARD],
-    18,
-    'UNI',
-    'Uniswap'
-  ),
-  [SupportedChainId.HALLEY]: new Token(
-    SupportedChainId.HALLEY,
-    UNI_ADDRESS[SupportedChainId.HALLEY],
-    18,
-    'UNI',
-    'Uniswap'
-  ),
+  [SupportedChainId.MAINNET]: new Token(SupportedChainId.MAINNET, UNI_ADDRESS[1], 18, 'UNI', 'Uniswap'),
+  [SupportedChainId.RINKEBY]: new Token(SupportedChainId.RINKEBY, UNI_ADDRESS[4], 18, 'UNI', 'Uniswap'),
+  [SupportedChainId.ROPSTEN]: new Token(SupportedChainId.ROPSTEN, UNI_ADDRESS[3], 18, 'UNI', 'Uniswap'),
+  [SupportedChainId.GOERLI]: new Token(SupportedChainId.GOERLI, UNI_ADDRESS[5], 18, 'UNI', 'Uniswap'),
+  [SupportedChainId.KOVAN]: new Token(SupportedChainId.KOVAN, UNI_ADDRESS[42], 18, 'UNI', 'Uniswap'),
 }
 
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ...WETH9,
+  [SupportedChainId.ARBITRUM_ONE]: new Token(
+    SupportedChainId.ARBITRUM_ONE,
+    '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
+  [SupportedChainId.ARBITRUM_RINKEBY]: new Token(
+    SupportedChainId.ARBITRUM_RINKEBY,
+    '0xB47e6A5f8b33b3F17603C83a0535A9dcD7E32681',
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
 }
 
 export class ExtendedEther extends Ether {

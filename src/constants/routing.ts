@@ -51,9 +51,11 @@ const mAssetsAdditionalBases: { [tokenAddress: string]: Token[] } = {
 }
 const WETH_ONLY: ChainTokenList = {
   [SupportedChainId.MAINNET]: [WETH9_EXTENDED[SupportedChainId.MAINNET]],
-  [SupportedChainId.PROXIMA]: [WETH9_EXTENDED[SupportedChainId.PROXIMA]],
-  [SupportedChainId.BARNARD]: [WETH9_EXTENDED[SupportedChainId.BARNARD]],
-  [SupportedChainId.HALLEY]: [WETH9_EXTENDED[SupportedChainId.HALLEY]],
+  [SupportedChainId.ROPSTEN]: [WETH9_EXTENDED[SupportedChainId.ROPSTEN]],
+  [SupportedChainId.RINKEBY]: [WETH9_EXTENDED[SupportedChainId.RINKEBY]],
+  [SupportedChainId.GOERLI]: [WETH9_EXTENDED[SupportedChainId.GOERLI]],
+  [SupportedChainId.KOVAN]: [WETH9_EXTENDED[SupportedChainId.KOVAN]],
+  [SupportedChainId.ARBITRUM_ONE]: [WETH9_EXTENDED[SupportedChainId.ARBITRUM_ONE]],
 }
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
@@ -96,6 +98,10 @@ export const COMMON_BASES: ChainCurrencyList = {
   [4]: [ExtendedEther.onChain(4), WETH9_EXTENDED[4]],
   [5]: [ExtendedEther.onChain(5), WETH9_EXTENDED[5]],
   [42]: [ExtendedEther.onChain(42), WETH9_EXTENDED[42]],
+  [SupportedChainId.ARBITRUM_ONE]: [
+    ExtendedEther.onChain(SupportedChainId.ARBITRUM_ONE),
+    WETH9_EXTENDED[SupportedChainId.ARBITRUM_ONE],
+  ],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend

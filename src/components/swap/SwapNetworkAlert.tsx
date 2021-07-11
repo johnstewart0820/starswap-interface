@@ -77,7 +77,7 @@ const LinkOutToBridge = styled.a`
   }
 `
 export function SwapNetworkAlert() {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const [arbitrumAlphaAcknowledged, setArbitrumAlphaAcknowledged] = useArbitrumAlphaAlert()
   const [locallyDismissed, setLocallyDimissed] = useState(false)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
@@ -89,7 +89,7 @@ export function SwapNetworkAlert() {
       setLocallyDimissed(true)
     }
   }, [setArbitrumAlphaAcknowledged, userEthBalance])
-  if (true || arbitrumAlphaAcknowledged || locallyDismissed) {
+  if (chainId !== SupportedChainId.ARBITRUM_ONE || arbitrumAlphaAcknowledged || locallyDismissed) {
     return null
   }
   return (

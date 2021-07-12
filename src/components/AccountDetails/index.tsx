@@ -230,11 +230,11 @@ export default function AccountDetails({
 
   function formatConnectorName() {
     const { starcoin } = window
-    const isMetaMask = !!(starcoin && starcoin.isMetaMask)
+    const isStarMask = !!(starcoin && starcoin.isStarMask)
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         (k) =>
-          SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK'))
+          SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isStarMask === (k === 'STARMASK'))
       )
       .map((k) => SUPPORTED_WALLETS[k].name)[0]
     return (

@@ -29,7 +29,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   //   color: '#010101',
   //   primary: true,
   // },
-  METAMASK: {
+  STARMASK: {
     connector: injected,
     name: 'StarMask',
     iconURL: METAMASK_ICON_URL,

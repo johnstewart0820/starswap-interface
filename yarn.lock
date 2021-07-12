@@ -3495,8 +3495,10 @@
     read-bigint "^0.1.6"
     ws "7.2.3"
 
-"@starcoin/starswap-web3-react-core@../web3-react/packages/core":
+"@starcoin/starswap-web3-react-core@^6.1.9":
   version "6.1.9"
+  resolved "https://registry.yarnpkg.com/@starcoin/starswap-web3-react-core/-/starswap-web3-react-core-6.1.9.tgz#39b138f6c547faf832bdf451c3c2324a245bf634"
+  integrity sha512-FvES12h+CSzVpUq0m9R6mOXFaut8pnBP1rdU7U9vY0TNf/cTFJSXF6V2Tbuxo5oh4itdz7A/i50AkcfVIzEuOw==
   dependencies:
     "@ethersproject/keccak256" "^5.0.0-beta.130"
     "@starcoin/stc-util" "^0.3.0"
@@ -3505,8 +3507,10 @@
     tiny-invariant "^1.0.6"
     tiny-warning "^1.0.3"
 
-"@starcoin/starswap-web3-react-injected-connector@../web3-react/packages/injected-connector":
+"@starcoin/starswap-web3-react-injected-connector@^6.0.7":
   version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@starcoin/starswap-web3-react-injected-connector/-/starswap-web3-react-injected-connector-6.0.7.tgz#8a04a389228dc1bc0d73566c0b5b9d08a5d2b9d4"
+  integrity sha512-dWZaLLD166KukF0RylJMbCmkxKwxzom2DfVUN3ugt8UiE8O7VKZVeIH8ZwvR/JVYl7ba+hwgxdpP4Tz2/kiaBg==
   dependencies:
     "@web3-react/abstract-connector" "^6.0.7"
     "@web3-react/types" "^6.0.7"
@@ -3531,23 +3535,6 @@
     rlp "^2.0.0"
     safe-buffer "^5.1.1"
     secp256k1 "^3.0.1"
-
-"@starcoin/starswap-web3-react-core@../web3-react/packages/core":
-  version "6.1.9"
-  dependencies:
-    "@ethersproject/keccak256" "^5.0.0-beta.130"
-    "@starcoin/stc-util" "^0.3.0"
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-invariant "^1.0.6"
-    tiny-warning "^1.0.3"
-
-"@starcoin/starwswap-web3-react-injected-connector@../web3-react/packages/injected-connector":
-  version "6.0.7"
-  dependencies:
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-warning "^1.0.3"
 
 "@styled-system/background@^5.1.2":
   version "5.1.2"
@@ -4590,16 +4577,6 @@
   integrity sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==
   dependencies:
     "@web3-react/types" "^6.0.7"
-
-"@web3-react/core@../web3-react/packages/core":
-  version "6.1.9"
-  dependencies:
-    "@ethersproject/keccak256" "^5.0.0-beta.130"
-    "@starcoin/stc-util" "^0.3.0"
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-invariant "^1.0.6"
-    tiny-warning "^1.0.3"
 
 "@web3-react/fortmatic-connector@^6.0.9":
   version "6.1.6"

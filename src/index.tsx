@@ -26,9 +26,6 @@ const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if (!!window.starcoin) {
   window.starcoin.autoRefreshOnNetworkChange = false
-  if (window.starcoin.isStarMask) {
-    window.starcoin.isMetaMask = true
-  }
 }
 
 const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID

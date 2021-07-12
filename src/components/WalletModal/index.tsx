@@ -201,7 +201,7 @@ export default function WalletModal({
 
   // get wallets user can switch too, depending on device/browser
   function getOptions() {
-    const isMetamask = window.starcoin && window.starcoin.isMetaMask
+    const isStarMask = window.starcoin && window.starcoin.isStarMask
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
       const option = SUPPORTED_WALLETS[key]
       // check for mobile options
@@ -252,11 +252,11 @@ export default function WalletModal({
           }
         }
         // don't return metamask if injected provider isn't metamask
-        else if (option.name === 'StarMask' && !isMetamask) {
+        else if (option.name === 'StarMask' && !isStarMask) {
           return null
         }
         // likewise for generic
-        else if (option.name === 'Injected' && isMetamask) {
+        else if (option.name === 'Injected' && isStarMask) {
           return null
         }
       }

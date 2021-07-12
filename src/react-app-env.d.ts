@@ -9,7 +9,6 @@ declare module 'fortmatic'
 interface Window {
   starcoin?: {
     isStarMask?: true
-    isMetaMask?: true
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
     autoRefreshOnNetworkChange?: boolean

@@ -3467,10 +3467,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@starcoin/starcoin@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@starcoin/starcoin/-/starcoin-1.4.0.tgz#7d6a389e84c58e6b73e69bc4a4e043cd0cc052be"
-  integrity sha512-8XrpA+8oCsPg/rUdh2tlwXN48wY94w9RCDVzq5EfPYxw4gSiZNabnLIfDvRVKVIaY+w+/Tpv+oPMIl1b1MRIhQ==
+"@starcoin/starcoin@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@starcoin/starcoin/-/starcoin-1.4.2.tgz#4327fdccfe963ad2fe30ab8bbe5f9081adea7400"
+  integrity sha512-2+NIsptmJU4dbijg8UquUwysA0xEsL7NAGEoaCEGjNSq+T+mqZAfIgSWykL6QLMZvz1kpcqrDEdmHUERi1LixA==
   dependencies:
     "@ethersproject/basex" "^5.0.4"
     "@ethersproject/bignumber" "^5.0"

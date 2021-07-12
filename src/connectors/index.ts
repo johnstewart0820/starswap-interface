@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { InjectedConnector } from '@web3-react/injected-connector'
+import { InjectedConnector } from '@starcoin/starswap-web3-injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { PortisConnector } from '@web3-react/portis-connector'
@@ -22,7 +22,10 @@ if (typeof INFURA_KEY === 'undefined') {
 const NETWORK_URLS: {
   [chainId in SupportedChainId]: string
 } = {
-  [SupportedChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+  [SupportedChainId.MAINNET]: `https://main-seed.starcoin.org`,
+  [SupportedChainId.BARNARD]: `https://barnard-seed.starcoin.org`,
+  [SupportedChainId.HALLEY]: `https://halley-seed.starcoin.org`,
+  [SupportedChainId.PROXIMA]: `https://proxima-seed.starcoin.org`,
   [SupportedChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
   [SupportedChainId.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
   [SupportedChainId.GOERLI]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
@@ -33,6 +36,9 @@ const NETWORK_URLS: {
 
 const SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.MAINNET,
+  SupportedChainId.PROXIMA,
+  SupportedChainId.BARNARD,
+  SupportedChainId.HALLEY,
   SupportedChainId.KOVAN,
   SupportedChainId.GOERLI,
   SupportedChainId.RINKEBY,

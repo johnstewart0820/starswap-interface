@@ -1,6 +1,6 @@
 import 'inter-ui'
 import '@reach/dialog/styles.css'
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+import { createWeb3ReactRoot, Web3ReactProvider } from '@starcoin/starswap-web3-core'
 import { StrictMode } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
@@ -24,8 +24,8 @@ import getLibrary from './utils/getLibrary'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
-if (!!window.ethereum) {
-  window.ethereum.autoRefreshOnNetworkChange = false
+if (!!window.starcoin) {
+  window.starcoin.autoRefreshOnNetworkChange = false
 }
 
 const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
@@ -40,7 +40,7 @@ if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     anonymizeIp: true,
     customBrowserType: !isMobile
       ? 'desktop'
-      : 'web3' in window || 'ethereum' in window
+      : 'web3' in window || 'starcoin' in window
       ? 'mobileWeb3'
       : 'mobileRegular',
   })

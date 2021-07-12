@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@starcoin/starswap-web3-core'
 import styled from 'styled-components/macro'
 import { Trans } from '@lingui/macro'
 

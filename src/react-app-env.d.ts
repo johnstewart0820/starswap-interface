@@ -7,8 +7,8 @@ declare module '@metamask/jazzicon' {
 declare module 'fortmatic'
 
 interface Window {
-  ethereum?: {
-    isMetaMask?: true
+  starcoin?: {
+    isStarMask?: true
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
     autoRefreshOnNetworkChange?: boolean

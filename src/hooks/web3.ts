@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
-import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
+import { useWeb3React as useWeb3ReactCore } from '@starcoin/starswap-web3-core'
+import { Web3ReactContextInterface } from '@starcoin/starswap-web3-core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { injected } from '../connectors'
@@ -23,7 +23,7 @@ export function useEagerConnect() {
           setTried(true)
         })
       } else {
-        if (isMobile && window.ethereum) {
+        if (isMobile && window.starcoin) {
           activate(injected, undefined, true).catch(() => {
             setTried(true)
           })
@@ -52,9 +52,9 @@ export function useInactiveListener(suppress = false) {
   const { active, error, activate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
 
   useEffect(() => {
-    const { ethereum } = window
+    const { starcoin } = window
 
-    if (ethereum && ethereum.on && !active && !error && !suppress) {
+    if (starcoin && starcoin.on && !active && !error && !suppress) {
       const handleChainChanged = () => {
         // eat errors
         activate(injected, undefined, true).catch((error) => {
@@ -71,13 +71,13 @@ export function useInactiveListener(suppress = false) {
         }
       }
 
-      ethereum.on('chainChanged', handleChainChanged)
-      ethereum.on('accountsChanged', handleAccountsChanged)
+      starcoin.on('chainChanged', handleChainChanged)
+      starcoin.on('accountsChanged', handleAccountsChanged)
 
       return () => {
-        if (ethereum.removeListener) {
-          ethereum.removeListener('chainChanged', handleChainChanged)
-          ethereum.removeListener('accountsChanged', handleAccountsChanged)
+        if (starcoin.removeListener) {
+          starcoin.removeListener('chainChanged', handleChainChanged)
+          starcoin.removeListener('accountsChanged', handleAccountsChanged)
         }
       }
     }

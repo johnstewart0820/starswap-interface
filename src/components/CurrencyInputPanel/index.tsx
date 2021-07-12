@@ -222,9 +222,9 @@ export default function CurrencyInputPanel({
       setPrecision(9)
     }
 
-    if (currency.symbol === 'STC') {
+    if (currency?.symbol === 'STC') {
       fetchSTCBalance()
-    } else if (currency.symbol === 'Bot') {
+    } else if (currency?.symbol === 'Bot') {
       fetchBotBalance()
     } else {
       console.log('No token balance')

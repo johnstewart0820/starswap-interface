@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 // import INJECTED_ICON_URL from '../assets/images/arrow-right.svg'
 // import COINBASE_ICON_URL from '../assets/images/coinbaseWalletIcon.svg'
 // import FORTMATIC_ICON_URL from '../assets/images/fortmaticIcon.png'
-import METAMASK_ICON_URL from '../assets/images/metamask.png'
+import STARMASK_ICON_URL from '../assets/images/starmask.png'
 // import PORTIS_ICON_URL from '../assets/images/portisIcon.png'
 // import WALLETCONNECT_ICON_URL from '../assets/images/walletConnectIcon.svg'
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
@@ -32,7 +32,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   STARMASK: {
     connector: injected,
     name: 'StarMask',
-    iconURL: METAMASK_ICON_URL,
+    iconURL: STARMASK_ICON_URL,
     description: 'Easy-to-use browser extension.',
     href: null,
     color: '#E8831D',

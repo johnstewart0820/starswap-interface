@@ -1,6 +1,6 @@
 import 'inter-ui'
 import '@reach/dialog/styles.css'
-import { createWeb3ReactRoot, Web3ReactProvider } from '@starcoin/starswap-web3-react-core'
+import { createWeb3ReactRoot, Web3ReactProvider } from '@starcoin/starswap-web3-core'
 import { StrictMode } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'

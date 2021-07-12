@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@starcoin/starswap-web3-core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { AutoRow } from 'components/Row'
 import { useEffect, useState } from 'react'
@@ -186,6 +186,7 @@ export default function WalletModal({
         if (error instanceof UnsupportedChainIdError) {
           activate(connector) // a little janky...can't use setError because the connector isn't set
         } else {
+          console.error(error)
           setPendingError(true)
         }
       })
@@ -200,7 +201,7 @@ export default function WalletModal({
 
   // get wallets user can switch too, depending on device/browser
   function getOptions() {
-    const isMetamask = window.ethereum && window.ethereum.isMetaMask
+    const isMetamask = window.starcoin && window.starcoin.isMetaMask
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
       const option = SUPPORTED_WALLETS[key]
       // check for mobile options
@@ -210,7 +211,7 @@ export default function WalletModal({
           return null
         }
 
-        if (!window.web3 && !window.ethereum && option.mobile) {
+        if (!window.web3 && !window.starcoin && option.mobile) {
           return (
             <Option
               onClick={() => {
@@ -233,8 +234,8 @@ export default function WalletModal({
       // overwrite injected when needed
       if (option.connector === injected) {
         // don't show injected if there's no injected provider
-        if (!(window.web3 || window.ethereum)) {
-          if (option.name === 'MetaMask') {
+        if (!(window.web3 || window.starcoin)) {
+          if (option.name === 'StarMask') {
             return (
               <Option
                 id={`connect-${key}`}
@@ -251,7 +252,7 @@ export default function WalletModal({
           }
         }
         // don't return metamask if injected provider isn't metamask
-        else if (option.name === 'MetaMask' && !isMetamask) {
+        else if (option.name === 'StarMask' && !isMetamask) {
           return null
         }
         // likewise for generic

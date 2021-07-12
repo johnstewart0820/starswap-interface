@@ -74,7 +74,7 @@ export default function PendingView({
   setPendingError: (error: boolean) => void
   tryActivation: (connector: AbstractConnector) => void
 }) {
-  const isMetamask = window?.ethereum?.isMetaMask
+  const isMetamask = window?.starcoin?.isMetaMask
 
   return (
     <PendingSection>
@@ -106,10 +106,10 @@ export default function PendingView({
         const option = SUPPORTED_WALLETS[key]
         if (option.connector === connector) {
           if (option.connector === injected) {
-            if (isMetamask && option.name !== 'MetaMask') {
+            if (isMetamask && option.name !== 'StarMask') {
               return null
             }
-            if (!isMetamask && option.name === 'MetaMask') {
+            if (!isMetamask && option.name === 'StarMask') {
               return null
             }
           }

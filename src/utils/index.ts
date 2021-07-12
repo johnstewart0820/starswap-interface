@@ -1,4 +1,4 @@
-import { getAddress } from '@ethersproject/address'
+import { isValidAddress } from '@starcoin/stc-util'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
@@ -9,7 +9,7 @@ import { TokenAddressMap } from '../state/lists/hooks'
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {
-    return getAddress(value)
+    return isValidAddress(value) && value
   } catch {
     return false
   }

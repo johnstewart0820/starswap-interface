@@ -229,17 +229,14 @@ export default function AccountDetails({
   const dispatch = useAppDispatch()
 
   function formatConnectorName() {
-    /*
-    const { ethereum } = window
-    const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+    const { starcoin } = window
+    const isMetaMask = !!(starcoin && starcoin.isMetaMask)
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         (k) =>
           SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK'))
       )
       .map((k) => SUPPORTED_WALLETS[k].name)[0]
-    */
-    const name = 'StarMask'
     return (
       <WalletName>
         <Trans>Connected with {name}</Trans>

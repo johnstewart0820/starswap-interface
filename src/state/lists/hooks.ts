@@ -1,4 +1,4 @@
-import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list'
+import DEFAULT_TOKEN_LIST from '../../constants/starswap-default.tokenlist.json'
 import { TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useAppSelector } from 'state/hooks'
@@ -7,6 +7,7 @@ import UNSUPPORTED_TOKEN_LIST from '../../constants/tokenLists/uniswap-v2-unsupp
 import { AppState } from '../index'
 import { UNSUPPORTED_LIST_URLS } from './../../constants/lists'
 import { WrappedTokenInfo } from './wrappedTokenInfo'
+import { SupportedChainId } from 'constants/chains'
 
 export type TokenAddressMap = Readonly<{
   [chainId: number]: Readonly<{ [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList } }>
@@ -48,11 +49,10 @@ export function useAllLists(): AppState['lists']['byUrl'] {
 
 function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddressMap {
   return {
-    [1]: { ...map1[1], ...map2[1] },
-    [4]: { ...map1[4], ...map2[4] },
-    [3]: { ...map1[3], ...map2[3] },
-    [42]: { ...map1[42], ...map2[42] },
-    [5]: { ...map1[5], ...map2[5] },
+    [SupportedChainId.MAINNET]: { ...map1[SupportedChainId.MAINNET], ...map2[SupportedChainId.MAINNET] },
+    [SupportedChainId.PROXIMA]: { ...map1[SupportedChainId.PROXIMA], ...map2[SupportedChainId.PROXIMA] },
+    [SupportedChainId.BARNARD]: { ...map1[SupportedChainId.BARNARD], ...map2[SupportedChainId.BARNARD] },
+    [SupportedChainId.HALLEY]: { ...map1[SupportedChainId.HALLEY], ...map2[SupportedChainId.HALLEY] },
   }
 }
 

@@ -1,6 +1,6 @@
 import { Pair } from '@uniswap/v2-sdk'
 import { Currency, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core'
-import { useState, useCallback, ReactNode, useEffect } from 'react'
+import { useState, useCallback, ReactNode } from 'react'
 import styled from 'styled-components/macro'
 import { darken } from 'polished'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
@@ -18,8 +18,7 @@ import useTheme from '../../hooks/useTheme'
 import { Lock } from 'react-feather'
 import { AutoColumn } from 'components/Column'
 import { FiatValue } from './FiatValue'
-import { formatCurrencyAmount, formatTokenAmount } from 'utils/formatCurrencyAmount'
-import { providers } from '@starcoin/starcoin'
+import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 
 const InputPanel = styled.div<{ hideInput?: boolean }>`
   ${({ theme }) => theme.flexColumnNoWrap}
@@ -189,58 +188,13 @@ export default function CurrencyInputPanel({
   ...rest
 }: CurrencyInputPanelProps) {
   const [modalOpen, setModalOpen] = useState(false)
-  const { account, active, chainId, library } = useActiveWeb3React()
-  console.log('account', account)
-  console.log('library', library)
+  const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const theme = useTheme()
 
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false)
   }, [setModalOpen])
-
-  // const nodeUrl = "https://barnard-seed.starcoin.org"
-  // const provider = new providers.JsonRpcProvider(nodeUrl)
-  let starcoinProvider: any | undefined
-  try {
-    // We must specify the network as 'any' for starcoin to allow network changes
-    starcoinProvider = new providers.Web3Provider(window.starcoin as any, 'any')
-  } catch (error) {
-    console.error(error)
-  }
-
-
-  // const [STCBalance, setSTCBalance] = useState<any>(null)
-  // const [STCBalance, setSTCBalance] = useState<any>(null)
-  // const [BotBalance, setBotBalance] = useState<any>(null)
-  const [balance, setBalance] = useState<any>(null)
-  const [precision, setPrecision] = useState<any>(null)
-
-  useEffect(() => {
-    async function fetchBotBalance() {
-      let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
-      let tokenAddress = '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot'
-      let response = await starcoinProvider.getBalance(accountAddress, tokenAddress)
-      setBalance(response)
-      console.log({ response })
-      setPrecision(9)
-    }
-    async function fetchSTCBalance() {
-      let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
-      let tokenAddress = '0x1::STC::STC'
-      let response = await starcoinProvider.getBalance(accountAddress, tokenAddress)
-      setBalance(response)
-      setPrecision(9)
-    }
-
-    if (currency?.symbol === 'STC') {
-      fetchSTCBalance()
-    } else if (currency?.symbol === 'Bot') {
-      fetchBotBalance()
-    } else {
-      console.log('No token balance')
-    }
-  }, [])
 
   return (
     <InputPanel id={id} hideInput={hideInput} {...rest}>
@@ -289,9 +243,7 @@ export default function CurrencyInputPanel({
                   </StyledTokenName>
                 )}
               </RowFixed>
-              {/*
               {onCurrencySelect && <StyledDropDown selected={!!currency} />}
-              */}
             </Aligner>
           </CurrencySelect>
           {!hideInput && (
@@ -318,23 +270,12 @@ export default function CurrencyInputPanel({
                     fontSize={14}
                     style={{ display: 'inline', cursor: 'pointer' }}
                   >
-                    {/*
                     {!hideBalance && currency && selectedCurrencyBalance ? (
                       renderBalance ? (
                         renderBalance(selectedCurrencyBalance)
                       ) : (
                         <Trans>
                           Balance: {formatCurrencyAmount(selectedCurrencyBalance, 4)} {currency.symbol}
-                        </Trans>
-                      )
-                    ) : null}
-                    */}
-                    {!hideBalance && currency && balance ? (
-                      renderBalance ? (
-                        renderBalance(balance)
-                      ) : (
-                        <Trans>
-                          Balance: { formatTokenAmount(balance, precision, 4) } {currency.symbol}
                         </Trans>
                       )
                     ) : null}
@@ -355,8 +296,7 @@ export default function CurrencyInputPanel({
       </Container>
       {onCurrencySelect && (
         <CurrencySearchModal
-          // isOpen={modalOpen}
-          isOpen={false}
+          isOpen={modalOpen}
           onDismiss={handleDismissSearch}
           onCurrencySelect={onCurrencySelect}
           selectedCurrency={currency}

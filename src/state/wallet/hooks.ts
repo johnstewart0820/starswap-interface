@@ -12,6 +12,9 @@ import { useTotalUniEarned } from '../stake/hooks'
 // import { Interface } from '@ethersproject/abi'
 // import ERC20ABI from 'abis/erc20.json'
 // import { Erc20Interface } from 'abis/types/Erc20'
+import { providers } from '@starcoin/starcoin'
+import useSWR from 'swr'
+
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
  */
@@ -73,16 +76,17 @@ export function useTokenBalancesWithLoadingIndicator(
   //   undefined,
   //   100_000
   // )
-  const balances: any[] = useMemo(() => [], [])
-
-  const anyLoading: boolean = useMemo(() => balances.some((callState) => callState.loading), [balances])
+  const provider = useMemo(() => (window.starcoin ? new providers.Web3Provider(window.starcoin) : undefined), [])
+  const { data: balances, isValidating } = useSWR(address && provider ? ['getBalances', address, provider] : null, () =>
+    provider!.getBalances(address!)
+  )
 
   return [
     useMemo(
       () =>
         address && validatedTokens.length > 0
-          ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token, i) => {
-              const value = balances?.[i]?.result?.[0]
+          ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token) => {
+              const value = balances?.[token.address]
               const amount = value ? JSBI.BigInt(value.toString()) : undefined
               if (amount) {
                 memo[token.address] = CurrencyAmount.fromRawAmount(token, amount)
@@ -92,7 +96,7 @@ export function useTokenBalancesWithLoadingIndicator(
           : {},
       [address, validatedTokens, balances]
     ),
-    anyLoading,
+    isValidating,
   ]
 }
 

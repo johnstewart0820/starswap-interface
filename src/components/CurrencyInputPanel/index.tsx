@@ -197,8 +197,15 @@ export default function CurrencyInputPanel({
     setModalOpen(false)
   }, [setModalOpen])
 
-  const nodeUrl = "https://barnard-seed.starcoin.org"
-  const provider = new providers.JsonRpcProvider(nodeUrl)
+  // const nodeUrl = "https://barnard-seed.starcoin.org"
+  // const provider = new providers.JsonRpcProvider(nodeUrl)
+  let starcoinProvider: any | undefined
+  try {
+    // We must specify the network as 'any' for starcoin to allow network changes
+    starcoinProvider = new providers.Web3Provider(window.starcoin as any)
+  } catch (error) {
+    console.error(error)
+  }
 
   // const [STCBalance, setSTCBalance] = useState<any>(null)
   // const [STCBalance, setSTCBalance] = useState<any>(null)
@@ -210,14 +217,15 @@ export default function CurrencyInputPanel({
     async function fetchBotBalance() {
       let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
       let tokenAddress = '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot'
-      let response = await provider.getBalance(accountAddress, tokenAddress)
+      let response = await starcoinProvider.getBalance(accountAddress, tokenAddress)
       setBalance(response)
-      setPrecision(8)
+      console.log({ response })
+      setPrecision(9)
     }
     async function fetchSTCBalance() {
       let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
       let tokenAddress = '0x1::STC::STC'
-      let response = await provider.getBalance(accountAddress, tokenAddress)
+      let response = await starcoinProvider.getBalance(accountAddress, tokenAddress)
       setBalance(response)
       setPrecision(9)
     }

@@ -189,7 +189,9 @@ export default function CurrencyInputPanel({
   ...rest
 }: CurrencyInputPanelProps) {
   const [modalOpen, setModalOpen] = useState(false)
-  const { account } = useActiveWeb3React()
+  const { account, active, chainId, library } = useActiveWeb3React()
+  console.log('account', account)
+  console.log('library', library)
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const theme = useTheme()
 
@@ -202,10 +204,11 @@ export default function CurrencyInputPanel({
   let starcoinProvider: any | undefined
   try {
     // We must specify the network as 'any' for starcoin to allow network changes
-    starcoinProvider = new providers.Web3Provider(window.starcoin as any)
+    starcoinProvider = new providers.Web3Provider(window.starcoin as any, 'any')
   } catch (error) {
     console.error(error)
   }
+
 
   // const [STCBalance, setSTCBalance] = useState<any>(null)
   // const [STCBalance, setSTCBalance] = useState<any>(null)

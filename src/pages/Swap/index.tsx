@@ -352,12 +352,14 @@ export default function Swap({ history }: RouteComponentProps) {
 
   return (
     <>
+      {/*
       <TokenWarningModal
         isOpen={importTokensNotInDefault.length > 0 && !dismissTokenWarning}
         tokens={importTokensNotInDefault}
         onConfirm={handleConfirmTokenWarning}
         onDismiss={handleDismissTokenWarning}
       />
+      */}
       <SwapNetworkAlert />
       <AppBody>
         <SwapHeader allowedSlippage={allowedSlippage} />

@@ -81,6 +81,7 @@ const EmptyProposals = styled.div`
 export default function Pool() {
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
+  console.log({ account })
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -113,13 +114,17 @@ export default function Pool() {
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
   // show liquidity even if its deposited in rewards contract
+  /*
   const stakingInfo = useStakingInfo()
   const stakingInfosWithBalance = stakingInfo?.filter((pool) =>
     JSBI.greaterThan(pool.stakedAmount.quotient, BIG_INT_ZERO)
   )
   const stakingPairs = useV2Pairs(stakingInfosWithBalance?.map((stakingInfo) => stakingInfo.tokens))
+  */
+  // const stakingPairs = []
 
   // remove any pairs that also are included in pairs with stake in mining pool
+  /*
   const v2PairsWithoutStakedAmount = allV2PairsWithLiquidity.filter((v2Pair) => {
     return (
       stakingPairs
@@ -127,12 +132,12 @@ export default function Pool() {
         .filter((stakingPair) => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
     )
   })
+  */
 
   return (
     <>
       <PageWrapper>
         <SwapPoolTabs active={'pool'} />
-        {/*
         <VoteCard>
           <CardBGImage />
           <CardNoise />
@@ -165,7 +170,6 @@ export default function Pool() {
           <CardBGImage />
           <CardNoise />
         </VoteCard>
-        */}
 
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="md" style={{ width: '100%' }}>
@@ -216,7 +220,7 @@ export default function Pool() {
                   </Dots>
                 </TYPE.body>
               </EmptyProposals>
-            ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
+            ) : allV2PairsWithLiquidity?.length > 0 || [].length > 0 ? (
               <>
                 {/*
                 <ButtonSecondary>
@@ -230,10 +234,13 @@ export default function Pool() {
                   </RowBetween>
                 </ButtonSecondary>
                 */}
+                {/*
                 {v2PairsWithoutStakedAmount.map((v2Pair) => (
                   <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
-                {stakingPairs.map(
+                */}
+                {/*
+                {[].map(
                   (stakingPair, i) =>
                     stakingPair[1] && ( // skip pairs that arent loaded
                       <FullPositionCard
@@ -243,6 +250,7 @@ export default function Pool() {
                       />
                     )
                 )}
+                */}
                 {/*
                 <RowFixed justify="center" style={{ width: '100%' }}>
                   <ButtonOutlined

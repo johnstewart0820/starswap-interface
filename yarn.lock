@@ -3495,10 +3495,11 @@
     read-bigint "^0.1.6"
     ws "7.2.3"
 
-"@starcoin/starswap-sdk-core@../uniswap-sdk-core":
-  version "3.0.0"
+"@starcoin/starswap-sdk-core@0.1.0-alpha.1":
+  version "0.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@starcoin/starswap-sdk-core/-/starswap-sdk-core-0.1.0-alpha.1.tgz#101ab69518635f4a86ff512dacf2da764ef8f5b6"
+  integrity sha512-A7FgAC7/RBNh0dJGF4gCV9jLXyxNM00V1ewWy9I3nsPwIEUnahYSsChCIUfH2LLaOqvNgrptWwWv0+XFZIJajw==
   dependencies:
-    "@ethersproject/address" "^5.0.2"
     "@starcoin/stc-util" "^0.3.0"
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"

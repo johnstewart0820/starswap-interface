@@ -192,7 +192,8 @@ export default function Swap({ history }: RouteComponentProps) {
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   )
-  const routeNotFound = !trade?.route
+  // const routeNotFound = !trade?.route
+  const routeNotFound = false
   const isLoadingRoute = toggledVersion === Version.v3 && V3TradeState.LOADING === v3TradeState
 
   // check whether the user has approved the router on the input token

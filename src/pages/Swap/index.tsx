@@ -667,8 +667,10 @@ export default function Swap({ history }: RouteComponentProps) {
                     }
                   }}
                   id="swap-button"
-                  disabled={!isValid || priceImpactTooHigh || !!swapCallbackError}
-                  error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
+                  // disabled={!isValid || priceImpactTooHigh || !!swapCallbackError}
+                  disabled={!isValid || priceImpactTooHigh}
+                  // error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
+                  error={isValid && priceImpactSeverity > 2}
                 >
                   <Text fontSize={20} fontWeight={500}>
                     {swapInputError ? (

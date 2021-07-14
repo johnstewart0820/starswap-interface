@@ -1,10 +1,11 @@
 // a list of tokens by chain
+import { Star } from '@starcoin/starswap-sdk-core'
 import { Currency, Token } from '@uniswap/sdk-core'
 import { SupportedChainId } from './chains'
 import {
   AMPL,
   DAI,
-  ExtendedEther,
+  ExtendedStar,
   FEI,
   FRAX,
   FXS,
@@ -93,13 +94,13 @@ export const CUSTOM_BASES: { [chainId: number]: { [tokenAddress: string]: Token[
  * Shows up in the currency select for swap and add liquidity
  */
 export const COMMON_BASES: ChainCurrencyList = {
-  [1]: [ExtendedEther.onChain(1), DAI, USDC, USDT, WBTC, WETH9_EXTENDED[1]],
-  [3]: [ExtendedEther.onChain(3), WETH9_EXTENDED[3]],
-  [4]: [ExtendedEther.onChain(4), WETH9_EXTENDED[4]],
-  [5]: [ExtendedEther.onChain(5), WETH9_EXTENDED[5]],
-  [42]: [ExtendedEther.onChain(42), WETH9_EXTENDED[42]],
+  [1]: [ExtendedStar.onChain(1), DAI, USDC, USDT, WBTC, WETH9_EXTENDED[1]],
+  [3]: [ExtendedStar.onChain(3), WETH9_EXTENDED[3]],
+  [4]: [ExtendedStar.onChain(4), WETH9_EXTENDED[4]],
+  [5]: [ExtendedStar.onChain(5), WETH9_EXTENDED[5]],
+  [42]: [ExtendedStar.onChain(42), WETH9_EXTENDED[42]],
   [SupportedChainId.ARBITRUM_ONE]: [
-    ExtendedEther.onChain(SupportedChainId.ARBITRUM_ONE),
+    ExtendedStar.onChain(SupportedChainId.ARBITRUM_ONE),
     WETH9_EXTENDED[SupportedChainId.ARBITRUM_ONE],
   ],
 }

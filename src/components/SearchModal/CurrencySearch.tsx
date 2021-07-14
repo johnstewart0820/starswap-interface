@@ -4,7 +4,7 @@ import ReactGA from 'react-ga'
 import { t, Trans } from '@lingui/macro'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
-// import { ExtendedEther } from '../../constants/tokens'
+import { ExtendedStar } from '../../constants/tokens'
 import { useActiveWeb3React } from '../../hooks/web3'
 import { useAllTokens, useToken, useIsUserAddedToken, useSearchInactiveTokenLists } from '../../hooks/Tokens'
 import { CloseIcon, TYPE, ButtonText, IconWrapper } from '../../theme'
@@ -110,16 +110,15 @@ export function CurrencySearch({
 
   const filteredSortedTokens = useSortedTokensByQuery(sortedTokens, debouncedQuery)
 
-  // const ether = useMemo(() => chainId && ExtendedEther.onChain(chainId), [chainId])
+  const star = useMemo(() => chainId && ExtendedStar.onChain(chainId), [chainId])
 
   const filteredSortedTokensWithETH: Currency[] = useMemo(() => {
-    // const s = debouncedQuery.toLowerCase().trim()
-    // if (s === '' || s === 'e' || s === 'et' || s === 'eth') {
-    //   return ether ? [ether, ...filteredSortedTokens] : filteredSortedTokens
-    // }
+    const s = debouncedQuery.toLowerCase().trim()
+    if (s === '' || s === 'e' || s === 'et' || s === 'eth') {
+      return star ? [star, ...filteredSortedTokens] : filteredSortedTokens
+    }
     return filteredSortedTokens
-    // }, [debouncedQuery, ether, filteredSortedTokens])
-  }, [filteredSortedTokens])
+  }, [debouncedQuery, star, filteredSortedTokens])
 
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {

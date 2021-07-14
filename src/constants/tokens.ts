@@ -1,4 +1,5 @@
-import { WETH9, Token, Ether } from '@uniswap/sdk-core'
+import { WETH9 } from '@uniswap/sdk-core'
+import { Token, Star } from '@starcoin/starswap-sdk-core'
 import { UNI_ADDRESS } from './addresses'
 import { SupportedChainId } from './chains'
 
@@ -134,15 +135,28 @@ export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ),
 }
 
-export class ExtendedEther extends Ether {
-  public get wrapped(): Token {
-    if (this.chainId in WETH9_EXTENDED) return WETH9_EXTENDED[this.chainId]
-    throw new Error('Unsupported chain ID')
-  }
+// export class ExtendedEther extends Ether {
+//   public get wrapped(): Token {
+//     if (this.chainId in WETH9_EXTENDED) return WETH9_EXTENDED[this.chainId]
+//     throw new Error('Unsupported chain ID')
+//   }
 
-  private static _cachedEther: { [chainId: number]: ExtendedEther } = {}
+//   private static _cachedEther: { [chainId: number]: ExtendedEther } = {}
 
-  public static onChain(chainId: number): ExtendedEther {
-    return this._cachedEther[chainId] ?? (this._cachedEther[chainId] = new ExtendedEther(chainId))
+//   public static onChain(chainId: number): ExtendedEther {
+//     return this._cachedEther[chainId] ?? (this._cachedEther[chainId] = new ExtendedEther(chainId))
+//   }
+// }
+
+export class ExtendedStar extends Star {
+  // public get wrapped(): Token {
+  //   if (this.chainId in WETH9_EXTENDED) return WETH9_EXTENDED[this.chainId]
+  //   throw new Error('Unsupported chain ID')
+  // }
+
+  private static _cachedEther: { [chainId: number]: ExtendedStar } = {}
+
+  public static onChain(chainId: number): ExtendedStar {
+    return this._cachedEther[chainId] ?? (this._cachedEther[chainId] = new ExtendedStar(chainId))
   }
 }

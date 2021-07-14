@@ -3,7 +3,7 @@ import { Currency, Token } from '@uniswap/sdk-core'
 import { arrayify } from 'ethers/lib/utils'
 import { useMemo } from 'react'
 import { createTokenFilterFunction } from '../components/SearchModal/filtering'
-import { ExtendedEther, WETH9_EXTENDED } from '../constants/tokens'
+import { ExtendedStar, WETH9_EXTENDED } from '../constants/tokens'
 import { useAllLists, useCombinedActiveList, useInactiveListUrls } from '../state/lists/hooks'
 import { WrappedTokenInfo } from '../state/lists/wrappedTokenInfo'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
@@ -179,7 +179,7 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   const { chainId } = useActiveWeb3React()
   const isSTC = currencyId?.toUpperCase() === 'STC'
   const token = useToken(isSTC ? undefined : currencyId)
-  const extendedEther = useMemo(() => (chainId ? ExtendedEther.onChain(chainId) : undefined), [chainId])
+  const extendedEther = useMemo(() => (chainId ? ExtendedStar.onChain(chainId) : undefined), [chainId])
   const weth = chainId ? WETH9_EXTENDED[chainId] : undefined
   if (weth?.address?.toLowerCase() === currencyId?.toLowerCase()) return weth
   return isSTC ? extendedEther : token

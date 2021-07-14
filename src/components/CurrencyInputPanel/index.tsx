@@ -190,8 +190,6 @@ export default function CurrencyInputPanel({
 }: CurrencyInputPanelProps) {
   const [modalOpen, setModalOpen] = useState(false)
   const { account, active, chainId, library } = useActiveWeb3React()
-  console.log('account', account)
-  console.log('library', library)
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const theme = useTheme()
 
@@ -218,17 +216,16 @@ export default function CurrencyInputPanel({
 
   useEffect(() => {
     async function fetchBotBalance() {
-      let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
+      // let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
       let tokenAddress = '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot'
-      let response = await starcoinProvider.getBalance(accountAddress, tokenAddress)
+      let response = await starcoinProvider.getBalance(account, tokenAddress)
       setBalance(response)
-      console.log({ response })
       setPrecision(9)
     }
     async function fetchSTCBalance() {
-      let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
+      // let accountAddress = "0x07fa08a855753f0ff7292fdcbe871216"
       let tokenAddress = '0x1::STC::STC'
-      let response = await starcoinProvider.getBalance(accountAddress, tokenAddress)
+      let response = await starcoinProvider.getBalance(account, tokenAddress)
       setBalance(response)
       setPrecision(9)
     }

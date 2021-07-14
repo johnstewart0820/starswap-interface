@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, CurrencyAmount, Percent } from '@uniswap/sdk-core'
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useEffect, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router-dom'
@@ -44,6 +44,8 @@ import { PoolPriceBar } from './PoolPriceBar'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { SwitchLocaleLink } from 'components/SwitchLocaleLink'
 import { t, Trans } from '@lingui/macro'
+import { providers } from '@starcoin/starcoin'
+import getLibrary from 'utils/getLibrary'
 
 const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -54,11 +56,55 @@ export default function AddLiquidity({
   history,
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
   const { account, active, chainId, library } = useActiveWeb3React()
+  console.log({ chainId })
   const theme = useContext(ThemeContext)
 
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
+  let starcoinWeb3Provider: any | undefined
+  let starcoinRPCProvider: any | undefined
+  try {
+    // We must specify the network as 'any' for starcoin to allow network changes
+    starcoinWeb3Provider = new providers.Web3Provider(window.starcoin as any, 'any')
+  } catch (error) {
+    console.error(error)
+  }
+
+  let nodeURL:string
+  if (chainId === 251) {
+    nodeURL = 'https://barnard-seed.starcoin.org'
+  } else {
+    nodeURL = 'https://main-seed.starcoin.org'
+  }
+  starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+
+  // get stc/bot pair liquidity
+  const [liquidity, setLiquidity] = useState<any>(0) 
+  const [accountNoLiquidity, setAccountNoLiquidity] = useState<boolean>(true)
+
+  useEffect(() => {
+    async function getLiquidity()  {
+      // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+      const response = await starcoinRPCProvider.call({
+        function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::liquidity",
+        type_args: [
+          "0x1::STC::STC",
+          "0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot"
+        ],
+        args: [account]
+      });
+      console.log({ response })
+      return response
+    }
+    getLiquidity().then(result => {
+      setLiquidity(result[0]);
+      setAccountNoLiquidity(false)
+    }).catch(e => {
+      setLiquidity(0)
+    })
+    console.log({liquidity})
+  }, [account])
   /*
   const oneCurrencyIsWETH = Boolean(
     chainId &&
@@ -88,7 +134,24 @@ export default function AddLiquidity({
     error,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
-  const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
+  const { onFieldAInput, onFieldBInput } = useMintActionHandlers(accountNoLiquidity)
+  /*
+  async function onFieldAInput() {
+    console.log('input a')
+    const inputA = document.querySelector('#add-liquidity-input-tokena input.token-amount-input') as HTMLInputElement
+    const valueA = inputA.value
+    console.log({ valueA })
+  }
+  async function onFieldBInput() {
+    console.log('input b')
+  }
+  */
+  async function onFieldAInputMax() {
+    console.log('input a max')
+  }
+  async function onFieldBInputMax() {
+    console.log('input b max')
+  }
 
   const isValid = !error
 
@@ -306,7 +369,7 @@ export default function AddLiquidity({
     setShowConfirm(false)
     // if there was a tx hash, we want to clear the input
     if (txHash) {
-      onFieldAInput('')
+      // onFieldAInput('')
     }
     setTxHash('')
   }, [onFieldAInput, txHash])
@@ -376,7 +439,8 @@ export default function AddLiquidity({
               value={formattedAmounts[Field.CURRENCY_A]}
               onUserInput={onFieldAInput}
               onMax={() => {
-                onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+                // onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+                onFieldAInputMax()
               }}
               onCurrencySelect={handleCurrencyASelect}
               showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
@@ -392,7 +456,8 @@ export default function AddLiquidity({
               onUserInput={onFieldBInput}
               onCurrencySelect={handleCurrencyBSelect}
               onMax={() => {
-                onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+                // onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+                onFieldBInputMax()
               }}
               showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
               currency={currencies[Field.CURRENCY_B]}

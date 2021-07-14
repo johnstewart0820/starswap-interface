@@ -156,11 +156,11 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
     maxHops: singleHopOnly ? 1 : undefined,
   })
 
-  const bestV3TradeExactIn = useBestV3TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
-  const bestV3TradeExactOut = useBestV3TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
+  // const bestV3TradeExactIn = useBestV3TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
+  // const bestV3TradeExactOut = useBestV3TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
 
   const v2Trade = isExactIn ? bestV2TradeExactIn : bestV2TradeExactOut
-  const v3Trade = (isExactIn ? bestV3TradeExactIn : bestV3TradeExactOut) ?? undefined
+  // const v3Trade = (isExactIn ? bestV3TradeExactIn : bestV3TradeExactOut) ?? undefined
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
@@ -198,7 +198,8 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
     }
   }
 
-  const toggledTrade = (toggledVersion === Version.v2 ? v2Trade : v3Trade.trade) ?? undefined
+  // const toggledTrade = (toggledVersion === Version.v2 ? v2Trade : v3Trade.trade) ?? undefined
+  const toggledTrade = v2Trade ?? undefined
   const allowedSlippage = useSwapSlippageTolerance(toggledTrade)
 
   // compare input balance to max input based on version
@@ -214,7 +215,8 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
     parsedAmount,
     inputError,
     v2Trade: v2Trade ?? undefined,
-    v3TradeState: v3Trade,
+    // v3TradeState: v3Trade,
+    v3TradeState: { trade: null, state: V3TradeState.INVALID },
     toggledTrade,
     allowedSlippage,
   }

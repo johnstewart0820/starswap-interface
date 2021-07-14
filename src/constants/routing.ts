@@ -62,6 +62,7 @@ const WETH_ONLY: ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [1]: [...WETH_ONLY[1], DAI, USDC, USDT, WBTC],
+  [SupportedChainId.BARNARD]: [BOT],
 }
 export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {
   [1]: {

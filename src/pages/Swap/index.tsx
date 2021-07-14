@@ -6,6 +6,7 @@ import { AdvancedSwapDetails } from 'components/swap/AdvancedSwapDetails'
 import { SwapNetworkAlert } from 'components/swap/SwapNetworkAlert'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { MouseoverTooltip, MouseoverTooltipContent } from 'components/Tooltip'
+import { useGetAmountIn, useGetAmountOut, useGetReserves } from 'hooks/useTokenSwapRouter'
 import JSBI from 'jsbi'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown, ArrowLeft, CheckCircle, HelpCircle, Info } from 'react-feather'
@@ -126,6 +127,15 @@ export default function Swap({ history }: RouteComponentProps) {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const { address: recipientAddress } = useENSAddress(recipient)
 
+  const { data: reserves } = useGetReserves(loadedInputCurrency?.wrapped.address, loadedOutputCurrency?.wrapped.address)
+  const { data: inputAmount } = useGetAmountIn(
+    independentField === Field.INPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
+    ...(reserves || [])
+  )
+  const { data: outputAmount } = useGetAmountOut(
+    independentField === Field.OUTPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
+    ...(reserves || [])
+  )
   const parsedAmounts = useMemo(
     () =>
       showWrap
@@ -134,11 +144,25 @@ export default function Swap({ history }: RouteComponentProps) {
             [Field.OUTPUT]: parsedAmount,
           }
         : {
-            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+            // [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            // [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+            [Field.INPUT]:
+              independentField === Field.OUTPUT
+                ? parsedAmount
+                : loadedInputCurrency && inputAmount !== undefined
+                ? CurrencyAmount.fromRawAmount(loadedInputCurrency, inputAmount.toString())
+                : undefined,
+            [Field.OUTPUT]:
+              independentField === Field.INPUT
+                ? parsedAmount
+                : loadedOutputCurrency && outputAmount !== undefined
+                ? CurrencyAmount.fromRawAmount(loadedOutputCurrency, outputAmount.toString())
+                : undefined,
           },
-    [independentField, parsedAmount, showWrap, trade]
+    // [independentField, parsedAmount, showWrap, trade]
+    [showWrap, parsedAmount, independentField, loadedInputCurrency, inputAmount, loadedOutputCurrency, outputAmount]
   )
+  console.log('parsedAmounts', parsedAmounts)
 
   const fiatValueInput = useUSDCValue(parsedAmounts[Field.INPUT])
   const fiatValueOutput = useUSDCValue(parsedAmounts[Field.OUTPUT])

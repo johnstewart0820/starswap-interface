@@ -112,9 +112,9 @@ export function CurrencySearch({
 
   const star = useMemo(() => chainId && ExtendedStar.onChain(chainId), [chainId])
 
-  const filteredSortedTokensWithETH: Currency[] = useMemo(() => {
+  const filteredSortedTokensWithSTC: Currency[] = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
-    if (s === '' || s === 'e' || s === 'et' || s === 'eth') {
+    if (s === '' || s === 's' || s === 'st' || s === 'stc') {
       return star ? [star, ...filteredSortedTokens] : filteredSortedTokens
     }
     return filteredSortedTokens
@@ -145,22 +145,22 @@ export function CurrencySearch({
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-        // const s = debouncedQuery.toLowerCase().trim()
-        // if (s === 'eth' && ether) {
-        // handleCurrencySelect(ether)
-        // } else if (filteredSortedTokensWithETH.length > 0) {
-        if (filteredSortedTokensWithETH.length > 0) {
-          if (
-            filteredSortedTokensWithETH[0].symbol?.toLowerCase() === debouncedQuery.trim().toLowerCase() ||
-            filteredSortedTokensWithETH.length === 1
-          ) {
-            handleCurrencySelect(filteredSortedTokensWithETH[0])
+        const s = debouncedQuery.toLowerCase().trim()
+        if (s === 'stc' && star) {
+          handleCurrencySelect(star)
+        } else if (filteredSortedTokensWithSTC.length > 0) {
+          if (filteredSortedTokensWithSTC.length > 0) {
+            if (
+              filteredSortedTokensWithSTC[0].symbol?.toLowerCase() === debouncedQuery.trim().toLowerCase() ||
+              filteredSortedTokensWithSTC.length === 1
+            ) {
+              handleCurrencySelect(filteredSortedTokensWithSTC[0])
+            }
           }
         }
       }
     },
-    // [debouncedQuery, ether, filteredSortedTokensWithETH, handleCurrencySelect]
-    [debouncedQuery, filteredSortedTokensWithETH, handleCurrencySelect]
+    [debouncedQuery, star, filteredSortedTokensWithSTC, handleCurrencySelect]
   )
 
   // menu ui
@@ -209,7 +209,7 @@ export function CurrencySearch({
             {({ height }) => (
               <CurrencyList
                 height={height}
-                currencies={disableNonToken ? filteredSortedTokens : filteredSortedTokensWithETH}
+                currencies={disableNonToken ? filteredSortedTokens : filteredSortedTokensWithSTC}
                 otherListTokens={filteredInactiveTokens}
                 onCurrencySelect={handleCurrencySelect}
                 otherCurrency={otherSelectedCurrency}

@@ -86,7 +86,7 @@ export default function AddLiquidity({
   useEffect(() => {
     async function getLiquidity()  {
       // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
-      const response = await starcoinRPCProvider.call({
+      const response = await starcoinWeb3Provider.call({
         function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::liquidity",
         type_args: [
           "0x1::STC::STC",

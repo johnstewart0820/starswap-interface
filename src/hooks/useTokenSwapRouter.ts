@@ -25,19 +25,21 @@ export function useGetReserves(x?: string, y?: string) {
  * 批量查询代币对池中的总额度
  */
 export function useBatchGetReserves(pairs: [string | undefined, string | undefined][]) {
-  return useSWR(pairs.length ? ['batch_get_reserves', pairs] : null, async () =>
-    Promise.all(
-      pairs.map(
-        async ([token1, token2]) =>
-          (token1 &&
-            token2 &&
-            (await provider.call({
-              function_id: `${PREFIX}get_reserves`,
-              type_args: [token1, token2],
-              args: [],
-            }))) as [number, number]
+  return useSWR(
+    pairs.length ? ['batch_get_reserves', ...pairs.map(([token1, token2]) => `${token1},${token2}`)] : null,
+    () =>
+      Promise.all(
+        pairs.map(
+          async ([token1, token2]) =>
+            (token1 &&
+              token2 &&
+              (await provider.call({
+                function_id: `${PREFIX}get_reserves`,
+                type_args: [token1, token2],
+                args: [],
+              }))) as [number, number]
+        )
       )
-    )
   )
 }
 

@@ -35,11 +35,14 @@ export function useV2Pairs(currencies: [Currency | undefined, Currency | undefin
   //     }),
   //   [tokens]
   // )
+  const pairAddresses = useMemo(
+    () =>
+      tokens.map(([token1, token2]) => [token1?.address, token2?.address] as [string | undefined, string | undefined]),
+    [tokens]
+  )
 
   // const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves')
-  const { data: results = [], isValidating } = useBatchGetReserves(
-    tokens.map(([token1, token2]) => [token1?.address, token2?.address])
-  )
+  const { data: results = [], isValidating } = useBatchGetReserves(pairAddresses)
 
   return useMemo(() => {
     return results.map((result, i) => {

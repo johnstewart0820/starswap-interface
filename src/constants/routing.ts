@@ -1,8 +1,8 @@
 // a list of tokens by chain
-import { Star } from '@starcoin/starswap-sdk-core'
 import { Currency, Token } from '@uniswap/sdk-core'
 import { SupportedChainId } from './chains'
 import {
+  BOT,
   AMPL,
   DAI,
   ExtendedStar,
@@ -95,6 +95,7 @@ export const CUSTOM_BASES: { [chainId: number]: { [tokenAddress: string]: Token[
  */
 export const COMMON_BASES: ChainCurrencyList = {
   [1]: [ExtendedStar.onChain(1), DAI, USDC, USDT, WBTC, WETH9_EXTENDED[1]],
+  [SupportedChainId.BARNARD]: [ExtendedStar.onChain(SupportedChainId.BARNARD), BOT],
   [3]: [ExtendedStar.onChain(3), WETH9_EXTENDED[3]],
   [4]: [ExtendedStar.onChain(4), WETH9_EXTENDED[4]],
   [5]: [ExtendedStar.onChain(5), WETH9_EXTENDED[5]],

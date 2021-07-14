@@ -179,8 +179,8 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   const { chainId } = useActiveWeb3React()
   const isSTC = currencyId?.toUpperCase() === 'STC'
   const token = useToken(isSTC ? undefined : currencyId)
-  const extendedEther = useMemo(() => (chainId ? ExtendedStar.onChain(chainId) : undefined), [chainId])
+  const extendedStar = useMemo(() => (chainId ? ExtendedStar.onChain(chainId) : undefined), [chainId])
   const weth = chainId ? WETH9_EXTENDED[chainId] : undefined
   if (weth?.address?.toLowerCase() === currencyId?.toLowerCase()) return weth
-  return isSTC ? extendedEther : token
+  return isSTC ? extendedStar : token
 }

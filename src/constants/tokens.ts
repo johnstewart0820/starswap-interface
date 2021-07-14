@@ -3,6 +3,7 @@ import { Token, Star } from '@starcoin/starswap-sdk-core'
 import { UNI_ADDRESS } from './addresses'
 import { SupportedChainId } from './chains'
 
+export const BOT = new Token(SupportedChainId.BARNARD, '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot', 8, 'Bot', 'Bot')
 export const AMPL = new Token(
   SupportedChainId.MAINNET,
   '0xD46bA6D942050d489DBd938a2C909A5d5039A161',
@@ -154,9 +155,9 @@ export class ExtendedStar extends Star {
   //   throw new Error('Unsupported chain ID')
   // }
 
-  private static _cachedEther: { [chainId: number]: ExtendedStar } = {}
+  private static _cachedStar: { [chainId: number]: ExtendedStar } = {}
 
   public static onChain(chainId: number): ExtendedStar {
-    return this._cachedEther[chainId] ?? (this._cachedEther[chainId] = new ExtendedStar(chainId))
+    return this._cachedStar[chainId] ?? (this._cachedStar[chainId] = new ExtendedStar(chainId))
   }
 }

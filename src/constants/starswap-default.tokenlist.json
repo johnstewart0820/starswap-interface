@@ -12,7 +12,7 @@
   "tokens": [
     {
       "chainId": 1,
-      "address": "0x00000000000000000000000000000001",
+      "address": "0x00000000000000000000000000000001::STC::STC",
       "name": "STC",
       "symbol": "STC",
       "decimals": 9,
@@ -20,7 +20,7 @@
     },
     {
       "chainId": 1,
-      "address": "0x07fa08a855753f0ff7292fdcbe871216",
+      "address": "0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot",
       "name": "Bot",
       "symbol": "Bot",
       "decimals": 8,
@@ -28,7 +28,7 @@
     },
     {
       "chainId": 251,
-      "address": "0x00000000000000000000000000000001",
+      "address": "0x00000000000000000000000000000001::STC::STC",
       "name": "STC",
       "symbol": "STC",
       "decimals": 9,
@@ -36,7 +36,7 @@
     },
     {
       "chainId": 251,
-      "address": "0x07fa08a855753f0ff7292fdcbe871216",
+      "address": "0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot",
       "name": "Bot",
       "symbol": "Bot",
       "decimals": 8,

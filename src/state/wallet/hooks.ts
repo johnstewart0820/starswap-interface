@@ -77,16 +77,17 @@ export function useTokenBalancesWithLoadingIndicator(
   //   100_000
   // )
   const provider = useMemo(() => (window.starcoin ? new providers.Web3Provider(window.starcoin) : undefined), [])
-  const { data: balances, isValidating } = useSWR(address && provider ? ['getBalances', address, provider] : null, () =>
-    provider!.getBalances(address!)
+  const { data: balances, isValidating } = useSWR(
+    address && provider && validatedTokens.length ? ['getBalance', address, provider, ...validatedTokens] : null,
+    () => Promise.all(validatedTokens.map((token) => provider!.getBalance(address!.toLowerCase(), token.address)))
   )
 
   return [
     useMemo(
       () =>
         address && validatedTokens.length > 0
-          ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token) => {
-              const value = balances?.[token.address]
+          ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token, i) => {
+              const value = balances?.[i]
               const amount = value ? JSBI.BigInt(value.toString()) : undefined
               if (amount) {
                 memo[token.address] = CurrencyAmount.fromRawAmount(token, amount)

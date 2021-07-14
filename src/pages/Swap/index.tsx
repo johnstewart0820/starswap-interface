@@ -267,6 +267,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const [singleHopOnly] = useUserSingleHopOnly()
 
   const handleSwap = useCallback(() => {
+    // TODO: handleSwap
     if (!swapCallback) {
       return
     }

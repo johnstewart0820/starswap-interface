@@ -80,15 +80,19 @@ export default function ConfirmSwapModal({
   }, [allowedSlippage, onAcceptChanges, recipient, showAcceptChanges, trade])
 
   const modalBottom = useCallback(() => {
-    return trade ? (
-      <SwapModalFooter
-        onConfirm={onConfirm}
-        trade={trade}
-        disabledConfirm={showAcceptChanges}
-        swapErrorMessage={swapErrorMessage}
-      />
-    ) : null
-  }, [onConfirm, showAcceptChanges, swapErrorMessage, trade])
+    // return trade ? (
+    //   <SwapModalFooter
+    //     onConfirm={onConfirm}
+    //     trade={trade}
+    //     disabledConfirm={showAcceptChanges}
+    //     swapErrorMessage={swapErrorMessage}
+    //   />
+    // ) : null
+    return (
+      <SwapModalFooter onConfirm={onConfirm} disabledConfirm={showAcceptChanges} swapErrorMessage={swapErrorMessage} />
+    )
+    // }, [onConfirm, showAcceptChanges, swapErrorMessage, trade])
+  }, [onConfirm, showAcceptChanges, swapErrorMessage])
 
   // text to show while loading
   const pendingText = (

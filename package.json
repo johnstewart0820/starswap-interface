@@ -154,7 +154,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@starcoin/starcoin": "^1.4.2",
+    "@starcoin/starcoin": "^1.4.3",
     "swr": "^0.5.6"
   }
 }

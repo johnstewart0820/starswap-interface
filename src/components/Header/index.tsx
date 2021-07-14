@@ -9,7 +9,7 @@ import { useShowClaimPopup, useToggleSelfClaimModal } from 'state/application/ho
 import { useUserHasAvailableClaim } from 'state/claim/hooks'
 import { useUserHasSubmittedClaim } from 'state/transactions/hooks'
 import { useDarkModeManager } from 'state/user/hooks'
-import { useETHBalances } from 'state/wallet/hooks'
+import { useSTCBalances } from 'state/wallet/hooks'
 import styled from 'styled-components/macro'
 // import Logo from '../../assets/svg/logo.svg'
 // import LogoDark from '../../assets/svg/logo_white.svg'
@@ -289,7 +289,7 @@ export const StyledMenuButton = styled.button`
 export default function Header() {
   const { account } = useActiveWeb3React()
 
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userStcBalance = useSTCBalances(account ? [account] : [])?.[account ?? '']
   // const [isDark] = useDarkModeManager()
   const [darkMode, toggleDarkMode] = useDarkModeManager()
 
@@ -370,9 +370,9 @@ export default function Header() {
             </UNIWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {account && userEthBalance ? (
+            {account && userStcBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                <Trans>{userEthBalance?.toSignificant(4)} STC</Trans>
+                <Trans>{userStcBalance?.toSignificant(4)} STC</Trans>
               </BalanceText>
             ) : null}
             <Web3Status />

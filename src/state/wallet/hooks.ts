@@ -1,4 +1,4 @@
-import { Currency, Token, CurrencyAmount, Ether } from '@uniswap/sdk-core'
+import { Currency, Token, CurrencyAmount, Star } from '@starcoin/starswap-sdk-core'
 import JSBI from 'jsbi'
 import { useMemo } from 'react'
 import { UNI } from '../../constants/tokens'
@@ -18,7 +18,7 @@ import useSWR from 'swr'
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
  */
-export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
+export function useSTCBalances(uncheckedAddresses?: (string | undefined)[]): {
   [address: string]: CurrencyAmount<Currency> | undefined
 } {
   const { chainId } = useActiveWeb3React()
@@ -40,14 +40,17 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
   //   'getEthBalance',
   //   addresses.map((address) => [address])
   // )
-  const results: any[] = useMemo(() => [], [])
+  const provider = useMemo(() => (window.starcoin ? new providers.Web3Provider(window.starcoin) : undefined), [])
+  const { data: results } = useSWR(provider && addresses.length ? ['getBalance', provider, ...addresses] : null, () =>
+    Promise.all(addresses.map((address) => provider!.getBalance(address)))
+  )
 
   return useMemo(
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount<Currency> }>((memo, address, i) => {
-        const value = results?.[i]?.result?.[0]
+        const value = results?.[i]
         if (value && chainId)
-          memo[address] = CurrencyAmount.fromRawAmount(Ether.onChain(chainId), JSBI.BigInt(value.toString()))
+          memo[address] = CurrencyAmount.fromRawAmount(Star.onChain(chainId), JSBI.BigInt(value.toString()))
         return memo
       }, {}),
     [addresses, chainId, results]
@@ -126,7 +129,7 @@ export function useCurrencyBalances(
 
   const tokenBalances = useTokenBalances(account, tokens)
   const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency?.isNative) ?? false, [currencies])
-  const ethBalance = useETHBalances(containsETH ? [account] : [])
+  const ethBalance = useSTCBalances(containsETH ? [account] : [])
 
   return useMemo(
     () =>

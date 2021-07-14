@@ -5,7 +5,7 @@ import { useActiveWeb3React } from 'hooks/web3'
 import React, { useCallback, useState } from 'react'
 import { ArrowDownCircle, X } from 'react-feather'
 import { useArbitrumAlphaAlert } from 'state/user/hooks'
-import { useETHBalances } from 'state/wallet/hooks'
+import { useSTCBalances } from 'state/wallet/hooks'
 import styled from 'styled-components'
 
 const CloseIcon = styled(X)`
@@ -80,7 +80,7 @@ export function SwapNetworkAlert() {
   const { account, chainId } = useActiveWeb3React()
   const [arbitrumAlphaAcknowledged, setArbitrumAlphaAcknowledged] = useArbitrumAlphaAlert()
   const [locallyDismissed, setLocallyDimissed] = useState(false)
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useSTCBalances(account ? [account] : [])?.[account ?? '']
 
   const dismiss = useCallback(() => {
     if (userEthBalance?.greaterThan(0)) {

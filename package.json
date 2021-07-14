@@ -155,6 +155,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@starcoin/starcoin": "^1.4.3",
+    "@starcoin/starswap-sdk-core": "../uniswap-sdk-core",
     "swr": "^0.5.6"
   }
 }

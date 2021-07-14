@@ -319,16 +319,17 @@ export default function Swap({ history }: RouteComponentProps) {
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
   // warnings on the greater of fiat value price impact and execution price impact
-  const priceImpactSeverity = useMemo(() => {
-    const executionPriceImpact = trade?.priceImpact
-    return warningSeverity(
-      executionPriceImpact && priceImpact
-        ? executionPriceImpact.greaterThan(priceImpact)
-          ? executionPriceImpact
-          : priceImpact
-        : executionPriceImpact ?? priceImpact
-    )
-  }, [priceImpact, trade])
+  // const priceImpactSeverity = useMemo(() => {
+  //   const executionPriceImpact = trade?.priceImpact
+  //   return warningSeverity(
+  //     executionPriceImpact && priceImpact
+  //       ? executionPriceImpact.greaterThan(priceImpact)
+  //         ? executionPriceImpact
+  //         : priceImpact
+  //       : executionPriceImpact ?? priceImpact
+  //   )
+  // }, [priceImpact, trade])
+  const priceImpactSeverity = 0
 
   const isArgentWallet = useIsArgentWallet()
 
@@ -373,7 +374,8 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const swapIsUnsupported = useIsSwapUnsupported(currencies?.INPUT, currencies?.OUTPUT)
 
-  const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
+  // const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
+  const priceImpactTooHigh = false
 
   return (
     <>

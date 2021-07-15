@@ -28,19 +28,3 @@ export function formatPrice(price: Price<Currency, Currency> | undefined, sigFig
 
   return price.toSignificant(sigFigs)
 }
-
-export function formatTokenAmount(amount: number | undefined, precision: number, sigFigs: number) {
-  if (!amount) {
-    return '-'
-  }
-
-  if (amount === 0) {
-    return '0'
-  }
-
-  if ((amount / (10 ** precision)) < 0.00001) {
-    return '<0.00001'
-  }
-
-  return (amount / (10 ** precision)).toFixed(sigFigs)
-}

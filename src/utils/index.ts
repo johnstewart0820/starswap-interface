@@ -9,7 +9,7 @@ import { TokenAddressMap } from '../state/lists/hooks'
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {
-    return isValidAddress(value) && value
+    return isValidAddress((value as string).split('::')[0]) && value
   } catch {
     return false
   }

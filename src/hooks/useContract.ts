@@ -50,21 +50,22 @@ export function useContract<T extends Contract = Contract>(
   ABI: any,
   withSignerIfPossible = true
 ): T | null {
-  const { library, account, chainId } = useActiveWeb3React()
+  // const { library, account, chainId } = useActiveWeb3React()
 
-  return useMemo(() => {
-    if (!addressOrAddressMap || !ABI || !library || !chainId) return null
-    let address: string | undefined
-    if (typeof addressOrAddressMap === 'string') address = addressOrAddressMap
-    else address = addressOrAddressMap[chainId]
-    if (!address) return null
-    try {
-      return getContract(address, ABI, library, withSignerIfPossible && account ? account : undefined)
-    } catch (error) {
-      console.error('Failed to get contract', error)
-      return null
-    }
-  }, [addressOrAddressMap, ABI, library, chainId, withSignerIfPossible, account]) as T
+  // return useMemo(() => {
+  //   if (!addressOrAddressMap || !ABI || !library || !chainId) return null
+  //   let address: string | undefined
+  //   if (typeof addressOrAddressMap === 'string') address = addressOrAddressMap
+  //   else address = addressOrAddressMap[chainId]
+  //   if (!address) return null
+  //   try {
+  //     return getContract(address, ABI, library, withSignerIfPossible && account ? account : undefined)
+  //   } catch (error) {
+  //     console.error('Failed to get contract', error)
+  //     return null
+  //   }
+  // }, [addressOrAddressMap, ABI, library, chainId, withSignerIfPossible, account]) as T
+  return null
 }
 
 export function useV2MigratorContract() {
@@ -85,15 +86,18 @@ export function useArgentWalletDetectorContract() {
 }
 
 export function useENSRegistrarContract(withSignerIfPossible?: boolean) {
-  return useContract<EnsRegistrar>(ENS_REGISTRAR_ADDRESSES, ENS_ABI, withSignerIfPossible)
+  // return useContract<EnsRegistrar>(ENS_REGISTRAR_ADDRESSES, ENS_ABI, withSignerIfPossible)
+  return null
 }
 
 export function useENSResolverContract(address: string | undefined, withSignerIfPossible?: boolean) {
-  return useContract<EnsPublicResolver>(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible)
+  // return useContract<EnsPublicResolver>(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible)
+  return null
 }
 
 export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible)
+  // return useContract(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible)
+  return null
 }
 
 export function useEIP2612Contract(tokenAddress?: string): Contract | null {

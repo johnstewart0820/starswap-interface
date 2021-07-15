@@ -3,7 +3,7 @@ import { Currency, Token } from '@uniswap/sdk-core'
 import { arrayify } from 'ethers/lib/utils'
 import { useMemo } from 'react'
 import { createTokenFilterFunction } from '../components/SearchModal/filtering'
-import { ExtendedEther, WETH9_EXTENDED } from '../constants/tokens'
+import { ExtendedStar, WETH9_EXTENDED } from '../constants/tokens'
 import { useAllLists, useCombinedActiveList, useInactiveListUrls } from '../state/lists/hooks'
 import { WrappedTokenInfo } from '../state/lists/wrappedTokenInfo'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
@@ -13,7 +13,6 @@ import { TokenAddressMap, useUnsupportedTokenList } from './../state/lists/hooks
 
 import { useActiveWeb3React } from './web3'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
-
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
 function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean): { [address: string]: Token } {
@@ -130,8 +129,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
   const { chainId } = useActiveWeb3React()
   const tokens = useAllTokens()
 
-  // const address = isAddress(tokenAddress)
-  const address = isAddress('0xD352f48899E0B51C2bC0513235A3469dcAF6f045')
+  const address = isAddress(tokenAddress)
 
   const tokenContract = useTokenContract(address ? address : undefined, false)
   const tokenContractBytes32 = useBytes32TokenContract(address ? address : undefined, false)
@@ -148,38 +146,8 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
   const symbolBytes32 = useSingleCallResult(token ? undefined : tokenContractBytes32, 'symbol', undefined, NEVER_RELOAD)
   const decimals = useSingleCallResult(token ? undefined : tokenContract, 'decimals', undefined, NEVER_RELOAD)
 
-  // STC token
-  /*
-  const STCToken = new Token(
-      chainId,
-      decimals,
-      isNative,
-      isToken,
-      name: "Ether",
-      symbol: "ETH"
-  );
-      chainId: 3,
-      decimals: 8,
-      isNative: false,
-      isToken: true,
-      name: "SwapcoinA",
-      symbol: "SwapcoinA"
-  */
-
-  // Bot token
-  const botAddress = "0xD352f48899E0B51C2bC0513235A3469dcAF6f045"
-  const BotToken  = new Token(
-      3,
-      botAddress,
-      8,
-      'Bot',
-      'Bot'
-    )
-
   return useMemo(() => {
-    // if (token) return token
-    return BotToken
-    /*
+    if (token) return token
     if (!chainId || !address) return undefined
     if (decimals.loading || symbol.loading || tokenName.loading) return null
     if (decimals.result) {
@@ -192,7 +160,6 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
       )
     }
     return undefined
-    */
   }, [
     address,
     chainId,
@@ -209,30 +176,11 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  /*
-  const { chainId } = useActiveWeb3React()
-  const isETH = currencyId?.toUpperCase() === 'ETH'
-  const token = useToken(isETH ? undefined : currencyId)
-  const extendedEther = useMemo(() => (chainId ? ExtendedEther.onChain(chainId) : undefined), [chainId])
-  const weth = chainId ? WETH9_EXTENDED[chainId] : undefined
-  if (weth?.address?.toLowerCase() === currencyId?.toLowerCase()) return weth
-  return isETH ? extendedEther : token
-  */
-
   const { chainId } = useActiveWeb3React()
   const isSTC = currencyId?.toUpperCase() === 'STC'
-  const stcAddress = "0xD352f48899E0B51C2bC0513235A3469dcAF6f045"
-  const STCToken  = new Token(
-      3,
-      stcAddress,
-      9,
-      'STC',
-      'STC'
-  )
   const token = useToken(isSTC ? undefined : currencyId)
-  // const extendedEther = useMemo(() => (chainId ? ExtendedEther.onChain(chainId) : undefined), [chainId])
-  // console.log({ extendedEther });
+  const extendedStar = useMemo(() => (chainId ? ExtendedStar.onChain(chainId) : undefined), [chainId])
   const weth = chainId ? WETH9_EXTENDED[chainId] : undefined
   if (weth?.address?.toLowerCase() === currencyId?.toLowerCase()) return weth
-  return isSTC ? STCToken : token
+  return isSTC ? extendedStar : token
 }

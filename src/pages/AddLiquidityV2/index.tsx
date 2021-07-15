@@ -165,10 +165,46 @@ export default function AddLiquidity({
   const [txHash, setTxHash] = useState<string>('')
 
   // get formatted amounts
+  const [botValue, setBotValue] = useState<string>('') 
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    // [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    [dependentField]: botValue,
   }
+
+  console.log({ independentField })
+
+  /*
+  useEffect(() => {
+    const stc = Number(typedValue)
+
+    setBotValue((stc+10).toString())
+  }, [typedValue])
+  */
+  useEffect(() => {
+    async function getBotQuote()  {
+      // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+      const stc = Number(typedValue) * 1000000000
+      const response = await starcoinWeb3Provider.call({
+        function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_out",
+        type_args: [
+        ],
+        args: [`${stc}u128`, '10000000000u128','1000000000u128']
+      });
+      console.log({ response })
+      return response
+    }
+    getBotQuote().then(result => {
+      const bot = Number(result) / 1000000000
+      setBotValue(bot.toString());
+    }).catch(e => {
+      console.log(e)
+      setBotValue('0')
+    })
+    console.log({botValue})
+  }, [typedValue])
+
+  console.log({ typedValue })
 
   // get the max amounts user can add
   const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(

@@ -2,6 +2,9 @@ import { SupportedChainId } from '../constants/chains'
 
 const MAINNET_AND_TESTNETS = [
   SupportedChainId.MAINNET,
+  SupportedChainId.PROXIMA,
+  SupportedChainId.BARNARD,
+  SupportedChainId.HALLEY,
   SupportedChainId.ROPSTEN,
   SupportedChainId.RINKEBY,
   SupportedChainId.GOERLI,

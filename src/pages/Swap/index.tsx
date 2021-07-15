@@ -6,6 +6,7 @@ import { AdvancedSwapDetails } from 'components/swap/AdvancedSwapDetails'
 import { SwapNetworkAlert } from 'components/swap/SwapNetworkAlert'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { MouseoverTooltip, MouseoverTooltipContent } from 'components/Tooltip'
+import { useGetAmountIn, useGetAmountOut, useGetReserves } from 'hooks/useTokenSwapRouter'
 import JSBI from 'jsbi'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown, ArrowLeft, CheckCircle, HelpCircle, Info } from 'react-feather'
@@ -126,6 +127,18 @@ export default function Swap({ history }: RouteComponentProps) {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const { address: recipientAddress } = useENSAddress(recipient)
 
+  const { data: reserves } = useGetReserves(
+    currencies[Field.INPUT]?.wrapped.address,
+    currencies[Field.OUTPUT]?.wrapped.address
+  )
+  const { data: inputAmount } = useGetAmountIn(
+    independentField === Field.OUTPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
+    ...(reserves || [])
+  )
+  const { data: outputAmount } = useGetAmountOut(
+    independentField === Field.INPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
+    ...(reserves || [])
+  )
   const parsedAmounts = useMemo(
     () =>
       showWrap
@@ -134,10 +147,23 @@ export default function Swap({ history }: RouteComponentProps) {
             [Field.OUTPUT]: parsedAmount,
           }
         : {
-            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+            // [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            // [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+            [Field.INPUT]:
+              independentField === Field.INPUT
+                ? parsedAmount
+                : currencies[Field.INPUT] && inputAmount !== undefined
+                ? CurrencyAmount.fromRawAmount(currencies[Field.INPUT]!, inputAmount.toString())
+                : undefined,
+            [Field.OUTPUT]:
+              independentField === Field.OUTPUT
+                ? parsedAmount
+                : currencies[Field.OUTPUT] && outputAmount !== undefined
+                ? CurrencyAmount.fromRawAmount(currencies[Field.OUTPUT]!, outputAmount.toString())
+                : undefined,
           },
-    [independentField, parsedAmount, showWrap, trade]
+    // [independentField, parsedAmount, showWrap, trade]
+    [showWrap, parsedAmount, independentField, currencies, inputAmount, outputAmount]
   )
 
   const fiatValueInput = useUSDCValue(parsedAmounts[Field.INPUT])
@@ -192,7 +218,8 @@ export default function Swap({ history }: RouteComponentProps) {
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   )
-  const routeNotFound = !trade?.route
+  // const routeNotFound = !trade?.route
+  const routeNotFound = false
   const isLoadingRoute = toggledVersion === Version.v3 && V3TradeState.LOADING === v3TradeState
 
   // check whether the user has approved the router on the input token
@@ -242,6 +269,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const [singleHopOnly] = useUserSingleHopOnly()
 
   const handleSwap = useCallback(() => {
+    // TODO: handleSwap
     if (!swapCallback) {
       return
     }
@@ -294,16 +322,17 @@ export default function Swap({ history }: RouteComponentProps) {
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
   // warnings on the greater of fiat value price impact and execution price impact
-  const priceImpactSeverity = useMemo(() => {
-    const executionPriceImpact = trade?.priceImpact
-    return warningSeverity(
-      executionPriceImpact && priceImpact
-        ? executionPriceImpact.greaterThan(priceImpact)
-          ? executionPriceImpact
-          : priceImpact
-        : executionPriceImpact ?? priceImpact
-    )
-  }, [priceImpact, trade])
+  // const priceImpactSeverity = useMemo(() => {
+  //   const executionPriceImpact = trade?.priceImpact
+  //   return warningSeverity(
+  //     executionPriceImpact && priceImpact
+  //       ? executionPriceImpact.greaterThan(priceImpact)
+  //         ? executionPriceImpact
+  //         : priceImpact
+  //       : executionPriceImpact ?? priceImpact
+  //   )
+  // }, [priceImpact, trade])
+  const priceImpactSeverity = 0
 
   const isArgentWallet = useIsArgentWallet()
 
@@ -348,7 +377,8 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const swapIsUnsupported = useIsSwapUnsupported(currencies?.INPUT, currencies?.OUTPUT)
 
-  const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
+  // const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
+  const priceImpactTooHigh = false
 
   return (
     <>
@@ -640,8 +670,10 @@ export default function Swap({ history }: RouteComponentProps) {
                     }
                   }}
                   id="swap-button"
-                  disabled={!isValid || priceImpactTooHigh || !!swapCallbackError}
-                  error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
+                  // disabled={!isValid || priceImpactTooHigh || !!swapCallbackError}
+                  disabled={!isValid || priceImpactTooHigh}
+                  // error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
+                  error={isValid && priceImpactSeverity > 2}
                 >
                   <Text fontSize={20} fontWeight={500}>
                     {swapInputError ? (

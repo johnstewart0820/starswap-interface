@@ -38,7 +38,7 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency.isToken ? currency.address : currency.isNative ? 'ETH' : '',
+          currencyId: currency.isToken ? currency.address : currency.isNative ? 'STC' : '',
         })
       )
     },
@@ -149,18 +149,18 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
-  const bestV2TradeExactIn = useV2TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined, {
-    maxHops: singleHopOnly ? 1 : undefined,
-  })
-  const bestV2TradeExactOut = useV2TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined, {
-    maxHops: singleHopOnly ? 1 : undefined,
-  })
+  // const bestV2TradeExactIn = useV2TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined, {
+  //   maxHops: singleHopOnly ? 1 : undefined,
+  // })
+  // const bestV2TradeExactOut = useV2TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined, {
+  //   maxHops: singleHopOnly ? 1 : undefined,
+  // })
 
-  const bestV3TradeExactIn = useBestV3TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
-  const bestV3TradeExactOut = useBestV3TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
+  // const bestV3TradeExactIn = useBestV3TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
+  // const bestV3TradeExactOut = useBestV3TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
 
-  const v2Trade = isExactIn ? bestV2TradeExactIn : bestV2TradeExactOut
-  const v3Trade = (isExactIn ? bestV3TradeExactIn : bestV3TradeExactOut) ?? undefined
+  // const v2Trade = isExactIn ? bestV2TradeExactIn : bestV2TradeExactOut
+  // const v3Trade = (isExactIn ? bestV3TradeExactIn : bestV3TradeExactOut) ?? undefined
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
@@ -190,32 +190,37 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
     inputError = inputError ?? t`Enter a recipient`
   } else {
     if (
-      BAD_RECIPIENT_ADDRESSES[formattedTo] ||
-      (bestV2TradeExactIn && involvesAddress(bestV2TradeExactIn, formattedTo)) ||
-      (bestV2TradeExactOut && involvesAddress(bestV2TradeExactOut, formattedTo))
+      // BAD_RECIPIENT_ADDRESSES[formattedTo] ||
+      // (bestV2TradeExactIn && involvesAddress(bestV2TradeExactIn, formattedTo)) ||
+      // (bestV2TradeExactOut && involvesAddress(bestV2TradeExactOut, formattedTo))
+      BAD_RECIPIENT_ADDRESSES[formattedTo]
     ) {
       inputError = inputError ?? t`Invalid recipient`
     }
   }
 
-  const toggledTrade = (toggledVersion === Version.v2 ? v2Trade : v3Trade.trade) ?? undefined
-  const allowedSlippage = useSwapSlippageTolerance(toggledTrade)
+  // const toggledTrade = (toggledVersion === Version.v2 ? v2Trade : v3Trade.trade) ?? undefined
+  // const allowedSlippage = useSwapSlippageTolerance(toggledTrade)
+  const allowedSlippage = useSwapSlippageTolerance(undefined)
 
   // compare input balance to max input based on version
-  const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)]
+  // const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)]
 
-  if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
-    inputError = t`Insufficient ${amountIn.currency.symbol} balance`
-  }
+  // if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
+  //   inputError = t`Insufficient ${amountIn.currency.symbol} balance`
+  // }
 
   return {
     currencies,
     currencyBalances,
     parsedAmount,
     inputError,
-    v2Trade: v2Trade ?? undefined,
-    v3TradeState: v3Trade,
-    toggledTrade,
+    // v2Trade: v2Trade ?? undefined,
+    v2Trade: undefined,
+    // v3TradeState: v3Trade,
+    v3TradeState: { trade: null, state: V3TradeState.INVALID },
+    // toggledTrade,
+    toggledTrade: undefined,
     allowedSlippage,
   }
 }
@@ -224,7 +229,7 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
   if (typeof urlParam === 'string') {
     const valid = isAddress(urlParam)
     if (valid) return valid
-    if (urlParam.toUpperCase() === 'ETH') return 'ETH'
+    if (urlParam.toUpperCase() === 'STC') return 'STC'
   }
   return ''
 }
@@ -252,8 +257,8 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
   if (inputCurrency === '' && outputCurrency === '') {
-    // default to ETH input
-    inputCurrency = 'ETH'
+    // default to STC input
+    inputCurrency = 'STC'
   } else if (inputCurrency === outputCurrency) {
     // clear output if identical
     outputCurrency = ''

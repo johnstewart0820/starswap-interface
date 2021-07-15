@@ -165,11 +165,11 @@ export default function AddLiquidity({
   const [txHash, setTxHash] = useState<string>('')
 
   // get formatted amounts
-  const [botValue, setBotValue] = useState<string>('') 
+  const [dependentValue, setDependentValue] = useState<string>('') 
   const formattedAmounts = {
     [independentField]: typedValue,
     // [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
-    [dependentField]: botValue,
+    [dependentField]: dependentValue,
   }
 
   console.log({ independentField })
@@ -191,17 +191,37 @@ export default function AddLiquidity({
         ],
         args: [`${stc}u128`, '10000000000u128','1000000000u128']
       });
-      console.log({ response })
       return response
     }
-    getBotQuote().then(result => {
-      const bot = Number(result) / 1000000000
-      setBotValue(bot.toString());
-    }).catch(e => {
-      console.log(e)
-      setBotValue('0')
-    })
-    console.log({botValue})
+    async function getSTCQuote()  {
+      // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+      const bot = Number(typedValue) * 1000000000
+      const response = await starcoinWeb3Provider.call({
+        function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_in",
+        type_args: [
+        ],
+        args: [`${bot}u128`, '10000000000u128','1000000000u128']
+      });
+      return response
+    }
+    if (independentField === 'CURRENCY_A') {
+      getBotQuote().then(result => {
+        const bot = Number(result) / 1000000000
+        setDependentValue(bot.toString());
+      }).catch(e => {
+        console.log(e)
+        setDependentValue('0')
+      })
+    }
+    if (independentField === 'CURRENCY_B') {
+      getSTCQuote().then(result => {
+        const stc = Number(result) / 1000000000
+        setDependentValue(stc.toString());
+      }).catch(e => {
+        console.log(e)
+        setDependentValue('0')
+      })
+    }
   }, [typedValue])
 
   console.log({ typedValue })

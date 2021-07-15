@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import invariant from 'tiny-invariant'
 
 invariant(window.starcoin, 'no window.starcoin')
-const provider = new providers.Web3Provider(window.starcoin)
+const provider = new providers.Web3Provider(window.starcoin as any, 'any')
 const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::'
 
 /**

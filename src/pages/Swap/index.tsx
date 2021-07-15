@@ -127,13 +127,16 @@ export default function Swap({ history }: RouteComponentProps) {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const { address: recipientAddress } = useENSAddress(recipient)
 
-  const { data: reserves } = useGetReserves(loadedInputCurrency?.wrapped.address, loadedOutputCurrency?.wrapped.address)
+  const { data: reserves } = useGetReserves(
+    currencies[Field.INPUT]?.wrapped.address,
+    currencies[Field.OUTPUT]?.wrapped.address
+  )
   const { data: inputAmount } = useGetAmountIn(
-    independentField === Field.INPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
+    independentField === Field.OUTPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
     ...(reserves || [])
   )
   const { data: outputAmount } = useGetAmountOut(
-    independentField === Field.OUTPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
+    independentField === Field.INPUT ? parsedAmount?.multiply(parsedAmount.decimalScale)?.toExact() : undefined,
     ...(reserves || [])
   )
   const parsedAmounts = useMemo(
@@ -147,22 +150,21 @@ export default function Swap({ history }: RouteComponentProps) {
             // [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
             // [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
             [Field.INPUT]:
-              independentField === Field.OUTPUT
-                ? parsedAmount
-                : loadedInputCurrency && inputAmount !== undefined
-                ? CurrencyAmount.fromRawAmount(loadedInputCurrency, inputAmount.toString())
-                : undefined,
-            [Field.OUTPUT]:
               independentField === Field.INPUT
                 ? parsedAmount
-                : loadedOutputCurrency && outputAmount !== undefined
-                ? CurrencyAmount.fromRawAmount(loadedOutputCurrency, outputAmount.toString())
+                : currencies[Field.INPUT] && inputAmount !== undefined
+                ? CurrencyAmount.fromRawAmount(currencies[Field.INPUT]!, inputAmount.toString())
+                : undefined,
+            [Field.OUTPUT]:
+              independentField === Field.OUTPUT
+                ? parsedAmount
+                : currencies[Field.OUTPUT] && outputAmount !== undefined
+                ? CurrencyAmount.fromRawAmount(currencies[Field.OUTPUT]!, outputAmount.toString())
                 : undefined,
           },
     // [independentField, parsedAmount, showWrap, trade]
-    [showWrap, parsedAmount, independentField, loadedInputCurrency, inputAmount, loadedOutputCurrency, outputAmount]
+    [showWrap, parsedAmount, independentField, currencies, inputAmount, outputAmount]
   )
-  console.log('parsedAmounts', parsedAmounts)
 
   const fiatValueInput = useUSDCValue(parsedAmounts[Field.INPUT])
   const fiatValueOutput = useUSDCValue(parsedAmounts[Field.OUTPUT])

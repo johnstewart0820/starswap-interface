@@ -520,6 +520,7 @@ export default function AddLiquidity({
               id="add-liquidity-input-tokenb"
               showCommonBases
             />
+            {/*
             {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
               <>
                 <LightCard padding="0px" borderRadius={'20px'}>
@@ -543,6 +544,7 @@ export default function AddLiquidity({
                 </LightCard>
               </>
             )}
+            */}
 
             {addIsUnsupported ? (
               <ButtonPrimary disabled={true}>

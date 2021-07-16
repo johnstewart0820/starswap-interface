@@ -4,6 +4,22 @@ import useStarcoinProvider from './useStarcoinProvider'
 const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::'
 
 /**
+ * 查询当前签名者在某代币对下的流动性
+ */
+export function useLiquidity(signer?: string, x?: string, y?: string) {
+  const provider = useStarcoinProvider()
+  return useSWR(
+    x && y ? [provider, 'liquidity', signer, x, y] : null,
+    async () =>
+      (await provider.call({
+        function_id: `${PREFIX}liquidity`,
+        type_args: [x!, y!],
+        args: [signer!],
+      })) as [number]
+  )
+}
+
+/**
  * 查询代币对池中的总额度
  */
 export function useGetReserves(x?: string, y?: string) {

@@ -46,6 +46,7 @@ import { SwitchLocaleLink } from 'components/SwitchLocaleLink'
 import { t, Trans } from '@lingui/macro'
 import useStarcoinProvider from 'hooks/useStarcoinProvider'
 import getLibrary from 'utils/getLibrary'
+import { useLiquidity } from 'hooks/useTokenSwapRouter'
 
 const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -65,29 +66,9 @@ export default function AddLiquidity({
   const provider = useStarcoinProvider()
 
   // get stc/bot pair liquidity
-  const [liquidity, setLiquidity] = useState<any>(0)
-  const [accountNoLiquidity, setAccountNoLiquidity] = useState<boolean>(true)
+  const { data } = useLiquidity(account ?? undefined, currencyA?.wrapped.address, currencyB?.wrapped.address)
+  const noLiquidity = !data
 
-  useEffect(() => {
-    async function getLiquidity() {
-      const response = await provider.call({
-        function_id: '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::liquidity',
-        type_args: ['0x1::STC::STC', '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot'],
-        args: [account!],
-      })
-      console.log({ response })
-      return response
-    }
-    getLiquidity()
-      .then((result) => {
-        setLiquidity(result[0])
-        setAccountNoLiquidity(false)
-      })
-      .catch((e) => {
-        setLiquidity(0)
-      })
-    console.log({ liquidity })
-  }, [account, liquidity, provider])
   /*
   const oneCurrencyIsWETH = Boolean(
     chainId &&
@@ -111,13 +92,13 @@ export default function AddLiquidity({
     currencyBalances,
     parsedAmounts,
     price,
-    noLiquidity,
+    // noLiquidity,
     liquidityMinted,
     poolTokenPercentage,
     error,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
-  const { onFieldAInput, onFieldBInput } = useMintActionHandlers(accountNoLiquidity)
+  const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
   /*
   async function onFieldAInput() {
     console.log('input a')

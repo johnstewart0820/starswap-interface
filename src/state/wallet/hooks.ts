@@ -12,7 +12,7 @@ import { useTotalUniEarned } from '../stake/hooks'
 // import { Interface } from '@ethersproject/abi'
 // import ERC20ABI from 'abis/erc20.json'
 // import { Erc20Interface } from 'abis/types/Erc20'
-import { providers } from '@starcoin/starcoin'
+import useStarcoinProvider from 'hooks/useStarcoinProvider'
 import useSWR from 'swr'
 
 /**
@@ -40,8 +40,8 @@ export function useSTCBalances(uncheckedAddresses?: (string | undefined)[]): {
   //   'getEthBalance',
   //   addresses.map((address) => [address])
   // )
-  const provider = useMemo(() => (window.starcoin ? new providers.Web3Provider(window.starcoin) : undefined), [])
-  const { data: results } = useSWR(provider && addresses.length ? ['getBalance', provider, ...addresses] : null, () =>
+  const provider = useStarcoinProvider()
+  const { data: results } = useSWR(addresses.length ? [provider, 'getBalance', ...addresses] : null, () =>
     Promise.all(addresses.map((address) => provider!.getBalance(address)))
   )
 
@@ -79,10 +79,10 @@ export function useTokenBalancesWithLoadingIndicator(
   //   undefined,
   //   100_000
   // )
-  const provider = useMemo(() => (window.starcoin ? new providers.Web3Provider(window.starcoin) : undefined), [])
+  const provider = useStarcoinProvider()
   const { data: balances, isValidating } = useSWR(
-    address && provider && validatedTokens.length ? ['getBalance', address, provider, ...validatedTokens] : null,
-    () => Promise.all(validatedTokens.map((token) => provider!.getBalance(address!.toLowerCase(), token.address)))
+    address && validatedTokens.length ? [provider, 'getBalance', address, ...validatedTokens] : null,
+    () => Promise.all(validatedTokens.map((token) => provider.getBalance(address!.toLowerCase(), token.address)))
   )
 
   return [

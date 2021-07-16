@@ -15,7 +15,7 @@ const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 const PORTIS_ID = process.env.REACT_APP_PORTIS_ID
 const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
 
-const NETWORK_URLS: {
+export const NETWORK_URLS: {
   [chainId in SupportedChainId]: string
 } = {
   [SupportedChainId.MAINNET]: `https://main-seed.starcoin.org`,

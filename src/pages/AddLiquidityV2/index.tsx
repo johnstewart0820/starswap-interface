@@ -44,7 +44,7 @@ import { PoolPriceBar } from './PoolPriceBar'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { SwitchLocaleLink } from 'components/SwitchLocaleLink'
 import { t, Trans } from '@lingui/macro'
-import { providers } from '@starcoin/starcoin'
+import useStarcoinProvider from 'hooks/useStarcoinProvider'
 import getLibrary from 'utils/getLibrary'
 
 const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
@@ -62,49 +62,32 @@ export default function AddLiquidity({
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
-  let starcoinWeb3Provider: any | undefined
-  let starcoinRPCProvider: any | undefined
-  try {
-    // We must specify the network as 'any' for starcoin to allow network changes
-    starcoinWeb3Provider = new providers.Web3Provider(window.starcoin as any, 'any')
-  } catch (error) {
-    console.error(error)
-  }
-
-  let nodeURL:string
-  if (chainId === 251) {
-    nodeURL = 'https://barnard-seed.starcoin.org'
-  } else {
-    nodeURL = 'https://main-seed.starcoin.org'
-  }
-  starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+  const provider = useStarcoinProvider()
 
   // get stc/bot pair liquidity
-  const [liquidity, setLiquidity] = useState<any>(0) 
+  const [liquidity, setLiquidity] = useState<any>(0)
   const [accountNoLiquidity, setAccountNoLiquidity] = useState<boolean>(true)
 
   useEffect(() => {
-    async function getLiquidity()  {
-      // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
-      const response = await starcoinWeb3Provider.call({
-        function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::liquidity",
-        type_args: [
-          "0x1::STC::STC",
-          "0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot"
-        ],
-        args: [account]
-      });
+    async function getLiquidity() {
+      const response = await provider.call({
+        function_id: '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::liquidity',
+        type_args: ['0x1::STC::STC', '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot'],
+        args: [account!],
+      })
       console.log({ response })
       return response
     }
-    getLiquidity().then(result => {
-      setLiquidity(result[0]);
-      setAccountNoLiquidity(false)
-    }).catch(e => {
-      setLiquidity(0)
-    })
-    console.log({liquidity})
-  }, [account])
+    getLiquidity()
+      .then((result) => {
+        setLiquidity(result[0])
+        setAccountNoLiquidity(false)
+      })
+      .catch((e) => {
+        setLiquidity(0)
+      })
+    console.log({ liquidity })
+  }, [account, liquidity, provider])
   /*
   const oneCurrencyIsWETH = Boolean(
     chainId &&
@@ -165,7 +148,7 @@ export default function AddLiquidity({
   const [txHash, setTxHash] = useState<string>('')
 
   // get formatted amounts
-  const [dependentValue, setDependentValue] = useState<string>('') 
+  const [dependentValue, setDependentValue] = useState<string>('')
   const formattedAmounts = {
     [independentField]: typedValue,
     // [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
@@ -182,47 +165,47 @@ export default function AddLiquidity({
   }, [typedValue])
   */
   useEffect(() => {
-    async function getBotQuote()  {
-      // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+    async function getBotQuote() {
       const stc = Number(typedValue) * 1000000000
-      const response = await starcoinWeb3Provider.call({
-        function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_out",
-        type_args: [
-        ],
-        args: [`${stc}u128`, '10000000000u128','1000000000u128']
-      });
+      const response = await provider.call({
+        function_id: '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_out',
+        type_args: [],
+        args: [`${stc}u128`, '10000000000u128', '1000000000u128'],
+      })
       return response
     }
-    async function getSTCQuote()  {
-      // starcoinRPCProvider = new providers.JsonRpcProvider(nodeURL)
+    async function getSTCQuote() {
       const bot = Number(typedValue) * 1000000000
-      const response = await starcoinWeb3Provider.call({
-        function_id: "0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_in",
-        type_args: [
-        ],
-        args: [`${bot}u128`, '10000000000u128','1000000000u128']
-      });
+      const response = await provider.call({
+        function_id: '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_in',
+        type_args: [],
+        args: [`${bot}u128`, '10000000000u128', '1000000000u128'],
+      })
       return response
     }
     if (independentField === 'CURRENCY_A') {
-      getBotQuote().then(result => {
-        const bot = Number(result) / 1000000000
-        setDependentValue(bot.toString());
-      }).catch(e => {
-        console.log(e)
-        setDependentValue('0')
-      })
+      getBotQuote()
+        .then((result) => {
+          const bot = Number(result) / 1000000000
+          setDependentValue(bot.toString())
+        })
+        .catch((e) => {
+          console.log(e)
+          setDependentValue('0')
+        })
     }
     if (independentField === 'CURRENCY_B') {
-      getSTCQuote().then(result => {
-        const stc = Number(result) / 1000000000
-        setDependentValue(stc.toString());
-      }).catch(e => {
-        console.log(e)
-        setDependentValue('0')
-      })
+      getSTCQuote()
+        .then((result) => {
+          const stc = Number(result) / 1000000000
+          setDependentValue(stc.toString())
+        })
+        .catch((e) => {
+          console.log(e)
+          setDependentValue('0')
+        })
     }
-  }, [typedValue])
+  }, [independentField, provider, typedValue])
 
   console.log({ typedValue })
 

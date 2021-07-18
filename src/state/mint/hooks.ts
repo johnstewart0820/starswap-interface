@@ -12,7 +12,7 @@ import { useActiveWeb3React } from '../../hooks/web3'
 import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { useGetReserves, useQuote, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
+import { useGetReserves, useLiquidity, useQuote, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
 
 const ZERO = JSBI.BigInt(0)
 
@@ -145,8 +145,15 @@ export function useDerivedMintInfo(
     independentAmount ? independentAmount.multiply(independentAmount.decimalScale).toExact() : undefined,
     ...(reserves || [])
   )
-  const dependentAmount =
-    quote && dependentCurrency ? CurrencyAmount.fromRawAmount(dependentCurrency, quote[0]) : undefined
+  const dependentAmount = useMemo(
+    () =>
+      noLiquidity
+        ? tryParseAmount(otherTypedValue, currencies[dependentField])
+        : quote && dependentCurrency
+        ? CurrencyAmount.fromRawAmount(dependentCurrency, quote[0])
+        : undefined,
+    [currencies, dependentCurrency, dependentField, noLiquidity, otherTypedValue, quote]
+  )
 
   const parsedAmounts: { [field in Field]: CurrencyAmount<Currency> | undefined } = useMemo(() => {
     return {
@@ -190,7 +197,7 @@ export function useDerivedMintInfo(
     currencies[dependentField]?.wrapped.address
   )
   const liquidityMinted =
-    totalLiquidity && currencies[independentField]
+    totalLiquidity && totalLiquidity[0] && currencies[independentField]
       ? CurrencyAmount.fromRawAmount(currencies[independentField]!.wrapped, totalLiquidity[0])
       : undefined
 

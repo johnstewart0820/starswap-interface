@@ -12,6 +12,7 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
+import { useGetReserves, useLiquidity, useQuote } from 'hooks/useTokenSwapRouter'
 
 export function useBurnState(): AppState['burn'] {
   return useAppSelector((state) => state.burn)
@@ -38,8 +39,8 @@ export function useDerivedBurnInfo(
   const [, pair] = useV2Pair(currencyA, currencyB)
 
   // balances
-  const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
-  const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
+  // const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
+  // const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
 
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
   const tokens = {
@@ -49,25 +50,32 @@ export function useDerivedBurnInfo(
   }
 
   // liquidity values
-  const totalSupply = useTotalSupply(pair?.liquidityToken)
-  const liquidityValueA =
-    pair &&
-    totalSupply &&
-    userLiquidity &&
-    tokenA &&
-    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
-      ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
-      : undefined
-  const liquidityValueB =
-    pair &&
-    totalSupply &&
-    userLiquidity &&
-    tokenB &&
-    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
-      ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
-      : undefined
+  // const totalSupply = useTotalSupply(pair?.liquidityToken)
+  // const liquidityValueA =
+  //   pair &&
+  //   totalSupply &&
+  //   userLiquidity &&
+  //   tokenA &&
+  //   // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+  //   JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
+  //     ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
+  //     : undefined
+  // const liquidityValueB =
+  //   pair &&
+  //   totalSupply &&
+  //   userLiquidity &&
+  //   tokenB &&
+  //   // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+  //   JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
+  //     ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
+  //     : undefined
+  const { data: liquidity } = useLiquidity(account ?? undefined, tokenA?.address, tokenB?.address)
+  const userLiquidity = tokenB && liquidity ? CurrencyAmount.fromRawAmount(tokenB, liquidity[0]) : undefined
+
+  const { data } = useGetReserves(tokenA?.address, tokenB?.address)
+  const { data: quote } = useQuote(liquidity?.[0], ...(data || []))
+  const liquidityValueA = tokenA && quote ? CurrencyAmount.fromRawAmount(tokenA, quote[0]) : undefined
+  const liquidityValueB = userLiquidity
   const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount<Token>; [Field.CURRENCY_B]?: CurrencyAmount<Token> } = {
     [Field.CURRENCY_A]: liquidityValueA,
     [Field.CURRENCY_B]: liquidityValueB,

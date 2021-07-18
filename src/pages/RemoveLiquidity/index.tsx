@@ -333,7 +333,8 @@ export default function RemoveLiquidity({
         <RowBetween>
           <Text color={theme.text2} fontWeight={500} fontSize={16}>
             <Trans>
-              UNI {currencyA?.symbol}/{currencyB?.symbol} Burned
+              {/* UNI {currencyA?.symbol}/{currencyB?.symbol} Burned */}
+              {currencyA?.symbol}/{currencyB?.symbol} Burned
             </Trans>
           </Text>
           <RowFixed>
@@ -361,7 +362,8 @@ export default function RemoveLiquidity({
             </RowBetween>
           </>
         )}
-        <ButtonPrimary disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)} onClick={onRemove}>
+        {/* <ButtonPrimary disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)} onClick={onRemove}> */}
+        <ButtonPrimary onClick={onRemove}>
           <Text fontWeight={500} fontSize={20}>
             <Trans>Confirm</Trans>
           </Text>
@@ -618,7 +620,7 @@ export default function RemoveLiquidity({
                 </ButtonLight>
               ) : (
                 <RowBetween>
-                  <ButtonConfirmed
+                  {/* <ButtonConfirmed
                     onClick={onAttemptToApprove}
                     confirmed={approval === ApprovalState.APPROVED || signatureData !== null}
                     disabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
@@ -635,12 +637,13 @@ export default function RemoveLiquidity({
                     ) : (
                       <Trans>Approve</Trans>
                     )}
-                  </ButtonConfirmed>
+                  </ButtonConfirmed> */}
                   <ButtonError
                     onClick={() => {
                       setShowConfirm(true)
                     }}
-                    disabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
+                    // disabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
+                    disabled={!isValid}
                     error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
                   >
                     <Text fontSize={16} fontWeight={500}>

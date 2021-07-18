@@ -475,7 +475,8 @@ export default function AddLiquidity({
                   onClick={() => {
                     expertMode ? onAdd() : setShowConfirm(true)
                   }}
-                  disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                  // disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                  disabled={!isValid}
                   error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
                 >
                   <Text fontSize={20} fontWeight={500}>

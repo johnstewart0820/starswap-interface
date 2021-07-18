@@ -1,5 +1,8 @@
+import { encoding } from '@starcoin/starcoin'
+import { useCallback } from 'react'
 import useSWR from 'swr'
 import useStarcoinProvider from './useStarcoinProvider'
+import { useActiveWeb3React } from './web3'
 
 const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::'
 
@@ -52,7 +55,7 @@ export function useQuote(amount_x?: number | string, reverse_x?: number, reverse
 }
 
 /**
- * 根据换入额度计算换出额度，固定千分之三 手续费
+ * 根据换入额度计算换出额度，固定千分之三手续费
  */
 export function useGetAmountOut(amount_in?: number | string, reverse_in?: number, reverse_out?: number) {
   const provider = useStarcoinProvider()
@@ -68,7 +71,7 @@ export function useGetAmountOut(amount_in?: number | string, reverse_in?: number
 }
 
 /**
- * 根据换出额度计算换入额度，固定千分之三 手续费
+ * 根据换出额度计算换入额度，固定千分之三手续费
  */
 export function useGetAmountIn(amount_out?: number | string, reverse_in?: number, reverse_out?: number) {
   const provider = useStarcoinProvider()

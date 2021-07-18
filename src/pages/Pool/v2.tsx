@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components/macro'
 import JSBI from 'jsbi'
 import { Link } from 'react-router-dom'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
@@ -81,7 +81,6 @@ const EmptyProposals = styled.div`
 export default function Pool() {
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
-  console.log({ account })
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -114,17 +113,13 @@ export default function Pool() {
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
   // show liquidity even if its deposited in rewards contract
-  /*
   const stakingInfo = useStakingInfo()
   const stakingInfosWithBalance = stakingInfo?.filter((pool) =>
     JSBI.greaterThan(pool.stakedAmount.quotient, BIG_INT_ZERO)
   )
   const stakingPairs = useV2Pairs(stakingInfosWithBalance?.map((stakingInfo) => stakingInfo.tokens))
-  */
-  // const stakingPairs = []
 
   // remove any pairs that also are included in pairs with stake in mining pool
-  /*
   const v2PairsWithoutStakedAmount = allV2PairsWithLiquidity.filter((v2Pair) => {
     return (
       stakingPairs
@@ -132,7 +127,6 @@ export default function Pool() {
         .filter((stakingPair) => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
     )
   })
-  */
 
   return (
     <>
@@ -176,31 +170,21 @@ export default function Pool() {
             <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
               <HideSmall>
                 <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                  {/*
                   <Trans>Your V2 liquidity</Trans>
-                  */}
-                  <Trans>Your liquidity</Trans>
                 </TYPE.mediumHeader>
               </HideSmall>
               <ButtonRow>
-                {/*
                 <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/add/v2/ETH">
                   <Trans>Create a pair</Trans>
                 </ResponsiveButtonSecondary>
-                */}
-                {/*
                 <ResponsiveButtonPrimary id="find-pool-button" as={Link} to="/pool/v2/find" padding="6px 8px">
                   <Text fontWeight={500} fontSize={16}>
                     <Trans>Import Pool</Trans>
                   </Text>
                 </ResponsiveButtonPrimary>
-                */}
-                <ResponsiveButtonPrimary id="join-pool-button" as={Link} to="/add/v2/STC/Bot" padding="6px 8px">
+                <ResponsiveButtonPrimary id="join-pool-button" as={Link} to="/add/v2/ETH" padding="6px 8px">
                   <Text fontWeight={500} fontSize={16}>
-                    {/*
                     <Trans>Add V2 Liquidity</Trans>
-                    */}
-                    <Trans>Add Liquidity</Trans>
                   </Text>
                 </ResponsiveButtonPrimary>
               </ButtonRow>
@@ -220,9 +204,8 @@ export default function Pool() {
                   </Dots>
                 </TYPE.body>
               </EmptyProposals>
-            ) : allV2PairsWithLiquidity?.length > 0 || [].length > 0 ? (
+            ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
               <>
-                {/*
                 <ButtonSecondary>
                   <RowBetween>
                     <Trans>
@@ -233,14 +216,10 @@ export default function Pool() {
                     </Trans>
                   </RowBetween>
                 </ButtonSecondary>
-                */}
-                {/*
                 {v2PairsWithoutStakedAmount.map((v2Pair) => (
                   <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
-                */}
-                {/*
-                {[].map(
+                {stakingPairs.map(
                   (stakingPair, i) =>
                     stakingPair[1] && ( // skip pairs that arent loaded
                       <FullPositionCard
@@ -250,8 +229,6 @@ export default function Pool() {
                       />
                     )
                 )}
-                */}
-                {/*
                 <RowFixed justify="center" style={{ width: '100%' }}>
                   <ButtonOutlined
                     as={Link}
@@ -269,7 +246,6 @@ export default function Pool() {
                     <Trans>Migrate Liquidity to V3</Trans>
                   </ButtonOutlined>
                 </RowFixed>
-                */}
               </>
             ) : (
               <EmptyProposals>

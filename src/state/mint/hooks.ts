@@ -81,12 +81,12 @@ export function useDerivedMintInfo(
   const [pairState, pair] = useV2Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
   // const totalSupply = useTotalSupply(pair?.liquidityToken)
   const { data: reserves } = useGetReserves(
-    currencies[dependentField]?.wrapped.address,
-    currencies[independentField]?.wrapped.address
+    currencies[independentField]?.wrapped.address,
+    currencies[dependentField]?.wrapped.address
   )
   const totalSupply =
-    reserves && currencies[dependentField]
-      ? CurrencyAmount.fromRawAmount(currencies[dependentField]!.wrapped, reserves[0])
+    reserves && currencies[independentField]
+      ? CurrencyAmount.fromRawAmount(currencies[independentField]!.wrapped, reserves[0])
       : undefined
 
   // const noLiquidity: boolean =
@@ -186,12 +186,12 @@ export function useDerivedMintInfo(
   //   }
   // }, [parsedAmounts, pair, totalSupply])
   const { data: totalLiquidity } = useTotalLiquidity(
-    currencies[dependentField]?.wrapped.address,
-    currencies[independentField]?.wrapped.address
+    currencies[independentField]?.wrapped.address,
+    currencies[dependentField]?.wrapped.address
   )
   const liquidityMinted =
-    totalLiquidity && currencies[dependentField]
-      ? CurrencyAmount.fromRawAmount(currencies[dependentField]!.wrapped, totalLiquidity[0])
+    totalLiquidity && currencies[independentField]
+      ? CurrencyAmount.fromRawAmount(currencies[independentField]!.wrapped, totalLiquidity[0])
       : undefined
 
   const poolTokenPercentage = useMemo(() => {

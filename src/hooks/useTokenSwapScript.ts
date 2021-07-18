@@ -75,3 +75,33 @@ export function useAddLiquidity(signer?: string) {
     [provider, signer]
   )
 }
+
+/**
+ * 移除流动性，需要在调用 register_swap_pair 之后才可调用
+ */
+export function useRemoveLiquidity(signer?: string) {
+  const provider = useStarcoinProvider()
+  return useCallback(
+    async (
+      x: string,
+      y: string,
+      liquidity: number | string,
+      amount_x_min: number | string,
+      amount_y_min: number | string
+    ) => {
+      const functionId = `${PREFIX}remove_liquidity`
+      const tyArgs = utils.tx.encodeStructTypeTags([x, y])
+      const args = [
+        arrayify(serializeU128(liquidity)),
+        arrayify(serializeU128(amount_x_min)),
+        arrayify(serializeU128(amount_y_min)),
+      ]
+      const scriptFunction = utils.tx.encodeScriptFunction(functionId, tyArgs, args)
+      const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
+        data: serializeScriptFunction(scriptFunction),
+      })
+      return transactionHash
+    },
+    [provider, signer]
+  )
+}

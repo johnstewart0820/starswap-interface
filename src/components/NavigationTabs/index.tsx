@@ -103,15 +103,16 @@ export function AddRemoveTabs({
   const location = useLocation()
 
   // detect if back should redirect to v3 or v2 pool page
-  const poolLink = location.pathname.includes('add/v2')
-    ? '/pool/v2'
-    : '/pool' + (!!positionID ? `/${positionID.toString()}` : '')
+  // const poolLink = location.pathname.includes('add/v2')
+  //   ? '/pool/v2'
+  //   : '/pool' + (!!positionID ? `/${positionID.toString()}` : '')
 
   return (
     <Tabs>
       <RowBetween style={{ padding: '1rem 1rem 0 1rem' }}>
         <HistoryLink
-          to={poolLink}
+          // to={poolLink}
+          to="/pool/v2"
           onClick={() => {
             if (adding) {
               // not 100% sure both of these are needed

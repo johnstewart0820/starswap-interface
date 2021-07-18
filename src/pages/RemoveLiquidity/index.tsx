@@ -381,12 +381,14 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsETH = currencyA?.isNative || currencyB?.isNative
-  const oneCurrencyIsWETH = Boolean(
-    chainId &&
-      WETH9_EXTENDED[chainId] &&
-      (currencyA?.equals(WETH9_EXTENDED[chainId]) || currencyB?.equals(WETH9_EXTENDED[chainId]))
-  )
+  // const oneCurrencyIsETH = currencyA?.isNative || currencyB?.isNative
+  const oneCurrencyIsETH = false
+  // const oneCurrencyIsWETH = Boolean(
+  //   chainId &&
+  //     WETH9_EXTENDED[chainId] &&
+  //     (currencyA?.equals(WETH9_EXTENDED[chainId]) || currencyB?.equals(WETH9_EXTENDED[chainId]))
+  // )
+  const oneCurrencyIsWETH = false
 
   const handleSelectCurrencyA = useCallback(
     (currency: Currency) => {

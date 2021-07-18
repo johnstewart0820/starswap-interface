@@ -331,10 +331,10 @@ export default function RemoveLiquidity({
         </RowBetween>
 
         <TYPE.italic fontSize={12} color={theme.text2} textAlign="left" padding={'12px 0 0 0'}>
-          <Trans>
+          {/* <Trans>
             Output is estimated. If the price changes by more than {allowedSlippage.toSignificant(4)}% your transaction
             will revert.
-          </Trans>
+          </Trans> */}
         </TYPE.italic>
       </AutoColumn>
     )
@@ -343,11 +343,10 @@ export default function RemoveLiquidity({
   function modalBottom() {
     return (
       <>
-        <RowBetween>
+        {/* <RowBetween>
           <Text color={theme.text2} fontWeight={500} fontSize={16}>
             <Trans>
-              {/* UNI {currencyA?.symbol}/{currencyB?.symbol} Burned */}
-              {currencyA?.symbol}/{currencyB?.symbol} Burned
+              UNI {currencyA?.symbol}/{currencyB?.symbol} Burned
             </Trans>
           </Text>
           <RowFixed>
@@ -356,7 +355,7 @@ export default function RemoveLiquidity({
               {parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}
             </Text>
           </RowFixed>
-        </RowBetween>
+        </RowBetween> */}
         {pair && (
           <>
             <RowBetween>

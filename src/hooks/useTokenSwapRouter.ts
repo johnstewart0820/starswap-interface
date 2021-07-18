@@ -1,8 +1,5 @@
-import { encoding } from '@starcoin/starcoin'
-import { useCallback } from 'react'
 import useSWR from 'swr'
 import useStarcoinProvider from './useStarcoinProvider'
-import { useActiveWeb3React } from './web3'
 
 const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::'
 
@@ -12,12 +9,28 @@ const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::'
 export function useLiquidity(signer?: string, x?: string, y?: string) {
   const provider = useStarcoinProvider()
   return useSWR(
-    x && y ? [provider, 'liquidity', signer, x, y] : null,
+    signer && x && y ? [provider, 'liquidity', signer, x, y] : null,
     async () =>
       (await provider.call({
         function_id: `${PREFIX}liquidity`,
         type_args: [x!, y!],
         args: [signer!],
+      })) as [number]
+  )
+}
+
+/**
+ * 查询某Token代币对总流动性
+ */
+export function useTotalLiquidity(x?: string, y?: string) {
+  const provider = useStarcoinProvider()
+  return useSWR(
+    x && y ? [provider, 'total_liquidity', x, y] : null,
+    async () =>
+      (await provider.call({
+        function_id: `${PREFIX}total_liquidity`,
+        type_args: [x!, y!],
+        args: [],
       })) as [number]
   )
 }

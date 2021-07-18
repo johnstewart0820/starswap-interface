@@ -104,9 +104,9 @@ msgstr "<0/> All Proposals"
 msgid "<0/> Votes"
 msgstr "<0/> Votes"
 
-#: src/pages/Pool/v2.tsx
-msgid "<0>Account analytics and accrued fees</0><1> ↗ </1>"
-msgstr "<0>Account analytics and accrued fees</0><1> ↗ </1>"
+#: 
+#~ msgid "<0>Account analytics and accrued fees</0><1> ↗ </1>"
+#~ msgstr "<0>Account analytics and accrued fees</0><1> ↗ </1>"
 
 #: src/pages/Swap/index.tsx
 msgid "<0>Back to </0>V3"
@@ -171,22 +171,26 @@ msgstr "Add Delegate +"
 msgid "Add Liquidity"
 msgstr "Add Liquidity"
 
-#: src/pages/Pool/v2.tsx
-msgid "Add V2 Liquidity"
-msgstr "Add V2 Liquidity"
+#: 
+#~ msgid "Add V2 Liquidity"
+#~ msgstr "Add V2 Liquidity"
 
 #: src/pages/PoolFinder/index.tsx
 msgid "Add liquidity."
 msgstr "Add liquidity."
 
 #: src/components/TransactionConfirmationModal/index.tsx
-msgid "Add {0} to Starmask <0/>"
-msgstr "Add {0} to Starmask <0/>"
+msgid "Add {0} to Metamask <0/>"
+msgstr "Add {0} to Metamask <0/>"
 
-#: src/pages/AddLiquidityV2/index.tsx
-#: src/pages/AddLiquidityV2/index.tsx
-msgid "Add {0} {1} and {2} {3}"
-msgstr "Add {0} {1} and {2} {3}"
+#: 
+#~ msgid "Add {0} to Starmask <0/>"
+#~ msgstr "Add {0} to Starmask <0/>"
+
+#: 
+#: 
+#~ msgid "Add {0} {1} and {2} {3}"
+#~ msgstr "Add {0} {1} and {2} {3}"
 
 #: src/pages/Earn/Manage.tsx
 msgid "Add {0}-{1} liquidity"
@@ -241,7 +245,6 @@ msgstr "An error occurred when trying to execute this swap. You may need to incr
 #~ msgstr "Analytics"
 
 #: src/components/earn/StakingModal.tsx
-#: src/pages/RemoveLiquidity/index.tsx
 msgid "Approve"
 msgstr "Approve"
 
@@ -256,12 +259,11 @@ msgstr "Approve Token"
 msgid "Approve {0}"
 msgstr "Approve {0}"
 
-#: src/pages/RemoveLiquidity/index.tsx
-msgid "Approved"
-msgstr "Approved"
+#: 
+#~ msgid "Approved"
+#~ msgstr "Approved"
 
 #: src/pages/MigrateV2/MigrateV2Pair.tsx
-#: src/pages/RemoveLiquidity/index.tsx
 msgid "Approving"
 msgstr "Approving"
 
@@ -550,7 +552,6 @@ msgid "Create Proposal"
 msgstr "Create Proposal"
 
 #: src/components/NavigationTabs/index.tsx
-#: src/pages/Pool/v2.tsx
 msgid "Create a pair"
 msgstr "Create a pair"
 
@@ -795,9 +796,9 @@ msgstr "Import"
 msgid "Import List"
 msgstr "Import List"
 
-#: src/pages/Pool/v2.tsx
-msgid "Import Pool"
-msgstr "Import Pool"
+#: 
+#~ msgid "Import Pool"
+#~ msgstr "Import Pool"
 
 #: src/components/NavigationTabs/index.tsx
 msgid "Import V2 Pool"
@@ -828,8 +829,12 @@ msgid "Input is estimated. You will sell at most <0>{0} {1}</0> or the transacti
 msgstr "Input is estimated. You will sell at most <0>{0} {1}</0> or the transaction will revert."
 
 #: src/components/WalletModal/index.tsx
-msgid "Install Starmask"
-msgstr "Install Starmask"
+msgid "Install StarMask"
+msgstr "Install StarMask"
+
+#: 
+#~ msgid "Install Starmask"
+#~ msgstr "Install Starmask"
 
 #: src/pages/Swap/index.tsx
 msgid "Insufficient liquidity for this trade."
@@ -843,7 +848,6 @@ msgstr "Insufficient liquidity for this trade. Try enabling multi-hop trades."
 #: src/state/mint/hooks.ts
 #: src/state/mint/v3/hooks.ts
 #: src/state/mint/v3/hooks.ts
-#: src/state/swap/hooks.ts
 msgid "Insufficient {0} balance"
 msgstr "Insufficient {0} balance"
 
@@ -965,7 +969,6 @@ msgstr "Maximum sent"
 
 #: src/components/PositionCard/Sushi.tsx
 #: src/components/PositionCard/V2.tsx
-#: src/components/PositionCard/index.tsx
 #: src/pages/MigrateV2/MigrateV2Pair.tsx
 #: src/pages/Pool/index.tsx
 msgid "Migrate"
@@ -975,9 +978,9 @@ msgstr "Migrate"
 msgid "Migrate Liquidity"
 msgstr "Migrate Liquidity"
 
-#: src/pages/Pool/v2.tsx
-msgid "Migrate Liquidity to V3"
-msgstr "Migrate Liquidity to V3"
+#: 
+#~ msgid "Migrate Liquidity to V3"
+#~ msgstr "Migrate Liquidity to V3"
 
 #: src/pages/MigrateV2/MigrateV2Pair.tsx
 #: src/pages/MigrateV2/index.tsx
@@ -1083,7 +1086,6 @@ msgid "Out of range"
 msgstr "Out of range"
 
 #: src/pages/AddLiquidityV2/index.tsx
-#: src/pages/RemoveLiquidity/index.tsx
 msgid "Output is estimated. If the price changes by more than {0}% your transaction will revert."
 msgstr "Output is estimated. If the price changes by more than {0}% your transaction will revert."
 
@@ -1264,10 +1266,10 @@ msgstr "Remove Liquidity"
 msgid "Remove list"
 msgstr "Remove list"
 
-#: src/pages/RemoveLiquidity/index.tsx
-#: src/pages/RemoveLiquidity/index.tsx
-msgid "Remove {0} {1} and {2} {3}"
-msgstr "Remove {0} {1} and {2} {3}"
+#: 
+#: 
+#~ msgid "Remove {0} {1} and {2} {3}"
+#~ msgstr "Remove {0} {1} and {2} {3}"
 
 #: src/pages/RemoveLiquidity/V3.tsx
 msgid "Remove {0}/{1} V3 liquidity"
@@ -1581,9 +1583,9 @@ msgstr "UNI price:"
 msgid "UNI tokens represent voting shares in Uniswap governance. You can vote on each proposal yourself or delegate your votes to a third party."
 msgstr "UNI tokens represent voting shares in Uniswap governance. You can vote on each proposal yourself or delegate your votes to a third party."
 
-#: src/pages/RemoveLiquidity/index.tsx
-msgid "UNI {0}/{1} Burned"
-msgstr "UNI {0}/{1} Burned"
+#: 
+#~ msgid "UNI {0}/{1} Burned"
+#~ msgstr "UNI {0}/{1} Burned"
 
 #: src/pages/Earn/Manage.tsx
 msgid "UNI-V2 LP tokens are required. Once you've added liquidity to the {0}-{1} pool you can stake your liquidity tokens on this page."
@@ -1698,23 +1700,23 @@ msgstr "View UNI Analytics"
 msgid "View V2 Liquidity"
 msgstr "View V2 Liquidity"
 
-#: src/components/PositionCard/index.tsx
-msgid "View accrued fees and analytics<0>↗</0>"
-msgstr "View accrued fees and analytics<0>↗</0>"
+#: 
+#~ msgid "View accrued fees and analytics<0>↗</0>"
+#~ msgstr "View accrued fees and analytics<0>↗</0>"
 
 #: src/components/SearchModal/ManageLists.tsx
 msgid "View list"
 msgstr "View list"
-
-#: src/pages/CreateProposal/ProposalSubmissionModal.tsx
-msgid "View on Stcscan"
-msgstr "View on Stcscan"
 
 #: src/components/AccountDetails/index.tsx
 #: src/components/AccountDetails/index.tsx
 #: src/components/TransactionConfirmationModal/index.tsx
 msgid "View on Explorer"
 msgstr "View on Explorer"
+
+#: src/pages/CreateProposal/ProposalSubmissionModal.tsx
+msgid "View on Stcscan"
+msgstr "View on Stcscan"
 
 #: src/components/ModalViews/index.tsx
 #: src/components/claim/AddressClaimModal.tsx
@@ -1873,17 +1875,17 @@ msgstr "You will receive"
 msgid "Your UNI Breakdown"
 msgstr "Your UNI Breakdown"
 
-#: src/pages/Pool/v2.tsx
-msgid "Your V2 liquidity"
-msgstr "Your V2 liquidity"
-
-#: src/pages/Pool/v2.tsx
-msgid "Your liquidity"
-msgstr "Your liquidity"
+#: 
+#~ msgid "Your V2 liquidity"
+#~ msgstr "Your V2 liquidity"
 
 #: src/pages/Pool/index.tsx
 msgid "Your V3 liquidity positions will appear here."
 msgstr "Your V3 liquidity positions will appear here."
+
+#: src/pages/Pool/v2.tsx
+msgid "Your liquidity"
+msgstr "Your liquidity"
 
 #: src/pages/Earn/Manage.tsx
 msgid "Your liquidity deposits"

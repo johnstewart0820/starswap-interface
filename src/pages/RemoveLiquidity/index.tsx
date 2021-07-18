@@ -43,6 +43,7 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserSlippageToleranceWithDefault } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { t, Trans } from '@lingui/macro'
+import { useRemoveLiquidity } from 'hooks/useTokenSwapScript'
 
 const DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
 
@@ -148,8 +149,11 @@ export default function RemoveLiquidity({
   // tx sending
   const addTransaction = useTransactionAdder()
 
+  const handleRemoveLiquidity = useRemoveLiquidity(account ?? undefined)
+
   async function onRemove() {
-    if (!chainId || !library || !account || !deadline || !router) throw new Error('missing dependencies')
+    // if (!chainId || !library || !account || !deadline || !router) throw new Error('missing dependencies')
+    if (!chainId || !library || !account) throw new Error('missing dependencies')
     const { [Field.CURRENCY_A]: currencyAmountA, [Field.CURRENCY_B]: currencyAmountB } = parsedAmounts
     if (!currencyAmountA || !currencyAmountB) {
       throw new Error('missing currency amounts')
@@ -169,123 +173,132 @@ export default function RemoveLiquidity({
 
     if (!tokenA || !tokenB) throw new Error('could not wrap')
 
-    let methodNames: string[], args: Array<string | string[] | number | boolean>
-    // we have approval, use normal remove liquidity
-    if (approval === ApprovalState.APPROVED) {
-      // removeLiquidityETH
-      if (oneCurrencyIsETH) {
-        methodNames = ['removeLiquidityETH', 'removeLiquidityETHSupportingFeeOnTransferTokens']
-        args = [
-          currencyBIsETH ? tokenA.address : tokenB.address,
-          liquidityAmount.quotient.toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
-          account,
-          deadline.toHexString(),
-        ]
-      }
-      // removeLiquidity
-      else {
-        methodNames = ['removeLiquidity']
-        args = [
-          tokenA.address,
-          tokenB.address,
-          liquidityAmount.quotient.toString(),
-          amountsMin[Field.CURRENCY_A].toString(),
-          amountsMin[Field.CURRENCY_B].toString(),
-          account,
-          deadline.toHexString(),
-        ]
-      }
-    }
-    // we have a signature, use permit versions of remove liquidity
-    else if (signatureData !== null) {
-      // removeLiquidityETHWithPermit
-      if (oneCurrencyIsETH) {
-        methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens']
-        args = [
-          currencyBIsETH ? tokenA.address : tokenB.address,
-          liquidityAmount.quotient.toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
-          account,
-          signatureData.deadline,
-          false,
-          signatureData.v,
-          signatureData.r,
-          signatureData.s,
-        ]
-      }
-      // removeLiquidityETHWithPermit
-      else {
-        methodNames = ['removeLiquidityWithPermit']
-        args = [
-          tokenA.address,
-          tokenB.address,
-          liquidityAmount.quotient.toString(),
-          amountsMin[Field.CURRENCY_A].toString(),
-          amountsMin[Field.CURRENCY_B].toString(),
-          account,
-          signatureData.deadline,
-          false,
-          signatureData.v,
-          signatureData.r,
-          signatureData.s,
-        ]
-      }
-    } else {
-      throw new Error('Attempting to confirm without approval or a signature. Please contact support.')
-    }
-
-    const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
-      methodNames.map((methodName) =>
-        router.estimateGas[methodName](...args)
-          .then(calculateGasMargin)
-          .catch((error) => {
-            console.error(`estimateGas failed`, methodName, args, error)
-            return undefined
-          })
-      )
-    )
-
-    const indexOfSuccessfulEstimation = safeGasEstimates.findIndex((safeGasEstimate) =>
-      BigNumber.isBigNumber(safeGasEstimate)
-    )
+    // let methodNames: string[], args: Array<string | string[] | number | boolean>
+    // // we have approval, use normal remove liquidity
+    // if (approval === ApprovalState.APPROVED) {
+    //   // removeLiquidityETH
+    //   if (oneCurrencyIsETH) {
+    //     methodNames = ['removeLiquidityETH', 'removeLiquidityETHSupportingFeeOnTransferTokens']
+    //     args = [
+    //       currencyBIsETH ? tokenA.address : tokenB.address,
+    //       liquidityAmount.quotient.toString(),
+    //       amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+    //       amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+    //       account,
+    //       deadline.toHexString(),
+    //     ]
+    //   }
+    //   // removeLiquidity
+    //   else {
+    //     methodNames = ['removeLiquidity']
+    //     args = [
+    //       tokenA.address,
+    //       tokenB.address,
+    //       liquidityAmount.quotient.toString(),
+    //       amountsMin[Field.CURRENCY_A].toString(),
+    //       amountsMin[Field.CURRENCY_B].toString(),
+    //       account,
+    //       deadline.toHexString(),
+    //     ]
+    //   }
+    // }
+    // // we have a signature, use permit versions of remove liquidity
+    // else if (signatureData !== null) {
+    //   // removeLiquidityETHWithPermit
+    //   if (oneCurrencyIsETH) {
+    //     methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens']
+    //     args = [
+    //       currencyBIsETH ? tokenA.address : tokenB.address,
+    //       liquidityAmount.quotient.toString(),
+    //       amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+    //       amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+    //       account,
+    //       signatureData.deadline,
+    //       false,
+    //       signatureData.v,
+    //       signatureData.r,
+    //       signatureData.s,
+    //     ]
+    //   }
+    //   // removeLiquidityETHWithPermit
+    //   else {
+    //     methodNames = ['removeLiquidityWithPermit']
+    //     args = [
+    //       tokenA.address,
+    //       tokenB.address,
+    //       liquidityAmount.quotient.toString(),
+    //       amountsMin[Field.CURRENCY_A].toString(),
+    //       amountsMin[Field.CURRENCY_B].toString(),
+    //       account,
+    //       signatureData.deadline,
+    //       false,
+    //       signatureData.v,
+    //       signatureData.r,
+    //       signatureData.s,
+    //     ]
+    //   }
+    // } else {
+    //   throw new Error('Attempting to confirm without approval or a signature. Please contact support.')
+    // }
+    //
+    // const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
+    //   methodNames.map((methodName) =>
+    //     router.estimateGas[methodName](...args)
+    //       .then(calculateGasMargin)
+    //       .catch((error) => {
+    //         console.error(`estimateGas failed`, methodName, args, error)
+    //         return undefined
+    //       })
+    //   )
+    // )
+    //
+    // const indexOfSuccessfulEstimation = safeGasEstimates.findIndex((safeGasEstimate) =>
+    //   BigNumber.isBigNumber(safeGasEstimate)
+    // )
 
     // all estimations failed...
-    if (indexOfSuccessfulEstimation === -1) {
-      console.error('This transaction would fail. Please contact support.')
-    } else {
-      const methodName = methodNames[indexOfSuccessfulEstimation]
-      const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation]
+    // if (indexOfSuccessfulEstimation === -1) {
+    //   console.error('This transaction would fail. Please contact support.')
+    // } else {
+    // const methodName = methodNames[indexOfSuccessfulEstimation]
+    // const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation]
 
-      setAttemptingTxn(true)
-      await router[methodName](...args, {
-        gasLimit: safeGasEstimate,
+    setAttemptingTxn(true)
+    // await router[methodName](...args, {
+    //   gasLimit: safeGasEstimate,
+    // })
+    // .then((response: TransactionResponse) => {
+    handleRemoveLiquidity(
+      tokenA.address,
+      tokenB.address,
+      liquidityAmount.quotient.toString(),
+      amountsMin[Field.CURRENCY_A].toString(),
+      amountsMin[Field.CURRENCY_B].toString()
+    )
+      .then((hash) => {
+        setAttemptingTxn(false)
+
+        // addTransaction(response, {
+        //   summary: t`Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+        //     currencyA?.symbol
+        //   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
+        // })
+
+        // setTxHash(response.hash)
+        setTxHash(hash)
+
+        ReactGA.event({
+          category: 'Liquidity',
+          action: 'Remove',
+          label: [currencyA?.symbol, currencyB?.symbol].join('/'),
+        })
       })
-        .then((response: TransactionResponse) => {
-          setAttemptingTxn(false)
-
-          addTransaction(response, {
-            summary: t`Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-              currencyA?.symbol
-            } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
-          })
-
-          setTxHash(response.hash)
-
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Remove',
-            label: [currencyA?.symbol, currencyB?.symbol].join('/'),
-          })
-        })
-        .catch((error: Error) => {
-          setAttemptingTxn(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          console.error(error)
-        })
-    }
+      .catch((error: Error) => {
+        setAttemptingTxn(false)
+        // we only care if the error is something _other_ than the user rejected the tx
+        console.error(error)
+      })
+    // }
   }
 
   function modalHeader() {

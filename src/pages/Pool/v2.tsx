@@ -20,7 +20,7 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks
 import { Dots } from '../../components/swap/styleds'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { SwitchLocaleLink } from '../../components/SwitchLocaleLink'
-import { useStakingInfo } from '../../state/stake/hooks'
+import { useStakingInfo, StakingInfo } from '../../state/stake/hooks'
 import { BIG_INT_ZERO } from '../../constants/misc'
 import { Pair } from '@uniswap/v2-sdk'
 import { Trans } from '@lingui/macro'
@@ -113,7 +113,8 @@ export default function Pool() {
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
   // show liquidity even if its deposited in rewards contract
-  const stakingInfo = useStakingInfo()
+  // const stakingInfo = useStakingInfo()
+  const stakingInfo: StakingInfo[] = []
   const stakingInfosWithBalance = stakingInfo?.filter((pool) =>
     JSBI.greaterThan(pool.stakedAmount.quotient, BIG_INT_ZERO)
   )
@@ -170,21 +171,23 @@ export default function Pool() {
             <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
               <HideSmall>
                 <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                  <Trans>Your V2 liquidity</Trans>
+                  {/* <Trans>Your V2 liquidity</Trans> */}
+                  <Trans>Your liquidity</Trans>
                 </TYPE.mediumHeader>
               </HideSmall>
               <ButtonRow>
-                <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/add/v2/ETH">
+                {/* <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/add/v2/STC">
                   <Trans>Create a pair</Trans>
                 </ResponsiveButtonSecondary>
                 <ResponsiveButtonPrimary id="find-pool-button" as={Link} to="/pool/v2/find" padding="6px 8px">
                   <Text fontWeight={500} fontSize={16}>
                     <Trans>Import Pool</Trans>
                   </Text>
-                </ResponsiveButtonPrimary>
-                <ResponsiveButtonPrimary id="join-pool-button" as={Link} to="/add/v2/ETH" padding="6px 8px">
+                </ResponsiveButtonPrimary> */}
+                <ResponsiveButtonPrimary id="join-pool-button" as={Link} to="/add/v2/STC" padding="6px 8px">
                   <Text fontWeight={500} fontSize={16}>
-                    <Trans>Add V2 Liquidity</Trans>
+                    {/* <Trans>Add V2 Liquidity</Trans> */}
+                    <Trans>Add Liquidity</Trans>
                   </Text>
                 </ResponsiveButtonPrimary>
               </ButtonRow>
@@ -206,7 +209,7 @@ export default function Pool() {
               </EmptyProposals>
             ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
               <>
-                <ButtonSecondary>
+                {/* <ButtonSecondary>
                   <RowBetween>
                     <Trans>
                       <ExternalLink href={'https://v2.info.uniswap.org/account/' + account}>
@@ -215,7 +218,7 @@ export default function Pool() {
                       <span> ↗ </span>
                     </Trans>
                   </RowBetween>
-                </ButtonSecondary>
+                </ButtonSecondary> */}
                 {v2PairsWithoutStakedAmount.map((v2Pair) => (
                   <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
@@ -229,7 +232,7 @@ export default function Pool() {
                       />
                     )
                 )}
-                <RowFixed justify="center" style={{ width: '100%' }}>
+                {/* <RowFixed justify="center" style={{ width: '100%' }}>
                   <ButtonOutlined
                     as={Link}
                     to="/migrate/v2"
@@ -245,7 +248,7 @@ export default function Pool() {
                     <ChevronsRight size={16} style={{ marginRight: '8px' }} />
                     <Trans>Migrate Liquidity to V3</Trans>
                   </ButtonOutlined>
-                </RowFixed>
+                </RowFixed> */}
               </>
             ) : (
               <EmptyProposals>

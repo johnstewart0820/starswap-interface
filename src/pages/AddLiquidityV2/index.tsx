@@ -44,6 +44,7 @@ import { PoolPriceBar } from './PoolPriceBar'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { SwitchLocaleLink } from 'components/SwitchLocaleLink'
 import { t, Trans } from '@lingui/macro'
+import { useAddLiquidity } from 'hooks/useTokenSwapScript'
 
 const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -132,13 +133,17 @@ export default function AddLiquidity({
   const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], router?.address)
   const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], router?.address)
 
-  const addTransaction = useTransactionAdder()
+  // const addTransaction = useTransactionAdder()
+
+  const handleAddLiquidity = useAddLiquidity(account ?? undefined)
 
   async function onAdd() {
-    if (!chainId || !library || !account || !router) return
+    // if (!chainId || !library || !account || !router) return
+    if (!chainId || !library || !account) return
 
     const { [Field.CURRENCY_A]: parsedAmountA, [Field.CURRENCY_B]: parsedAmountB } = parsedAmounts
-    if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) {
+    // if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) {
+    if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB) {
       return
     }
 
@@ -147,63 +152,73 @@ export default function AddLiquidity({
       [Field.CURRENCY_B]: calculateSlippageAmount(parsedAmountB, noLiquidity ? ZERO_PERCENT : allowedSlippage)[0],
     }
 
-    let estimate,
-      method: (...args: any) => Promise<TransactionResponse>,
-      args: Array<string | string[] | number>,
-      value: BigNumber | null
-    if (currencyA.isNative || currencyB.isNative) {
-      const tokenBIsETH = currencyB.isNative
-      estimate = router.estimateGas.addLiquidityETH
-      method = router.addLiquidityETH
-      args = [
-        (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
-        (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
-        amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
-        amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
-        account,
-        deadline.toHexString(),
-      ]
-      value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).quotient.toString())
-    } else {
-      estimate = router.estimateGas.addLiquidity
-      method = router.addLiquidity
-      args = [
-        currencyA?.wrapped?.address ?? '',
-        currencyB?.wrapped?.address ?? '',
-        parsedAmountA.quotient.toString(),
-        parsedAmountB.quotient.toString(),
-        amountsMin[Field.CURRENCY_A].toString(),
-        amountsMin[Field.CURRENCY_B].toString(),
-        account,
-        deadline.toHexString(),
-      ]
-      value = null
-    }
+    // let estimate,
+    //   method: (...args: any) => Promise<TransactionResponse>,
+    //   args: Array<string | string[] | number>,
+    //   value: BigNumber | null
+    // if (currencyA.isNative || currencyB.isNative) {
+    //   const tokenBIsETH = currencyB.isNative
+    //   estimate = router.estimateGas.addLiquidityETH
+    //   method = router.addLiquidityETH
+    //   args = [
+    //     (tokenBIsETH ? currencyA : currencyB)?.wrapped?.address ?? '', // token
+    //     (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
+    //     amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
+    //     amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
+    //     account,
+    //     deadline.toHexString(),
+    //   ]
+    //   value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).quotient.toString())
+    // } else {
+    //   estimate = router.estimateGas.addLiquidity
+    //   method = router.addLiquidity
+    //   args = [
+    //     currencyA?.wrapped?.address ?? '',
+    //     currencyB?.wrapped?.address ?? '',
+    //     parsedAmountA.quotient.toString(),
+    //     parsedAmountB.quotient.toString(),
+    //     amountsMin[Field.CURRENCY_A].toString(),
+    //     amountsMin[Field.CURRENCY_B].toString(),
+    //     account,
+    //     deadline.toHexString(),
+    //   ]
+    //   value = null
+    // }
 
     setAttemptingTxn(true)
-    await estimate(...args, value ? { value } : {})
-      .then((estimatedGasLimit) =>
-        method(...args, {
-          ...(value ? { value } : {}),
-          gasLimit: calculateGasMargin(estimatedGasLimit),
-        }).then((response) => {
-          setAttemptingTxn(false)
+    // await estimate(...args, value ? { value } : {})
+    //   .then((estimatedGasLimit) =>
+    //     method(...args, {
+    //       ...(value ? { value } : {}),
+    //       gasLimit: calculateGasMargin(estimatedGasLimit),
+    //     }).then((response) => {
+    handleAddLiquidity(
+      currencyA?.wrapped?.address ?? '',
+      currencyB?.wrapped?.address ?? '',
+      parsedAmountA.quotient.toString(),
+      parsedAmountB.quotient.toString(),
+      amountsMin[Field.CURRENCY_A].toString(),
+      amountsMin[Field.CURRENCY_B].toString()
+    )
+      // .then((response) => {
+      .then((hash) => {
+        setAttemptingTxn(false)
 
-          addTransaction(response, {
-            summary: t`Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-              currencies[Field.CURRENCY_A]?.symbol
-            } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
-          })
+        // addTransaction(response, {
+        //   summary: t`Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+        //     currencies[Field.CURRENCY_A]?.symbol
+        //   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+        // })
 
-          setTxHash(response.hash)
+        // setTxHash(response.hash)
+        setTxHash(hash)
 
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Add',
-            label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/'),
-          })
+        ReactGA.event({
+          category: 'Liquidity',
+          action: 'Add',
+          label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/'),
         })
-      )
+      })
       .catch((error) => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx

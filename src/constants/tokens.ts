@@ -3,7 +3,7 @@ import { Token, Star } from '@starcoin/starswap-sdk-core'
 import { UNI_ADDRESS } from './addresses'
 import { SupportedChainId } from './chains'
 
-export const BOT = new Token(SupportedChainId.BARNARD, '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot', 9, 'Bot', 'Bot')
+export const BOT = new Token(SupportedChainId.BARNARD, '0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot', 8, 'Bot', 'Bot')
 export const AMPL = new Token(
   SupportedChainId.MAINNET,
   '0xD46bA6D942050d489DBd938a2C909A5d5039A161',
@@ -120,6 +120,7 @@ export const UNI: { [chainId: number]: Token } = {
 
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ...WETH9,
+  [SupportedChainId.BARNARD]: Star.onChain(SupportedChainId.BARNARD).wrapped,
   [SupportedChainId.ARBITRUM_ONE]: new Token(
     SupportedChainId.ARBITRUM_ONE,
     '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',

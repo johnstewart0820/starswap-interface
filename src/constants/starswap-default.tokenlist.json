@@ -15,7 +15,7 @@
       "address": "0x07fa08a855753f0ff7292fdcbe871216::Bot::Bot",
       "name": "Bot",
       "symbol": "Bot",
-      "decimals": 9,
+      "decimals": 8,
       "logoURI": "https://assets.coingecko.com/coins/images/12409/thumb/amp-200x200.png?1599625397"
     }
   ]

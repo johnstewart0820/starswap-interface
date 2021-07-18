@@ -1,12 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, CurrencyAmount, Percent } from '@uniswap/sdk-core'
-import { useCallback, useEffect, useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { ThemeContext } from 'styled-components/macro'
 import { ButtonError, ButtonLight, ButtonPrimary } from '../../components/Button'
 import { BlueCard, LightCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
@@ -44,9 +44,6 @@ import { PoolPriceBar } from './PoolPriceBar'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { SwitchLocaleLink } from 'components/SwitchLocaleLink'
 import { t, Trans } from '@lingui/macro'
-import useStarcoinProvider from 'hooks/useStarcoinProvider'
-import getLibrary from 'utils/getLibrary'
-import { useLiquidity } from 'hooks/useTokenSwapRouter'
 
 const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -56,27 +53,17 @@ export default function AddLiquidity({
   },
   history,
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
-  const { account, active, chainId, library } = useActiveWeb3React()
-  console.log({ chainId })
+  const { account, chainId, library } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
-  const provider = useStarcoinProvider()
-
-  // get stc/bot pair liquidity
-  const { data } = useLiquidity(account ?? undefined, currencyA?.wrapped.address, currencyB?.wrapped.address)
-  const noLiquidity = !data
-
-  /*
   const oneCurrencyIsWETH = Boolean(
     chainId &&
       ((currencyA && currencyA.equals(WETH9_EXTENDED[chainId])) ||
         (currencyB && currencyB.equals(WETH9_EXTENDED[chainId])))
   )
-  */
-  const oneCurrencyIsWETH = false
 
   const toggleWalletModal = useWalletModalToggle() // toggle wallet when disconnected
 
@@ -92,30 +79,13 @@ export default function AddLiquidity({
     currencyBalances,
     parsedAmounts,
     price,
-    // noLiquidity,
+    noLiquidity,
     liquidityMinted,
     poolTokenPercentage,
     error,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
-  /*
-  async function onFieldAInput() {
-    console.log('input a')
-    const inputA = document.querySelector('#add-liquidity-input-tokena input.token-amount-input') as HTMLInputElement
-    const valueA = inputA.value
-    console.log({ valueA })
-  }
-  async function onFieldBInput() {
-    console.log('input b')
-  }
-  */
-  async function onFieldAInputMax() {
-    console.log('input a max')
-  }
-  async function onFieldBInputMax() {
-    console.log('input b max')
-  }
 
   const isValid = !error
 
@@ -129,66 +99,10 @@ export default function AddLiquidity({
   const [txHash, setTxHash] = useState<string>('')
 
   // get formatted amounts
-  const [dependentValue, setDependentValue] = useState<string>('')
   const formattedAmounts = {
     [independentField]: typedValue,
-    // [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
-    [dependentField]: dependentValue,
+    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   }
-
-  console.log({ independentField })
-
-  /*
-  useEffect(() => {
-    const stc = Number(typedValue)
-
-    setBotValue((stc+10).toString())
-  }, [typedValue])
-  */
-  useEffect(() => {
-    async function getBotQuote() {
-      const stc = Number(typedValue) * 1000000000
-      const response = await provider.call({
-        function_id: '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_out',
-        type_args: [],
-        args: [`${stc}u128`, '10000000000u128', '1000000000u128'],
-      })
-      return response
-    }
-    async function getSTCQuote() {
-      const bot = Number(typedValue) * 1000000000
-      const response = await provider.call({
-        function_id: '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::get_amount_in',
-        type_args: [],
-        args: [`${bot}u128`, '10000000000u128', '1000000000u128'],
-      })
-      return response
-    }
-    if (independentField === 'CURRENCY_A') {
-      getBotQuote()
-        .then((result) => {
-          const bot = Number(result) / 1000000000
-          setDependentValue(bot.toString())
-        })
-        .catch((e) => {
-          console.log(e)
-          setDependentValue('0')
-        })
-    }
-    if (independentField === 'CURRENCY_B') {
-      getSTCQuote()
-        .then((result) => {
-          const stc = Number(result) / 1000000000
-          setDependentValue(stc.toString())
-        })
-        .catch((e) => {
-          console.log(e)
-          setDependentValue('0')
-        })
-    }
-  }, [independentField, provider, typedValue])
-
-  console.log({ typedValue })
 
   // get the max amounts user can add
   const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
@@ -389,7 +303,7 @@ export default function AddLiquidity({
     setShowConfirm(false)
     // if there was a tx hash, we want to clear the input
     if (txHash) {
-      // onFieldAInput('')
+      onFieldAInput('')
     }
     setTxHash('')
   }, [onFieldAInput, txHash])
@@ -459,8 +373,7 @@ export default function AddLiquidity({
               value={formattedAmounts[Field.CURRENCY_A]}
               onUserInput={onFieldAInput}
               onMax={() => {
-                // onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
-                onFieldAInputMax()
+                onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
               }}
               onCurrencySelect={handleCurrencyASelect}
               showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
@@ -476,15 +389,13 @@ export default function AddLiquidity({
               onUserInput={onFieldBInput}
               onCurrencySelect={handleCurrencyBSelect}
               onMax={() => {
-                // onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
-                onFieldBInputMax()
+                onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
               }}
               showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
               currency={currencies[Field.CURRENCY_B]}
               id="add-liquidity-input-tokenb"
               showCommonBases
             />
-            {/*
             {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
               <>
                 <LightCard padding="0px" borderRadius={'20px'}>
@@ -508,7 +419,6 @@ export default function AddLiquidity({
                 </LightCard>
               </>
             )}
-            */}
 
             {addIsUnsupported ? (
               <ButtonPrimary disabled={true}>

@@ -171,7 +171,7 @@ export default function FullPositionCard({
   pair,
   border,
   stakedBalance,
-}: Omit<PositionCardProps, 'pair'> & { pair: Pick<Pair, 'token0' | 'token1'> }) {
+}: Omit<PositionCardProps, 'pair'> & { pair: Pick<Pair, 'token0' | 'token1' | 'liquidityToken'> }) {
   const { account } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(pair.token0)
@@ -189,7 +189,7 @@ export default function FullPositionCard({
   )
   const { data: totalLiquidity } = useTotalLiquidity(pair.token0.wrapped.address, pair.token1.wrapped.address)
   const { data: quote } = useQuote(liquidity?.[0], ...(reserves || []))
-  const userDefaultPoolBalance = quote ? CurrencyAmount.fromRawAmount(pair.token1, quote[0]) : undefined
+  const userDefaultPoolBalance = liquidity ? CurrencyAmount.fromRawAmount(pair.liquidityToken, liquidity[0]) : undefined
 
   // if staked balance balance provided, add to standard liquidity amount
   const userPoolBalance = stakedBalance ? userDefaultPoolBalance?.add(stakedBalance) : userDefaultPoolBalance
@@ -206,7 +206,7 @@ export default function FullPositionCard({
       : undefined
 
   const token0Deposited = liquidity ? CurrencyAmount.fromRawAmount(pair.token0, liquidity[0]) : undefined
-  const token1Deposited = userDefaultPoolBalance
+  const token1Deposited = quote ? CurrencyAmount.fromRawAmount(pair.token1, quote[0]) : undefined
   // const [token0Deposited, token1Deposited] =
   //   !!pair &&
   //   !!totalPoolTokens &&

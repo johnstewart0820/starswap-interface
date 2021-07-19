@@ -25,6 +25,7 @@ import { BIG_INT_ZERO } from '../../constants/misc'
 import { Pair } from '@uniswap/v2-sdk'
 import { Trans } from '@lingui/macro'
 import { USDX, ExtendedStar } from 'constants/tokens'
+import { Token } from '@starcoin/starswap-sdk-core'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -136,6 +137,13 @@ export default function Pool() {
             {
               token0: ExtendedStar.onChain(chainId).wrapped,
               token1: USDX[chainId],
+              liquidityToken: new Token(
+                chainId,
+                '0x07fa08a855753f0ff7292fdcbe871216::TokenSwap::LiquidityToken<0x00000000000000000000000000000001::STC::STC, 0x07fa08a855753f0ff7292fdcbe871216::Usdx::Usdx>',
+                9,
+                'LiquidityToken<STC,Usdx>',
+                'LiquidityToken<STC,Usdx>'
+              ),
             },
           ]
         : [],

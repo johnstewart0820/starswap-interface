@@ -24,7 +24,7 @@ import { useStakingInfo, StakingInfo } from '../../state/stake/hooks'
 import { BIG_INT_ZERO } from '../../constants/misc'
 import { Pair } from '@uniswap/v2-sdk'
 import { Trans } from '@lingui/macro'
-import { USDX, ExtendedStar } from 'constants/tokens'
+import { BOT, ExtendedStar } from 'constants/tokens'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -135,7 +135,7 @@ export default function Pool() {
         ? [
             {
               token0: ExtendedStar.onChain(chainId).wrapped,
-              token1: USDX[chainId],
+              token1: BOT,
             },
           ]
         : [],

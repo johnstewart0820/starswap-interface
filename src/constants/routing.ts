@@ -2,7 +2,7 @@
 import { Currency, Token } from '@uniswap/sdk-core'
 import { SupportedChainId } from './chains'
 import {
-  BOT,
+  USDX,
   AMPL,
   DAI,
   ExtendedStar,
@@ -62,7 +62,7 @@ const WETH_ONLY: ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [1]: [...WETH_ONLY[1], DAI, USDC, USDT, WBTC],
-  [SupportedChainId.BARNARD]: [BOT],
+  [SupportedChainId.BARNARD]: [USDX],
 }
 export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {
   [1]: {
@@ -96,7 +96,7 @@ export const CUSTOM_BASES: { [chainId: number]: { [tokenAddress: string]: Token[
  */
 export const COMMON_BASES: ChainCurrencyList = {
   [1]: [ExtendedStar.onChain(1), DAI, USDC, USDT, WBTC, WETH9_EXTENDED[1]],
-  [SupportedChainId.BARNARD]: [ExtendedStar.onChain(SupportedChainId.BARNARD), BOT],
+  [SupportedChainId.BARNARD]: [ExtendedStar.onChain(SupportedChainId.BARNARD), USDX],
   [3]: [ExtendedStar.onChain(3), WETH9_EXTENDED[3]],
   [4]: [ExtendedStar.onChain(4), WETH9_EXTENDED[4]],
   [5]: [ExtendedStar.onChain(5), WETH9_EXTENDED[5]],

@@ -8,6 +8,8 @@ Open this URL in Chrome:
 
 [swap.starcoin.org](https://swap.starcoin.org)
 
+Make sure you have installed [StarMask](https://chrome.google.com/webstore/detail/starmask/mfhbebgoclkghebffdldpobeajmbecfk) and have some tokens in it.
+
 ## Run the Starswap Interface
 
 ```
@@ -17,7 +19,7 @@ export REACT_APP_INFURA_KEY=538f147a2d66487d86f0a2fcc2afdcb5
 yarn start
 ```
 
-Open Chrome and go to `http://localhost:3000`. Make sure you have installed Metamask and have some tokens in it.
+Make sure you have installed [StarMask](https://chrome.google.com/webstore/detail/starmask/mfhbebgoclkghebffdldpobeajmbecfk) and have some tokens in it.
 
 ## Build the Starswap Interface
 
@@ -33,6 +35,15 @@ serve -s build
 ```
 
 Open Chrome and go to `http://localhost:5000`. Make sure you have installed [StarMask](https://chrome.google.com/webstore/detail/starmask/mfhbebgoclkghebffdldpobeajmbecfk) and have some tokens in it.
+
+## Deploy new code
+
+```
+git tag vx.x.x
+git push --tag
+```
+
+`vx.x.x` means the latest version, such as `v0.1.2`. Check older deployed versions here: https://github.com/starcoinorg/starswap-interface/releases
 
 <!--
 

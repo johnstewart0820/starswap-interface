@@ -61,8 +61,9 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [1]: [...WETH_ONLY[1], DAI, USDC, USDT, WBTC],
-  [SupportedChainId.BARNARD]: [USDX],
+  // [1]: [...WETH_ONLY[1], DAI, USDC, USDT, WBTC],
+  [SupportedChainId.MAINNET]: [USDX[SupportedChainId.MAINNET]],
+  [SupportedChainId.BARNARD]: [USDX[SupportedChainId.BARNARD]],
 }
 export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {
   [1]: {
@@ -95,8 +96,9 @@ export const CUSTOM_BASES: { [chainId: number]: { [tokenAddress: string]: Token[
  * Shows up in the currency select for swap and add liquidity
  */
 export const COMMON_BASES: ChainCurrencyList = {
-  [1]: [ExtendedStar.onChain(1), DAI, USDC, USDT, WBTC, WETH9_EXTENDED[1]],
-  [SupportedChainId.BARNARD]: [ExtendedStar.onChain(SupportedChainId.BARNARD), USDX],
+  // [1]: [ExtendedStar.onChain(1), DAI, USDC, USDT, WBTC, WETH9_EXTENDED[1]],
+  [SupportedChainId.MAINNET]: [ExtendedStar.onChain(SupportedChainId.MAINNET), USDX[SupportedChainId.MAINNET]],
+  [SupportedChainId.BARNARD]: [ExtendedStar.onChain(SupportedChainId.BARNARD), USDX[SupportedChainId.BARNARD]],
   [3]: [ExtendedStar.onChain(3), WETH9_EXTENDED[3]],
   [4]: [ExtendedStar.onChain(4), WETH9_EXTENDED[4]],
   [5]: [ExtendedStar.onChain(5), WETH9_EXTENDED[5]],

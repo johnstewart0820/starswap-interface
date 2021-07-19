@@ -135,7 +135,7 @@ export default function Pool() {
         ? [
             {
               token0: ExtendedStar.onChain(chainId).wrapped,
-              token1: USDX,
+              token1: USDX[chainId],
             },
           ]
         : [],

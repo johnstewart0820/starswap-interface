@@ -188,7 +188,7 @@ export default function FullPositionCard({
     pair.token1.wrapped.address
   )
   const userDefaultPoolBalance = liquidity ? CurrencyAmount.fromRawAmount(pair.token1, liquidity[0]) : undefined
-  const totalPoolTokens = reserves ? CurrencyAmount.fromRawAmount(pair.token0, reserves[0]) : undefined
+  const totalPoolTokens = reserves && reserves[0] ? CurrencyAmount.fromRawAmount(pair.token0, reserves[0]) : undefined
 
   // if staked balance balance provided, add to standard liquidity amount
   const userPoolBalance = stakedBalance ? userDefaultPoolBalance?.add(stakedBalance) : userDefaultPoolBalance

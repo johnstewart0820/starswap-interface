@@ -70,12 +70,12 @@ export function useDerivedBurnInfo(
   //     ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
   //     : undefined
   const { data: liquidity } = useLiquidity(account ?? undefined, tokenA?.address, tokenB?.address)
-  const userLiquidity = tokenB && liquidity ? CurrencyAmount.fromRawAmount(tokenB, liquidity[0]) : undefined
+  const userLiquidity = tokenA && liquidity ? CurrencyAmount.fromRawAmount(tokenA, liquidity[0]) : undefined
 
   const { data: reserves } = useGetReserves(tokenA?.address, tokenB?.address)
   const { data: quote } = useQuote(liquidity?.[0], ...(reserves || []))
-  const liquidityValueA = tokenA && quote ? CurrencyAmount.fromRawAmount(tokenA, quote[0]) : undefined
-  const liquidityValueB = userLiquidity
+  const liquidityValueA = userLiquidity
+  const liquidityValueB = tokenB && quote ? CurrencyAmount.fromRawAmount(tokenB, quote[0]) : undefined
   const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount<Token>; [Field.CURRENCY_B]?: CurrencyAmount<Token> } = {
     [Field.CURRENCY_A]: liquidityValueA,
     [Field.CURRENCY_B]: liquidityValueB,

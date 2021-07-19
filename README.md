@@ -6,7 +6,7 @@ An open source interface for Starswap -- a protocol for decentralized exchange o
 
 Open this URL in Chrome:
 
-[starswap.git.xin](https://starswap.git.xin)
+[swap.starcoin.org](https://swap.starcoin.org)
 
 ## Run the Starswap Interface
 
@@ -32,9 +32,12 @@ npm install -g serve
 serve -s build
 ```
 
-Open Chrome and go to `http://localhost:5000`. Make sure you have installed Metamask and have some tokens in it.
+Open Chrome and go to `http://localhost:5000`. Make sure you have installed [StarMask](https://chrome.google.com/webstore/detail/starmask/mfhbebgoclkghebffdldpobeajmbecfk) and have some tokens in it.
+
+<!--
 
 ---
+
 
 # Uniswap Interface
 
@@ -82,3 +85,5 @@ Uniswap protocol V2.
  
 The Uniswap V1 interface for mainnet and testnets is accessible via IPFS gateways 
 linked from the [v1.0.0 release](https://github.com/Uniswap/uniswap-interface/releases/tag/v1.0.0).
+
+-->

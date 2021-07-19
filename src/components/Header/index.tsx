@@ -372,7 +372,7 @@ export default function Header() {
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userStcBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                <Trans>{userStcBalance?.toSignificant(4)} STC</Trans>
+                <Trans>{userStcBalance?.toSignificant(9)} STC</Trans>
               </BalanceText>
             ) : null}
             <Web3Status />

@@ -64,6 +64,4 @@ export default function CurrencyLogo({
   } else {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} {...rest} />
   }
-  // console.log({ currency })
-  return <StyledEthereumLogo src={STCLogo} size={size} style={style} {...rest} />
 }

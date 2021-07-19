@@ -275,7 +275,7 @@ export default function CurrencyInputPanel({
                         renderBalance(selectedCurrencyBalance)
                       ) : (
                         <Trans>
-                          Balance: {formatCurrencyAmount(selectedCurrencyBalance, 4)} {currency.symbol}
+                          Balance: {formatCurrencyAmount(selectedCurrencyBalance, 9)} {currency.symbol}
                         </Trans>
                       )
                     ) : null}

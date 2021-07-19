@@ -343,7 +343,7 @@ export default function Header() {
           <Trans>Vote</Trans>
           <sup>↗</sup>
         </StyledExternalLink>
-        <StyledExternalLink id={`stake-nav-link`} href={'https://explorer.starcoin.org'}>
+        <StyledExternalLink id={`stake-nav-link`} href={'https://stcscan.io'}>
           <Trans>Explorer</Trans>
           <sup>↗</sup>
         </StyledExternalLink>

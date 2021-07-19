@@ -146,6 +146,7 @@ export default function Pool() {
     <>
       <PageWrapper>
         <SwapPoolTabs active={'pool'} />
+        {/*
         <VoteCard>
           <CardBGImage />
           <CardNoise />
@@ -178,6 +179,7 @@ export default function Pool() {
           <CardBGImage />
           <CardNoise />
         </VoteCard>
+        */}
 
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="md" style={{ width: '100%' }}>

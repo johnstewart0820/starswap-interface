@@ -80,13 +80,13 @@ export function useDerivedMintInfo(
   // pair
   const [pairState, pair] = useV2Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
   // const totalSupply = useTotalSupply(pair?.liquidityToken)
-  const { data: reserves } = useGetReserves(
+  const { data: totalLiquidity } = useTotalLiquidity(
     currencies[independentField]?.wrapped.address,
     currencies[dependentField]?.wrapped.address
   )
   const totalSupply =
-    reserves && currencies[independentField]
-      ? CurrencyAmount.fromRawAmount(currencies[independentField]!.wrapped, reserves[0])
+    totalLiquidity && totalLiquidity[0] && currencies[dependentField]
+      ? CurrencyAmount.fromRawAmount(currencies[dependentField]!.wrapped, totalLiquidity[0])
       : undefined
 
   // const noLiquidity: boolean =
@@ -98,7 +98,7 @@ export function useDerivedMintInfo(
   //       JSBI.equal(pair.reserve0.quotient, ZERO) &&
   //       JSBI.equal(pair.reserve1.quotient, ZERO)
   //   )
-  const noLiquidity: boolean = !reserves || (reserves[0] === 0 && reserves[1] === 0)
+  const noLiquidity: boolean = !totalLiquidity || totalLiquidity[0] === 0
 
   // balances
   const balances = useCurrencyBalances(account ?? undefined, [
@@ -141,6 +141,10 @@ export function useDerivedMintInfo(
   //     return undefined
   //   }
   // }, [noLiquidity, otherTypedValue, currencies, dependentField, independentAmount, currencyA, currencyB, pair])
+  const { data: reserves } = useGetReserves(
+    currencies[independentField]?.wrapped.address,
+    currencies[dependentField]?.wrapped.address
+  )
   const { data: quote } = useQuote(
     independentAmount ? independentAmount.multiply(independentAmount.decimalScale).toExact() : undefined,
     ...(reserves || [])
@@ -192,14 +196,8 @@ export function useDerivedMintInfo(
   //     return undefined
   //   }
   // }, [parsedAmounts, pair, totalSupply])
-  const { data: totalLiquidity } = useTotalLiquidity(
-    currencies[independentField]?.wrapped.address,
-    currencies[dependentField]?.wrapped.address
-  )
   const liquidityMinted =
-    totalLiquidity && totalLiquidity[0] && currencies[independentField]
-      ? CurrencyAmount.fromRawAmount(currencies[independentField]!.wrapped, totalLiquidity[0])
-      : undefined
+    parsedAmounts[dependentField] && totalSupply ? parsedAmounts[dependentField]!.wrapped : undefined
 
   const poolTokenPercentage = useMemo(() => {
     if (liquidityMinted && totalSupply) {

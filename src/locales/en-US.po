@@ -894,13 +894,13 @@ msgstr "Liquidity"
 msgid "Liquidity Provider Fee"
 msgstr "Liquidity Provider Fee"
 
-#: src/pages/Pool/v2.tsx
-msgid "Liquidity provider rewards"
-msgstr "Liquidity provider rewards"
+#: 
+#~ msgid "Liquidity provider rewards"
+#~ msgstr "Liquidity provider rewards"
 
-#: src/pages/Pool/v2.tsx
-msgid "Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity."
-msgstr "Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity."
+#: 
+#~ msgid "Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity."
+#~ msgstr "Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity."
 
 #: src/components/SearchModal/Manage.tsx
 msgid "Lists"
@@ -1224,9 +1224,9 @@ msgstr "Read more about UNI"
 msgid "Read more about Uniswap governance"
 msgstr "Read more about Uniswap governance"
 
-#: src/pages/Pool/v2.tsx
-msgid "Read more about providing liquidity"
-msgstr "Read more about providing liquidity"
+#: 
+#~ msgid "Read more about providing liquidity"
+#~ msgstr "Read more about providing liquidity"
 
 #: src/components/swap/UnsupportedCurrencyFooter.tsx
 msgid "Read more about unsupported assets"

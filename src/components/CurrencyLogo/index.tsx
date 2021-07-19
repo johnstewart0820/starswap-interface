@@ -1,7 +1,7 @@
 import { Currency } from '@uniswap/sdk-core'
 import React, { useMemo } from 'react'
 import styled from 'styled-components/macro'
-// import EthereumLogo from '../../assets/images/ethereum-logo.png'
+import EthereumLogo from '../../assets/images/ethereum-logo.png'
 import STCLogo from '../../assets/svg/stc.svg'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/wrappedTokenInfo'
@@ -59,5 +59,11 @@ export default function CurrencyLogo({
 
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} {...rest} />
   */
+  if (currency?.isNative) {
+    return <StyledEthereumLogo src={STCLogo} size={size} style={style} {...rest} />
+  } else {
+    return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} {...rest} />
+  }
+  // console.log({ currency })
   return <StyledEthereumLogo src={STCLogo} size={size} style={style} {...rest} />
 }

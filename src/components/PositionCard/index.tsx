@@ -28,7 +28,7 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed, AutoRow } from '../Row'
 import { Dots } from '../swap/styleds'
 import { BIG_INT_ZERO } from '../../constants/misc'
-import { useGetReserves, useLiquidity, useQuote } from 'hooks/useTokenSwapRouter'
+import { useGetReserves, useLiquidity, useQuote, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -187,18 +187,22 @@ export default function FullPositionCard({
     pair.token0.wrapped.address,
     pair.token1.wrapped.address
   )
+  const { data: totalLiquidity } = useTotalLiquidity(pair.token0.wrapped.address, pair.token1.wrapped.address)
   const { data: quote } = useQuote(liquidity?.[0], ...(reserves || []))
   const userDefaultPoolBalance = quote ? CurrencyAmount.fromRawAmount(pair.token1, quote[0]) : undefined
-  const totalPoolTokens = reserves && reserves[1] ? CurrencyAmount.fromRawAmount(pair.token1, reserves[1]) : undefined
 
   // if staked balance balance provided, add to standard liquidity amount
   const userPoolBalance = stakedBalance ? userDefaultPoolBalance?.add(stakedBalance) : userDefaultPoolBalance
 
+  // const poolTokenPercentage =
+  //   !!userPoolBalance &&
+  //   !!totalPoolTokens &&
+  //   JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
+  //     ? new Percent(userPoolBalance.quotient, totalPoolTokens.quotient)
+  //     : undefined
   const poolTokenPercentage =
-    !!userPoolBalance &&
-    !!totalPoolTokens &&
-    JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
-      ? new Percent(userPoolBalance.quotient, totalPoolTokens.quotient)
+    !!totalLiquidity && !!liquidity && totalLiquidity[0] >= liquidity[0]
+      ? new Percent(liquidity[0], totalLiquidity[0])
       : undefined
 
   const token0Deposited = liquidity ? CurrencyAmount.fromRawAmount(pair.token0, liquidity[0]) : undefined

@@ -19,7 +19,7 @@ export REACT_APP_INFURA_KEY=538f147a2d66487d86f0a2fcc2afdcb5
 yarn start
 ```
 
-Make sure you have installed [StarMask](https://chrome.google.com/webstore/detail/starmask/mfhbebgoclkghebffdldpobeajmbecfk) and have some tokens in it.
+Open Chrome and go to `http://localhost:3000`. Make sure you have installed [StarMask](https://chrome.google.com/webstore/detail/starmask/mfhbebgoclkghebffdldpobeajmbecfk) and have some tokens in it.
 
 ## Build the Starswap Interface
 

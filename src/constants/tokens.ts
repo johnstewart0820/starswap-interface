@@ -4,13 +4,6 @@ import { UNI_ADDRESS } from './addresses'
 import { SupportedChainId } from './chains'
 
 export const USDX: { [chainId: number]: Token } = {
-  [SupportedChainId.MAINNET]: new Token(
-    SupportedChainId.MAINNET,
-    '0x07fa08a855753f0ff7292fdcbe871216::Usdx::Usdx',
-    9,
-    'Usdx',
-    'Usdx'
-  ),
   [SupportedChainId.BARNARD]: new Token(
     SupportedChainId.BARNARD,
     '0x07fa08a855753f0ff7292fdcbe871216::Usdx::Usdx',

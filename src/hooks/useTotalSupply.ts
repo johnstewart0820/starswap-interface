@@ -15,7 +15,7 @@ export function useTotalSupply(token?: Currency): CurrencyAmount<Token> | undefi
   return token?.isToken && totalSupply ? CurrencyAmount.fromRawAmount(token, totalSupply.toString()) : undefined
 }
 
-export function useTotalSupply2(pair: Pair): CurrencyAmount<Token> | undefined {
-  const { data: totalLiquidity } = useTotalLiquidity(pair.token0.address, pair.token1.address)
-  return totalLiquidity ? CurrencyAmount.fromRawAmount(pair.liquidityToken, totalLiquidity[0]) : undefined
+export function useTotalSupply2(pair?: Pair): CurrencyAmount<Token> | undefined {
+  const { data: totalLiquidity } = useTotalLiquidity(pair?.token0.address, pair?.token1.address)
+  return pair && totalLiquidity ? CurrencyAmount.fromRawAmount(pair.liquidityToken, totalLiquidity[0]) : undefined
 }

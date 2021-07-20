@@ -6,7 +6,7 @@ import { Pair } from '@starcoin/starswap-v2-sdk'
 import { Currency, Token, Percent, Price, CurrencyAmount } from '@starcoin/starswap-sdk-core'
 import JSBI from 'jsbi'
 import { PairState, useV2Pair } from '../../hooks/useV2Pairs'
-import { useTotalSupply } from '../../hooks/useTotalSupply'
+import { useTotalSupply2 } from '../../hooks/useTotalSupply'
 
 import { useActiveWeb3React } from '../../hooks/web3'
 import { tryParseAmount } from '../swap/hooks'
@@ -78,7 +78,7 @@ export function useDerivedMintInfo(
 
   // pair
   const [pairState, pair] = useV2Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
-  const totalSupply = useTotalSupply(pair?.liquidityToken)
+  const totalSupply = useTotalSupply2(pair ?? undefined)
 
   const noLiquidity: boolean =
     pairState === PairState.NOT_EXISTS ||

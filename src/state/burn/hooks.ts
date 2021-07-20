@@ -4,7 +4,7 @@ import { Token, Currency, Percent, CurrencyAmount } from '@uniswap/sdk-core'
 import { Pair } from '@starcoin/starswap-v2-sdk'
 import { useCallback } from 'react'
 import { useV2Pair } from '../../hooks/useV2Pairs'
-import { useTotalSupply } from '../../hooks/useTotalSupply'
+import { useTotalSupply2 } from '../../hooks/useTotalSupply'
 
 import { useActiveWeb3React } from '../../hooks/web3'
 import { AppState } from '../index'
@@ -12,7 +12,6 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { useGetReserves, useLiquidity, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
 
 export function useBurnState(): AppState['burn'] {
   return useAppSelector((state) => state.burn)
@@ -39,8 +38,8 @@ export function useDerivedBurnInfo(
   const [, pair] = useV2Pair(currencyA, currencyB)
 
   // balances
-  // const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
-  // const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
+  const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
+  const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
 
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
   const tokens = {
@@ -50,42 +49,26 @@ export function useDerivedBurnInfo(
   }
 
   // liquidity values
-  // const totalSupply = useTotalSupply(pair?.liquidityToken)
-  // const liquidityValueA =
-  //   pair &&
-  //   totalSupply &&
-  //   userLiquidity &&
-  //   tokenA &&
-  //   // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-  //   JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
-  //     ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
-  //     : undefined
-  // const liquidityValueB =
-  //   pair &&
-  //   totalSupply &&
-  //   userLiquidity &&
-  //   tokenB &&
-  //   // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-  //   JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
-  //     ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
-  //     : undefined
-  const { data: liquidity } = useLiquidity(account ?? undefined, tokenA?.address, tokenB?.address)
-  const { data: totalLiquidity } = useTotalLiquidity(tokenA?.address, tokenB?.address)
-  const poolTokenPercentage =
-    !!totalLiquidity && !!liquidity && totalLiquidity[0] >= liquidity[0]
-      ? new Percent(liquidity[0], totalLiquidity[0])
-      : undefined
-  const userLiquidity = tokenA && liquidity ? CurrencyAmount.fromRawAmount(tokenA, liquidity[0]) : undefined
-
-  const { data: reserves } = useGetReserves(tokenA?.address, tokenB?.address)
+  const totalSupply = useTotalSupply2(pair ?? undefined)
   const liquidityValueA =
-    reserves && poolTokenPercentage && tokenA
-      ? CurrencyAmount.fromRawAmount(tokenA, reserves[0]).multiply(poolTokenPercentage)
+    pair &&
+    totalSupply &&
+    userLiquidity &&
+    tokenA &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
+      ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
       : undefined
   const liquidityValueB =
-    reserves && poolTokenPercentage && tokenB
-      ? CurrencyAmount.fromRawAmount(tokenB, reserves[1]).multiply(poolTokenPercentage)
+    pair &&
+    totalSupply &&
+    userLiquidity &&
+    tokenB &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
+      ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
       : undefined
+
   const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount<Token>; [Field.CURRENCY_B]?: CurrencyAmount<Token> } = {
     [Field.CURRENCY_A]: liquidityValueA,
     [Field.CURRENCY_B]: liquidityValueB,

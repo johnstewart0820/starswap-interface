@@ -140,7 +140,7 @@ export default function Pool() {
               liquidityToken: new Token(
                 chainId,
                 '0x07fa08a855753f0ff7292fdcbe871216::TokenSwap::LiquidityToken<0x00000000000000000000000000000001::STC::STC, 0x07fa08a855753f0ff7292fdcbe871216::Usdx::Usdx>',
-                9,
+                18,
                 'LiquidityToken<STC,Usdx>',
                 'LiquidityToken<STC,Usdx>'
               ),

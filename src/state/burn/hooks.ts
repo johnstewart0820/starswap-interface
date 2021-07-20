@@ -12,7 +12,7 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { useGetReserves, useLiquidity, useQuote, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
+import { useGetReserves, useLiquidity, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
 
 export function useBurnState(): AppState['burn'] {
   return useAppSelector((state) => state.burn)

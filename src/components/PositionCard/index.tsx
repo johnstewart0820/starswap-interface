@@ -188,7 +188,6 @@ export default function FullPositionCard({
     pair.token1.wrapped.address
   )
   const { data: totalLiquidity } = useTotalLiquidity(pair.token0.wrapped.address, pair.token1.wrapped.address)
-  const { data: quote } = useQuote(liquidity?.[0], ...(reserves || []))
   const userDefaultPoolBalance = liquidity ? CurrencyAmount.fromRawAmount(pair.liquidityToken, liquidity[0]) : undefined
 
   // if staked balance balance provided, add to standard liquidity amount
@@ -205,8 +204,14 @@ export default function FullPositionCard({
       ? new Percent(liquidity[0], totalLiquidity[0])
       : undefined
 
-  const token0Deposited = liquidity ? CurrencyAmount.fromRawAmount(pair.token0, liquidity[0]) : undefined
-  const token1Deposited = quote ? CurrencyAmount.fromRawAmount(pair.token1, quote[0]) : undefined
+  const token0Deposited =
+    reserves && poolTokenPercentage
+      ? CurrencyAmount.fromRawAmount(pair.token1, reserves[0]).multiply(poolTokenPercentage)
+      : undefined
+  const token1Deposited =
+    reserves && poolTokenPercentage
+      ? CurrencyAmount.fromRawAmount(pair.token1, reserves[1]).multiply(poolTokenPercentage)
+      : undefined
   // const [token0Deposited, token1Deposited] =
   //   !!pair &&
   //   !!totalPoolTokens &&

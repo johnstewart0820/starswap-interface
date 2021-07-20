@@ -206,7 +206,7 @@ export default function FullPositionCard({
 
   const token0Deposited =
     reserves && poolTokenPercentage
-      ? CurrencyAmount.fromRawAmount(pair.token1, reserves[0]).multiply(poolTokenPercentage)
+      ? CurrencyAmount.fromRawAmount(pair.token0, reserves[0]).multiply(poolTokenPercentage)
       : undefined
   const token1Deposited =
     reserves && poolTokenPercentage

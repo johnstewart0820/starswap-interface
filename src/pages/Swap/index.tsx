@@ -219,8 +219,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   )
-  // const routeNotFound = !trade?.route
-  const routeNotFound = false
+  const routeNotFound = !trade?.route
   const isLoadingRoute = toggledVersion === Version.v3 && V3TradeState.LOADING === v3TradeState
 
   // check whether the user has approved the router on the input token
@@ -268,6 +267,7 @@ export default function Swap({ history }: RouteComponentProps) {
   //   recipient,
   //   signatureData
   // )
+  const swapCallbackError = null
   const swapCallback = useSwapExactTokenForToken(
     account ?? undefined,
     currencies[Field.INPUT]?.wrapped.address,
@@ -335,17 +335,16 @@ export default function Swap({ history }: RouteComponentProps) {
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
   // warnings on the greater of fiat value price impact and execution price impact
-  // const priceImpactSeverity = useMemo(() => {
-  //   const executionPriceImpact = trade?.priceImpact
-  //   return warningSeverity(
-  //     executionPriceImpact && priceImpact
-  //       ? executionPriceImpact.greaterThan(priceImpact)
-  //         ? executionPriceImpact
-  //         : priceImpact
-  //       : executionPriceImpact ?? priceImpact
-  //   )
-  // }, [priceImpact, trade])
-  const priceImpactSeverity = 0
+  const priceImpactSeverity = useMemo(() => {
+    const executionPriceImpact = trade?.priceImpact
+    return warningSeverity(
+      executionPriceImpact && priceImpact
+        ? executionPriceImpact.greaterThan(priceImpact)
+          ? executionPriceImpact
+          : priceImpact
+        : executionPriceImpact ?? priceImpact
+    )
+  }, [priceImpact, trade])
 
   const isArgentWallet = useIsArgentWallet()
 
@@ -390,8 +389,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const swapIsUnsupported = useIsSwapUnsupported(currencies?.INPUT, currencies?.OUTPUT)
 
-  // const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
-  const priceImpactTooHigh = false
+  const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
 
   return (
     <>
@@ -683,10 +681,8 @@ export default function Swap({ history }: RouteComponentProps) {
                     }
                   }}
                   id="swap-button"
-                  // disabled={!isValid || priceImpactTooHigh || !!swapCallbackError}
-                  disabled={!isValid || priceImpactTooHigh}
-                  // error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
-                  error={isValid && priceImpactSeverity > 2}
+                  disabled={!isValid || priceImpactTooHigh || !!swapCallbackError}
+                  error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
                 >
                   <Text fontSize={20} fontWeight={500}>
                     {swapInputError ? (

@@ -81,7 +81,9 @@ export function useTokenBalancesWithLoadingIndicator(
   // )
   const provider = useStarcoinProvider()
   const { data: balances, isValidating } = useSWR(
-    address && validatedTokens.length ? [provider, 'getBalance', address, ...validatedTokens] : null,
+    address && validatedTokens.length
+      ? [provider, 'getBalance', address, ...validatedTokens.map((token) => token.address)]
+      : null,
     () => Promise.all(validatedTokens.map((token) => provider.getBalance(address!.toLowerCase(), token.address)))
   )
 

@@ -123,25 +123,13 @@ export default function Pool() {
   const stakingPairs = useV2Pairs(stakingInfosWithBalance?.map((stakingInfo) => stakingInfo.tokens))
 
   // remove any pairs that also are included in pairs with stake in mining pool
-  // const v2PairsWithoutStakedAmount = allV2PairsWithLiquidity.filter((v2Pair) => {
-  //   return (
-  //     stakingPairs
-  //       ?.map((stakingPair) => stakingPair[1])
-  //       .filter((stakingPair) => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
-  //   )
-  // })
-  const v2PairsWithoutStakedAmount = useMemo(
-    () =>
-      chainId
-        ? [
-            new Pair(
-              CurrencyAmount.fromRawAmount(ExtendedStar.onChain(chainId).wrapped, 0),
-              CurrencyAmount.fromRawAmount(USDX[chainId], 0)
-            ),
-          ]
-        : [],
-    [chainId]
-  )
+  const v2PairsWithoutStakedAmount = allV2PairsWithLiquidity.filter((v2Pair) => {
+    return (
+      stakingPairs
+        ?.map((stakingPair) => stakingPair[1])
+        .filter((stakingPair) => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
+    )
+  })
 
   return (
     <>
@@ -238,7 +226,7 @@ export default function Pool() {
                 {v2PairsWithoutStakedAmount.map((v2Pair) => (
                   <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
-                {/* {stakingPairs.map(
+                {stakingPairs.map(
                   (stakingPair, i) =>
                     stakingPair[1] && ( // skip pairs that arent loaded
                       <FullPositionCard
@@ -248,7 +236,7 @@ export default function Pool() {
                       />
                     )
                 )}
-                <RowFixed justify="center" style={{ width: '100%' }}>
+                {/* <RowFixed justify="center" style={{ width: '100%' }}>
                   <ButtonOutlined
                     as={Link}
                     to="/migrate/v2"
@@ -264,7 +252,7 @@ export default function Pool() {
                     <ChevronsRight size={16} style={{ marginRight: '8px' }} />
                     <Trans>Migrate Liquidity to V3</Trans>
                   </ButtonOutlined>
-                </RowFixed> */}
+                </RowFixed>  */}
               </>
             ) : (
               <EmptyProposals>

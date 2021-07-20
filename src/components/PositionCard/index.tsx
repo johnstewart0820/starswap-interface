@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp } from 'react-feather'
 import { Link } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
-import { useTotalSupply } from '../../hooks/useTotalSupply'
+import { useTotalSupply2 } from '../../hooks/useTotalSupply'
 import { Trans } from '@lingui/macro'
 
 import { useActiveWeb3React } from '../../hooks/web3'
@@ -63,7 +63,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
   const [showMore, setShowMore] = useState(false)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
+  const totalPoolTokens = useTotalSupply2(pair)
 
   const poolTokenPercentage =
     !!userPoolBalance &&
@@ -175,7 +175,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
   const [showMore, setShowMore] = useState(false)
 
   const userDefaultPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
+  const totalPoolTokens = useTotalSupply2(pair)
 
   // if staked balance balance provided, add to standard liquidity amount
   const userPoolBalance = stakedBalance ? userDefaultPoolBalance?.add(stakedBalance) : userDefaultPoolBalance

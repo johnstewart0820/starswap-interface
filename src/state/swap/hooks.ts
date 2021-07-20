@@ -4,8 +4,8 @@ import { Trade as V3Trade } from '@uniswap/v3-sdk'
 import { useBestV3TradeExactIn, useBestV3TradeExactOut, V3TradeState } from '../../hooks/useBestV3Trade'
 import useENS from '../../hooks/useENS'
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, Percent, TradeType } from '@uniswap/sdk-core'
-import { Trade as V2Trade } from '@uniswap/v2-sdk'
+import { Currency, CurrencyAmount, Percent, TradeType } from '@starcoin/starswap-sdk-core'
+import { Trade as V2Trade } from '@starcoin/starswap-v2-sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useActiveWeb3React } from '../../hooks/web3'
@@ -149,17 +149,17 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
-  // const bestV2TradeExactIn = useV2TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined, {
-  //   maxHops: singleHopOnly ? 1 : undefined,
-  // })
-  // const bestV2TradeExactOut = useV2TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined, {
-  //   maxHops: singleHopOnly ? 1 : undefined,
-  // })
+  const bestV2TradeExactIn = useV2TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined, {
+    maxHops: singleHopOnly ? 1 : undefined,
+  })
+  const bestV2TradeExactOut = useV2TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined, {
+    maxHops: singleHopOnly ? 1 : undefined,
+  })
 
   // const bestV3TradeExactIn = useBestV3TradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   // const bestV3TradeExactOut = useBestV3TradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
 
-  // const v2Trade = isExactIn ? bestV2TradeExactIn : bestV2TradeExactOut
+  const v2Trade = isExactIn ? bestV2TradeExactIn : bestV2TradeExactOut
   // const v3Trade = (isExactIn ? bestV3TradeExactIn : bestV3TradeExactOut) ?? undefined
 
   const currencyBalances = {
@@ -190,37 +190,34 @@ export function useDerivedSwapInfo(toggledVersion: Version): {
     inputError = inputError ?? t`Enter a recipient`
   } else {
     if (
-      // BAD_RECIPIENT_ADDRESSES[formattedTo] ||
-      // (bestV2TradeExactIn && involvesAddress(bestV2TradeExactIn, formattedTo)) ||
-      // (bestV2TradeExactOut && involvesAddress(bestV2TradeExactOut, formattedTo))
-      BAD_RECIPIENT_ADDRESSES[formattedTo]
+      BAD_RECIPIENT_ADDRESSES[formattedTo] ||
+      (bestV2TradeExactIn && involvesAddress(bestV2TradeExactIn, formattedTo)) ||
+      (bestV2TradeExactOut && involvesAddress(bestV2TradeExactOut, formattedTo))
     ) {
       inputError = inputError ?? t`Invalid recipient`
     }
   }
 
   // const toggledTrade = (toggledVersion === Version.v2 ? v2Trade : v3Trade.trade) ?? undefined
-  // const allowedSlippage = useSwapSlippageTolerance(toggledTrade)
-  const allowedSlippage = useSwapSlippageTolerance(undefined)
+  const toggledTrade = v2Trade ?? undefined
+  const allowedSlippage = useSwapSlippageTolerance(toggledTrade)
 
   // compare input balance to max input based on version
-  // const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)]
+  const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)]
 
-  // if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
-  //   inputError = t`Insufficient ${amountIn.currency.symbol} balance`
-  // }
+  if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
+    inputError = t`Insufficient ${amountIn.currency.symbol} balance`
+  }
 
   return {
     currencies,
     currencyBalances,
     parsedAmount,
     inputError,
-    // v2Trade: v2Trade ?? undefined,
-    v2Trade: undefined,
+    v2Trade: v2Trade ?? undefined,
     // v3TradeState: v3Trade,
     v3TradeState: { trade: null, state: V3TradeState.INVALID },
-    // toggledTrade,
-    toggledTrade: undefined,
+    toggledTrade,
     allowedSlippage,
   }
 }

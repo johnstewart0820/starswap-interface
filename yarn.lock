@@ -3507,6 +3507,16 @@
     tiny-invariant "^1.1.0"
     toformat "^2.0.0"
 
+"@starcoin/starswap-v2-sdk@0.1.0-alpha.1":
+  version "0.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@starcoin/starswap-v2-sdk/-/starswap-v2-sdk-0.1.0-alpha.1.tgz#a496980856847c262bda9dc83662c4fc7d61b028"
+  integrity sha512-9v3ScvUaP6X1QMcJnGuyoVjP/iQts1jpV71y27WPSauoIO9/sD6HnJus34+b9meM5haxLnYGUwQ7khXWMsju7g==
+  dependencies:
+    "@starcoin/starswap-sdk-core" "^0.2.1"
+    "@starcoin/stc-util" "^0.4.1"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+
 "@starcoin/starswap-web3-core@^0.2.1":
   version "0.2.1"
   resolved "https://registry.npmjs.org/@starcoin/starswap-web3-core/-/starswap-web3-core-0.2.1.tgz#080127699790b7d9581994552202e33d57b621f0"

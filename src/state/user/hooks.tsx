@@ -1,5 +1,5 @@
-import { Percent, Token } from '@uniswap/sdk-core'
-import { computePairAddress, Pair } from '@uniswap/v2-sdk'
+import { Percent, Token } from '@starcoin/starswap-sdk-core'
+import { computePairAddress, Pair } from '@starcoin/starswap-v2-sdk'
 import { SupportedLocale } from 'constants/locales'
 import JSBI from 'jsbi'
 import flatMap from 'lodash.flatmap'
@@ -263,14 +263,17 @@ export function useURLWarningToggle(): () => void {
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
   if (tokenA.chainId !== tokenB.chainId) throw new Error('Not matching chain IDs')
   if (tokenA.equals(tokenB)) throw new Error('Tokens cannot be equal')
-  if (!V2_FACTORY_ADDRESSES[tokenA.chainId]) throw new Error('No V2 factory address on this chain')
+  // if (!V2_FACTORY_ADDRESSES[tokenA.chainId]) throw new Error('No V2 factory address on this chain')
 
   return new Token(
     tokenA.chainId,
-    computePairAddress({ factoryAddress: V2_FACTORY_ADDRESSES[tokenA.chainId], tokenA, tokenB }),
+    // computePairAddress({ factoryAddress: V2_FACTORY_ADDRESSES[tokenA.chainId], tokenA, tokenB }),
+    Pair.getAddress(tokenA, tokenB),
     18,
-    'UNI-V2',
-    'Uniswap V2'
+    // 'UNI-V2',
+    // 'Uniswap V2',
+    'LiquidityToken',
+    'Starswap V2'
   )
 }
 

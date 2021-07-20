@@ -22,9 +22,10 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { SwitchLocaleLink } from '../../components/SwitchLocaleLink'
 import { useStakingInfo, StakingInfo } from '../../state/stake/hooks'
 import { BIG_INT_ZERO } from '../../constants/misc'
-import { Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@starcoin/starswap-v2-sdk'
 import { Trans } from '@lingui/macro'
 import { USDX, ExtendedStar } from 'constants/tokens'
+import { CurrencyAmount, Token } from '@starcoin/starswap-sdk-core'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -122,25 +123,13 @@ export default function Pool() {
   const stakingPairs = useV2Pairs(stakingInfosWithBalance?.map((stakingInfo) => stakingInfo.tokens))
 
   // remove any pairs that also are included in pairs with stake in mining pool
-  // const v2PairsWithoutStakedAmount = allV2PairsWithLiquidity.filter((v2Pair) => {
-  //   return (
-  //     stakingPairs
-  //       ?.map((stakingPair) => stakingPair[1])
-  //       .filter((stakingPair) => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
-  //   )
-  // })
-  const v2PairsWithoutStakedAmount = useMemo(
-    () =>
-      chainId
-        ? [
-            {
-              token0: ExtendedStar.onChain(chainId).wrapped,
-              token1: USDX[chainId],
-            },
-          ]
-        : [],
-    [chainId]
-  )
+  const v2PairsWithoutStakedAmount = allV2PairsWithLiquidity.filter((v2Pair) => {
+    return (
+      stakingPairs
+        ?.map((stakingPair) => stakingPair[1])
+        .filter((stakingPair) => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
+    )
+  })
 
   return (
     <>
@@ -235,10 +224,9 @@ export default function Pool() {
                   </RowBetween>
                 </ButtonSecondary> */}
                 {v2PairsWithoutStakedAmount.map((v2Pair) => (
-                  // <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                  <FullPositionCard key={v2Pair.token1.address} pair={v2Pair} />
+                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
-                {/* {stakingPairs.map(
+                {stakingPairs.map(
                   (stakingPair, i) =>
                     stakingPair[1] && ( // skip pairs that arent loaded
                       <FullPositionCard
@@ -248,7 +236,7 @@ export default function Pool() {
                       />
                     )
                 )}
-                <RowFixed justify="center" style={{ width: '100%' }}>
+                {/* <RowFixed justify="center" style={{ width: '100%' }}>
                   <ButtonOutlined
                     as={Link}
                     to="/migrate/v2"
@@ -264,7 +252,7 @@ export default function Pool() {
                     <ChevronsRight size={16} style={{ marginRight: '8px' }} />
                     <Trans>Migrate Liquidity to V3</Trans>
                   </ButtonOutlined>
-                </RowFixed> */}
+                </RowFixed>  */}
               </>
             ) : (
               <EmptyProposals>

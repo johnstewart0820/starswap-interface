@@ -1,10 +1,10 @@
 import { t } from '@lingui/macro'
 import JSBI from 'jsbi'
 import { Token, Currency, Percent, CurrencyAmount } from '@uniswap/sdk-core'
-import { Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@starcoin/starswap-v2-sdk'
 import { useCallback } from 'react'
 import { useV2Pair } from '../../hooks/useV2Pairs'
-import { useTotalSupply } from '../../hooks/useTotalSupply'
+import { useTotalSupply2 } from '../../hooks/useTotalSupply'
 
 import { useActiveWeb3React } from '../../hooks/web3'
 import { AppState } from '../index'
@@ -12,7 +12,6 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { useGetReserves, useLiquidity, useQuote } from 'hooks/useTokenSwapRouter'
 
 export function useBurnState(): AppState['burn'] {
   return useAppSelector((state) => state.burn)
@@ -39,8 +38,8 @@ export function useDerivedBurnInfo(
   const [, pair] = useV2Pair(currencyA, currencyB)
 
   // balances
-  // const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
-  // const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
+  const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
+  const userLiquidity: undefined | CurrencyAmount<Token> = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
 
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
   const tokens = {
@@ -50,32 +49,26 @@ export function useDerivedBurnInfo(
   }
 
   // liquidity values
-  // const totalSupply = useTotalSupply(pair?.liquidityToken)
-  // const liquidityValueA =
-  //   pair &&
-  //   totalSupply &&
-  //   userLiquidity &&
-  //   tokenA &&
-  //   // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-  //   JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
-  //     ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
-  //     : undefined
-  // const liquidityValueB =
-  //   pair &&
-  //   totalSupply &&
-  //   userLiquidity &&
-  //   tokenB &&
-  //   // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-  //   JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
-  //     ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
-  //     : undefined
-  const { data: liquidity } = useLiquidity(account ?? undefined, tokenA?.address, tokenB?.address)
-  const userLiquidity = tokenA && liquidity ? CurrencyAmount.fromRawAmount(tokenA, liquidity[0]) : undefined
+  const totalSupply = useTotalSupply2(pair ?? undefined)
+  const liquidityValueA =
+    pair &&
+    totalSupply &&
+    userLiquidity &&
+    tokenA &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
+      ? CurrencyAmount.fromRawAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).quotient)
+      : undefined
+  const liquidityValueB =
+    pair &&
+    totalSupply &&
+    userLiquidity &&
+    tokenB &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalSupply.quotient, userLiquidity.quotient)
+      ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
+      : undefined
 
-  const { data: reserves } = useGetReserves(tokenA?.address, tokenB?.address)
-  const { data: quote } = useQuote(liquidity?.[0], ...(reserves || []))
-  const liquidityValueA = userLiquidity
-  const liquidityValueB = tokenB && quote ? CurrencyAmount.fromRawAmount(tokenB, quote[0]) : undefined
   const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount<Token>; [Field.CURRENCY_B]?: CurrencyAmount<Token> } = {
     [Field.CURRENCY_A]: liquidityValueA,
     [Field.CURRENCY_B]: liquidityValueB,

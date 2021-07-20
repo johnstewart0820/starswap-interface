@@ -12,7 +12,7 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { useGetReserves, useLiquidity, useQuote } from 'hooks/useTokenSwapRouter'
+import { useGetReserves, useLiquidity, useQuote, useTotalLiquidity } from 'hooks/useTokenSwapRouter'
 
 export function useBurnState(): AppState['burn'] {
   return useAppSelector((state) => state.burn)
@@ -70,12 +70,22 @@ export function useDerivedBurnInfo(
   //     ? CurrencyAmount.fromRawAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).quotient)
   //     : undefined
   const { data: liquidity } = useLiquidity(account ?? undefined, tokenA?.address, tokenB?.address)
+  const { data: totalLiquidity } = useTotalLiquidity(tokenA?.address, tokenB?.address)
+  const poolTokenPercentage =
+    !!totalLiquidity && !!liquidity && totalLiquidity[0] >= liquidity[0]
+      ? new Percent(liquidity[0], totalLiquidity[0])
+      : undefined
   const userLiquidity = tokenA && liquidity ? CurrencyAmount.fromRawAmount(tokenA, liquidity[0]) : undefined
 
   const { data: reserves } = useGetReserves(tokenA?.address, tokenB?.address)
-  const { data: quote } = useQuote(liquidity?.[0], ...(reserves || []))
-  const liquidityValueA = userLiquidity
-  const liquidityValueB = tokenB && quote ? CurrencyAmount.fromRawAmount(tokenB, quote[0]) : undefined
+  const liquidityValueA =
+    reserves && poolTokenPercentage && tokenA
+      ? CurrencyAmount.fromRawAmount(tokenA, reserves[0]).multiply(poolTokenPercentage)
+      : undefined
+  const liquidityValueB =
+    reserves && poolTokenPercentage && tokenB
+      ? CurrencyAmount.fromRawAmount(tokenB, reserves[1]).multiply(poolTokenPercentage)
+      : undefined
   const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount<Token>; [Field.CURRENCY_B]?: CurrencyAmount<Token> } = {
     [Field.CURRENCY_A]: liquidityValueA,
     [Field.CURRENCY_B]: liquidityValueB,

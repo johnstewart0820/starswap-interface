@@ -236,8 +236,7 @@ export default function Pool() {
                   </RowBetween>
                 </ButtonSecondary> */}
                 {v2PairsWithoutStakedAmount.map((v2Pair) => (
-                  // <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                  <FullPositionCard key={v2Pair.token1.address} pair={v2Pair} />
+                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
                 {/* {stakingPairs.map(
                   (stakingPair, i) =>

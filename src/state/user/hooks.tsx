@@ -1,5 +1,5 @@
 import { Percent, Token } from '@uniswap/sdk-core'
-import { computePairAddress, Pair } from '@uniswap/v2-sdk'
+import { computePairAddress, Pair } from '@starcoin/starswap-v2-sdk'
 import { SupportedLocale } from 'constants/locales'
 import JSBI from 'jsbi'
 import flatMap from 'lodash.flatmap'

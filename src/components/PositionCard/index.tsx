@@ -1,6 +1,6 @@
 import JSBI from 'jsbi'
 import { Percent, CurrencyAmount, Token } from '@uniswap/sdk-core'
-import { Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@starcoin/starswap-v2-sdk'
 import { darken } from 'polished'
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
@@ -167,11 +167,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
   )
 }
 
-export default function FullPositionCard({
-  pair,
-  border,
-  stakedBalance,
-}: Omit<PositionCardProps, 'pair'> & { pair: Pick<Pair, 'token0' | 'token1' | 'liquidityToken'> }) {
+export default function FullPositionCard({ pair, border, stakedBalance }: PositionCardProps) {
   const { account } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(pair.token0)

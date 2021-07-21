@@ -19,7 +19,7 @@ function serializeScriptFunction(scriptFunction: TransactionPayloadVariantScript
 }
 
 /**
- * 通过指定换入的代币额度来换出代币
+ * 通过指定换入的代币额度来置换代币
  */
 export function useSwapExactTokenForToken(signer?: string) {
   const provider = useStarcoinProvider()
@@ -28,6 +28,26 @@ export function useSwapExactTokenForToken(signer?: string) {
       const functionId = `${PREFIX}swap_exact_token_for_token`
       const tyArgs = utils.tx.encodeStructTypeTags([x, y])
       const args = [arrayify(serializeU128(amount_x_in)), arrayify(serializeU128(amount_y_out_min))]
+      const scriptFunction = utils.tx.encodeScriptFunction(functionId, tyArgs, args)
+      const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
+        data: serializeScriptFunction(scriptFunction),
+      })
+      return transactionHash
+    },
+    [provider, signer]
+  )
+}
+
+/**
+ * 通过指定换出的代币额度来置换代币
+ */
+export function useSwapTokenForExactToken(signer?: string) {
+  const provider = useStarcoinProvider()
+  return useCallback(
+    async (x: string, y: string, amount_x_in_max: number | string, amount_y_out: number | string) => {
+      const functionId = `${PREFIX}swap_token_for_exact_token`
+      const tyArgs = utils.tx.encodeStructTypeTags([x, y])
+      const args = [arrayify(serializeU128(amount_x_in_max)), arrayify(serializeU128(amount_y_out))]
       const scriptFunction = utils.tx.encodeScriptFunction(functionId, tyArgs, args)
       const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
         data: serializeScriptFunction(scriptFunction),

@@ -18,7 +18,7 @@ import { SignatureData } from './useERC20Permit'
 import useTransactionDeadline from './useTransactionDeadline'
 import useENS from './useENS'
 import { Version } from './useToggledVersion'
-import { useSwapExactTokenForToken } from './useTokenSwapScript'
+import { useSwapExactTokenForToken, useSwapTokenForExactToken } from './useTokenSwapScript'
 
 export enum SwapCallbackState {
   INVALID,
@@ -240,7 +240,7 @@ export function useSwapCallback(
 ): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: string | null } {
   const { account, chainId, library } = useActiveWeb3React()
 
-  const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName, signatureData)
+  // const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName, signatureData)
 
   // const addTransaction = useTransactionAdder()
 
@@ -248,6 +248,7 @@ export function useSwapCallback(
   const recipient = recipientAddressOrName === null ? account : recipientAddress
 
   const handleSwapExactTokenForToken = useSwapExactTokenForToken(account ?? undefined)
+  const handleSwapTokenForExactToken = useSwapTokenForExactToken(account ?? undefined)
 
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {
@@ -360,7 +361,9 @@ export function useSwapCallback(
 
         //   return response.hash
         // })
-        return handleSwapExactTokenForToken(
+        return (
+          trade.tradeType === TradeType.EXACT_INPUT ? handleSwapExactTokenForToken : handleSwapTokenForExactToken
+        )(
           trade.inputAmount.currency.wrapped.address,
           trade.outputAmount.currency.wrapped.address,
           trade.inputAmount.multiply(trade.inputAmount.decimalScale).toExact(),

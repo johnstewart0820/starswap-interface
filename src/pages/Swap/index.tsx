@@ -235,23 +235,12 @@ export default function Swap({ history }: RouteComponentProps) {
   const showMaxButton = Boolean(maxInputAmount?.greaterThan(0) && !parsedAmounts[Field.INPUT]?.equalTo(maxInputAmount))
 
   // the callback to execute the swap
-  // const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(
-  //   trade,
-  //   allowedSlippage,
-  //   recipient,
-  //   signatureData
-  // )
-  const swapCallbackError = null
-  const swapCallback = useSwapExactTokenForToken(
-    account ?? undefined,
-    currencies[Field.INPUT]?.wrapped.address,
-    currencies[Field.OUTPUT]?.wrapped.address,
-    parsedAmounts[Field.INPUT]
-      ? parsedAmounts[Field.INPUT]!.multiply(parsedAmounts[Field.INPUT]!.decimalScale).toExact()
-      : undefined,
-    parsedAmounts[Field.OUTPUT]
-      ? parsedAmounts[Field.OUTPUT]!.multiply(parsedAmounts[Field.OUTPUT]!.decimalScale).toExact()
-      : undefined
+  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(
+    trade,
+    allowedSlippage,
+    recipient,
+    undefined
+    // signatureData
   )
 
   const [singleHopOnly] = useUserSingleHopOnly()

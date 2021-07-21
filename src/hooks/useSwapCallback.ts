@@ -366,8 +366,12 @@ export function useSwapCallback(
         )(
           trade.inputAmount.currency.wrapped.address,
           trade.outputAmount.currency.wrapped.address,
-          trade.inputAmount.multiply(trade.inputAmount.decimalScale).toExact(),
-          trade.outputAmount.multiply(trade.outputAmount.decimalScale).toExact()
+          (trade.tradeType === TradeType.EXACT_INPUT ? trade.inputAmount : trade.maximumAmountIn(allowedSlippage))
+            .multiply(trade.inputAmount.decimalScale)
+            .toExact(),
+          (trade.tradeType === TradeType.EXACT_INPUT ? trade.minimumAmountOut(allowedSlippage) : trade.outputAmount)
+            .multiply(trade.outputAmount.decimalScale)
+            .toExact()
         ).catch((error) => {
           // if the user rejected the tx, pass this along
           if (error?.code === 4001) {
@@ -392,5 +396,6 @@ export function useSwapCallback(
     recipientAddressOrName,
     handleSwapExactTokenForToken,
     handleSwapTokenForExactToken,
+    allowedSlippage,
   ])
 }

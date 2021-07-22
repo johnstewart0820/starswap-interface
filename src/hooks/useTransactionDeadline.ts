@@ -12,3 +12,7 @@ export default function useTransactionDeadline(): BigNumber | undefined {
     return undefined
   }, [blockTimestamp, ttl])
 }
+
+export function useTransactionExpirationSecs(): number | undefined {
+  return useAppSelector((state) => state.user.userDeadline)
+}

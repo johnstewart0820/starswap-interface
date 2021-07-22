@@ -138,12 +138,10 @@ export default function AddLiquidity({
   const handleAddLiquidity = useAddLiquidity(account ?? undefined)
 
   async function onAdd() {
-    // if (!chainId || !library || !account || !router) return
-    if (!chainId || !library || !account) return
+    if (!chainId || !library || !account || !router) return
 
     const { [Field.CURRENCY_A]: parsedAmountA, [Field.CURRENCY_B]: parsedAmountB } = parsedAmounts
-    // if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) {
-    if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB) {
+    if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) {
       return
     }
 

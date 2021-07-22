@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import useStarcoinProvider from './useStarcoinProvider'
 
-const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapRouter::'
+const PREFIX = '0xbd7e8be8fae9f60f2f5136433e36a091::TokenSwapRouter::'
 
 /**
  * 查询当前签名者在某代币对下的流动性

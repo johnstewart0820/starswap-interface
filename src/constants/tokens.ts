@@ -6,7 +6,7 @@ import { SupportedChainId } from './chains'
 export const USDX: { [chainId: number]: Token } = {
   [SupportedChainId.BARNARD]: new Token(
     SupportedChainId.BARNARD,
-    '0x07fa08a855753f0ff7292fdcbe871216::Usdx::Usdx',
+    '0xbd7e8be8fae9f60f2f5136433e36a091::Usdx::Usdx',
     9,
     'Usdx',
     'Usdx'

@@ -1665,8 +1665,8 @@ export type Position = {
   pool: Pool;
   token0: Token;
   token1: Token;
-  tickLower: Scalars['BigInt'];
-  tickUpper: Scalars['BigInt'];
+  tickLower: Tick;
+  tickUpper: Tick;
   liquidity: Scalars['BigInt'];
   depositedToken0: Scalars['BigDecimal'];
   depositedToken1: Scalars['BigDecimal'];
@@ -1675,9 +1675,31 @@ export type Position = {
   collectedFeesToken0: Scalars['BigDecimal'];
   collectedFeesToken1: Scalars['BigDecimal'];
   transaction: Transaction;
+  feeGrowthInside0LastX128: Scalars['BigInt'];
+  feeGrowthInside1LastX128: Scalars['BigInt'];
 };
 
-export type Position_Filter = {
+export type PositionSnapshot = {
+  __typename?: 'PositionSnapshot';
+  id: Scalars['ID'];
+  owner: Scalars['Bytes'];
+  pool: Pool;
+  position: Position;
+  blockNumber: Scalars['BigInt'];
+  timestamp: Scalars['BigInt'];
+  liquidity: Scalars['BigInt'];
+  depositedToken0: Scalars['BigDecimal'];
+  depositedToken1: Scalars['BigDecimal'];
+  withdrawnToken0: Scalars['BigDecimal'];
+  withdrawnToken1: Scalars['BigDecimal'];
+  collectedFeesToken0: Scalars['BigDecimal'];
+  collectedFeesToken1: Scalars['BigDecimal'];
+  transaction: Transaction;
+  feeGrowthInside0LastX128: Scalars['BigInt'];
+  feeGrowthInside1LastX128: Scalars['BigInt'];
+};
+
+export type PositionSnapshot_Filter = {
   id?: Maybe<Scalars['ID']>;
   id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
@@ -1706,50 +1728,36 @@ export type Position_Filter = {
   pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  token0?: Maybe<Scalars['String']>;
-  token0_not?: Maybe<Scalars['String']>;
-  token0_gt?: Maybe<Scalars['String']>;
-  token0_lt?: Maybe<Scalars['String']>;
-  token0_gte?: Maybe<Scalars['String']>;
-  token0_lte?: Maybe<Scalars['String']>;
-  token0_in?: Maybe<Array<Scalars['String']>>;
-  token0_not_in?: Maybe<Array<Scalars['String']>>;
-  token0_contains?: Maybe<Scalars['String']>;
-  token0_not_contains?: Maybe<Scalars['String']>;
-  token0_starts_with?: Maybe<Scalars['String']>;
-  token0_not_starts_with?: Maybe<Scalars['String']>;
-  token0_ends_with?: Maybe<Scalars['String']>;
-  token0_not_ends_with?: Maybe<Scalars['String']>;
-  token1?: Maybe<Scalars['String']>;
-  token1_not?: Maybe<Scalars['String']>;
-  token1_gt?: Maybe<Scalars['String']>;
-  token1_lt?: Maybe<Scalars['String']>;
-  token1_gte?: Maybe<Scalars['String']>;
-  token1_lte?: Maybe<Scalars['String']>;
-  token1_in?: Maybe<Array<Scalars['String']>>;
-  token1_not_in?: Maybe<Array<Scalars['String']>>;
-  token1_contains?: Maybe<Scalars['String']>;
-  token1_not_contains?: Maybe<Scalars['String']>;
-  token1_starts_with?: Maybe<Scalars['String']>;
-  token1_not_starts_with?: Maybe<Scalars['String']>;
-  token1_ends_with?: Maybe<Scalars['String']>;
-  token1_not_ends_with?: Maybe<Scalars['String']>;
-  tickLower?: Maybe<Scalars['BigInt']>;
-  tickLower_not?: Maybe<Scalars['BigInt']>;
-  tickLower_gt?: Maybe<Scalars['BigInt']>;
-  tickLower_lt?: Maybe<Scalars['BigInt']>;
-  tickLower_gte?: Maybe<Scalars['BigInt']>;
-  tickLower_lte?: Maybe<Scalars['BigInt']>;
-  tickLower_in?: Maybe<Array<Scalars['BigInt']>>;
-  tickLower_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  tickUpper?: Maybe<Scalars['BigInt']>;
-  tickUpper_not?: Maybe<Scalars['BigInt']>;
-  tickUpper_gt?: Maybe<Scalars['BigInt']>;
-  tickUpper_lt?: Maybe<Scalars['BigInt']>;
-  tickUpper_gte?: Maybe<Scalars['BigInt']>;
-  tickUpper_lte?: Maybe<Scalars['BigInt']>;
-  tickUpper_in?: Maybe<Array<Scalars['BigInt']>>;
-  tickUpper_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  position?: Maybe<Scalars['String']>;
+  position_not?: Maybe<Scalars['String']>;
+  position_gt?: Maybe<Scalars['String']>;
+  position_lt?: Maybe<Scalars['String']>;
+  position_gte?: Maybe<Scalars['String']>;
+  position_lte?: Maybe<Scalars['String']>;
+  position_in?: Maybe<Array<Scalars['String']>>;
+  position_not_in?: Maybe<Array<Scalars['String']>>;
+  position_contains?: Maybe<Scalars['String']>;
+  position_not_contains?: Maybe<Scalars['String']>;
+  position_starts_with?: Maybe<Scalars['String']>;
+  position_not_starts_with?: Maybe<Scalars['String']>;
+  position_ends_with?: Maybe<Scalars['String']>;
+  position_not_ends_with?: Maybe<Scalars['String']>;
+  blockNumber?: Maybe<Scalars['BigInt']>;
+  blockNumber_not?: Maybe<Scalars['BigInt']>;
+  blockNumber_gt?: Maybe<Scalars['BigInt']>;
+  blockNumber_lt?: Maybe<Scalars['BigInt']>;
+  blockNumber_gte?: Maybe<Scalars['BigInt']>;
+  blockNumber_lte?: Maybe<Scalars['BigInt']>;
+  blockNumber_in?: Maybe<Array<Scalars['BigInt']>>;
+  blockNumber_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  timestamp?: Maybe<Scalars['BigInt']>;
+  timestamp_not?: Maybe<Scalars['BigInt']>;
+  timestamp_gt?: Maybe<Scalars['BigInt']>;
+  timestamp_lt?: Maybe<Scalars['BigInt']>;
+  timestamp_gte?: Maybe<Scalars['BigInt']>;
+  timestamp_lte?: Maybe<Scalars['BigInt']>;
+  timestamp_in?: Maybe<Array<Scalars['BigInt']>>;
+  timestamp_not_in?: Maybe<Array<Scalars['BigInt']>>;
   liquidity?: Maybe<Scalars['BigInt']>;
   liquidity_not?: Maybe<Scalars['BigInt']>;
   liquidity_gt?: Maybe<Scalars['BigInt']>;
@@ -1820,6 +1828,214 @@ export type Position_Filter = {
   transaction_not_starts_with?: Maybe<Scalars['String']>;
   transaction_ends_with?: Maybe<Scalars['String']>;
   transaction_not_ends_with?: Maybe<Scalars['String']>;
+  feeGrowthInside0LastX128?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthInside0LastX128_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthInside1LastX128?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthInside1LastX128_not_in?: Maybe<Array<Scalars['BigInt']>>;
+};
+
+export enum PositionSnapshot_OrderBy {
+  Id = 'id',
+  Owner = 'owner',
+  Pool = 'pool',
+  Position = 'position',
+  BlockNumber = 'blockNumber',
+  Timestamp = 'timestamp',
+  Liquidity = 'liquidity',
+  DepositedToken0 = 'depositedToken0',
+  DepositedToken1 = 'depositedToken1',
+  WithdrawnToken0 = 'withdrawnToken0',
+  WithdrawnToken1 = 'withdrawnToken1',
+  CollectedFeesToken0 = 'collectedFeesToken0',
+  CollectedFeesToken1 = 'collectedFeesToken1',
+  Transaction = 'transaction',
+  FeeGrowthInside0LastX128 = 'feeGrowthInside0LastX128',
+  FeeGrowthInside1LastX128 = 'feeGrowthInside1LastX128'
+}
+
+export type Position_Filter = {
+  id?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  owner?: Maybe<Scalars['Bytes']>;
+  owner_not?: Maybe<Scalars['Bytes']>;
+  owner_in?: Maybe<Array<Scalars['Bytes']>>;
+  owner_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  owner_contains?: Maybe<Scalars['Bytes']>;
+  owner_not_contains?: Maybe<Scalars['Bytes']>;
+  pool?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  token0?: Maybe<Scalars['String']>;
+  token0_not?: Maybe<Scalars['String']>;
+  token0_gt?: Maybe<Scalars['String']>;
+  token0_lt?: Maybe<Scalars['String']>;
+  token0_gte?: Maybe<Scalars['String']>;
+  token0_lte?: Maybe<Scalars['String']>;
+  token0_in?: Maybe<Array<Scalars['String']>>;
+  token0_not_in?: Maybe<Array<Scalars['String']>>;
+  token0_contains?: Maybe<Scalars['String']>;
+  token0_not_contains?: Maybe<Scalars['String']>;
+  token0_starts_with?: Maybe<Scalars['String']>;
+  token0_not_starts_with?: Maybe<Scalars['String']>;
+  token0_ends_with?: Maybe<Scalars['String']>;
+  token0_not_ends_with?: Maybe<Scalars['String']>;
+  token1?: Maybe<Scalars['String']>;
+  token1_not?: Maybe<Scalars['String']>;
+  token1_gt?: Maybe<Scalars['String']>;
+  token1_lt?: Maybe<Scalars['String']>;
+  token1_gte?: Maybe<Scalars['String']>;
+  token1_lte?: Maybe<Scalars['String']>;
+  token1_in?: Maybe<Array<Scalars['String']>>;
+  token1_not_in?: Maybe<Array<Scalars['String']>>;
+  token1_contains?: Maybe<Scalars['String']>;
+  token1_not_contains?: Maybe<Scalars['String']>;
+  token1_starts_with?: Maybe<Scalars['String']>;
+  token1_not_starts_with?: Maybe<Scalars['String']>;
+  token1_ends_with?: Maybe<Scalars['String']>;
+  token1_not_ends_with?: Maybe<Scalars['String']>;
+  tickLower?: Maybe<Scalars['String']>;
+  tickLower_not?: Maybe<Scalars['String']>;
+  tickLower_gt?: Maybe<Scalars['String']>;
+  tickLower_lt?: Maybe<Scalars['String']>;
+  tickLower_gte?: Maybe<Scalars['String']>;
+  tickLower_lte?: Maybe<Scalars['String']>;
+  tickLower_in?: Maybe<Array<Scalars['String']>>;
+  tickLower_not_in?: Maybe<Array<Scalars['String']>>;
+  tickLower_contains?: Maybe<Scalars['String']>;
+  tickLower_not_contains?: Maybe<Scalars['String']>;
+  tickLower_starts_with?: Maybe<Scalars['String']>;
+  tickLower_not_starts_with?: Maybe<Scalars['String']>;
+  tickLower_ends_with?: Maybe<Scalars['String']>;
+  tickLower_not_ends_with?: Maybe<Scalars['String']>;
+  tickUpper?: Maybe<Scalars['String']>;
+  tickUpper_not?: Maybe<Scalars['String']>;
+  tickUpper_gt?: Maybe<Scalars['String']>;
+  tickUpper_lt?: Maybe<Scalars['String']>;
+  tickUpper_gte?: Maybe<Scalars['String']>;
+  tickUpper_lte?: Maybe<Scalars['String']>;
+  tickUpper_in?: Maybe<Array<Scalars['String']>>;
+  tickUpper_not_in?: Maybe<Array<Scalars['String']>>;
+  tickUpper_contains?: Maybe<Scalars['String']>;
+  tickUpper_not_contains?: Maybe<Scalars['String']>;
+  tickUpper_starts_with?: Maybe<Scalars['String']>;
+  tickUpper_not_starts_with?: Maybe<Scalars['String']>;
+  tickUpper_ends_with?: Maybe<Scalars['String']>;
+  tickUpper_not_ends_with?: Maybe<Scalars['String']>;
+  liquidity?: Maybe<Scalars['BigInt']>;
+  liquidity_not?: Maybe<Scalars['BigInt']>;
+  liquidity_gt?: Maybe<Scalars['BigInt']>;
+  liquidity_lt?: Maybe<Scalars['BigInt']>;
+  liquidity_gte?: Maybe<Scalars['BigInt']>;
+  liquidity_lte?: Maybe<Scalars['BigInt']>;
+  liquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  depositedToken0?: Maybe<Scalars['BigDecimal']>;
+  depositedToken0_not?: Maybe<Scalars['BigDecimal']>;
+  depositedToken0_gt?: Maybe<Scalars['BigDecimal']>;
+  depositedToken0_lt?: Maybe<Scalars['BigDecimal']>;
+  depositedToken0_gte?: Maybe<Scalars['BigDecimal']>;
+  depositedToken0_lte?: Maybe<Scalars['BigDecimal']>;
+  depositedToken0_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  depositedToken0_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  depositedToken1?: Maybe<Scalars['BigDecimal']>;
+  depositedToken1_not?: Maybe<Scalars['BigDecimal']>;
+  depositedToken1_gt?: Maybe<Scalars['BigDecimal']>;
+  depositedToken1_lt?: Maybe<Scalars['BigDecimal']>;
+  depositedToken1_gte?: Maybe<Scalars['BigDecimal']>;
+  depositedToken1_lte?: Maybe<Scalars['BigDecimal']>;
+  depositedToken1_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  depositedToken1_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  withdrawnToken0?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken0_not?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken0_gt?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken0_lt?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken0_gte?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken0_lte?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken0_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  withdrawnToken0_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  withdrawnToken1?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken1_not?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken1_gt?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken1_lt?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken1_gte?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken1_lte?: Maybe<Scalars['BigDecimal']>;
+  withdrawnToken1_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  withdrawnToken1_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  collectedFeesToken0?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken0_not?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken0_gt?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken0_lt?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken0_gte?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken0_lte?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken0_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  collectedFeesToken0_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  collectedFeesToken1?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken1_not?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken1_gt?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken1_lt?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken1_gte?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken1_lte?: Maybe<Scalars['BigDecimal']>;
+  collectedFeesToken1_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  collectedFeesToken1_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  transaction?: Maybe<Scalars['String']>;
+  transaction_not?: Maybe<Scalars['String']>;
+  transaction_gt?: Maybe<Scalars['String']>;
+  transaction_lt?: Maybe<Scalars['String']>;
+  transaction_gte?: Maybe<Scalars['String']>;
+  transaction_lte?: Maybe<Scalars['String']>;
+  transaction_in?: Maybe<Array<Scalars['String']>>;
+  transaction_not_in?: Maybe<Array<Scalars['String']>>;
+  transaction_contains?: Maybe<Scalars['String']>;
+  transaction_not_contains?: Maybe<Scalars['String']>;
+  transaction_starts_with?: Maybe<Scalars['String']>;
+  transaction_not_starts_with?: Maybe<Scalars['String']>;
+  transaction_ends_with?: Maybe<Scalars['String']>;
+  transaction_not_ends_with?: Maybe<Scalars['String']>;
+  feeGrowthInside0LastX128?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside0LastX128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthInside0LastX128_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthInside1LastX128?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthInside1LastX128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthInside1LastX128_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum Position_OrderBy {
@@ -1837,7 +2053,9 @@ export enum Position_OrderBy {
   WithdrawnToken1 = 'withdrawnToken1',
   CollectedFeesToken0 = 'collectedFeesToken0',
   CollectedFeesToken1 = 'collectedFeesToken1',
-  Transaction = 'transaction'
+  Transaction = 'transaction',
+  FeeGrowthInside0LastX128 = 'feeGrowthInside0LastX128',
+  FeeGrowthInside1LastX128 = 'feeGrowthInside1LastX128'
 }
 
 export type Query = {
@@ -1854,6 +2072,8 @@ export type Query = {
   ticks: Array<Tick>;
   position?: Maybe<Position>;
   positions: Array<Position>;
+  positionSnapshot?: Maybe<PositionSnapshot>;
+  positionSnapshots: Array<PositionSnapshot>;
   transaction?: Maybe<Transaction>;
   transactions: Array<Transaction>;
   mint?: Maybe<Mint>;
@@ -1977,6 +2197,22 @@ export type QueryPositionsArgs = {
   orderBy?: Maybe<Position_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   where?: Maybe<Position_Filter>;
+  block?: Maybe<Block_Height>;
+};
+
+
+export type QueryPositionSnapshotArgs = {
+  id: Scalars['ID'];
+  block?: Maybe<Block_Height>;
+};
+
+
+export type QueryPositionSnapshotsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<PositionSnapshot_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  where?: Maybe<PositionSnapshot_Filter>;
   block?: Maybe<Block_Height>;
 };
 
@@ -2207,6 +2443,8 @@ export type Subscription = {
   ticks: Array<Tick>;
   position?: Maybe<Position>;
   positions: Array<Position>;
+  positionSnapshot?: Maybe<PositionSnapshot>;
+  positionSnapshots: Array<PositionSnapshot>;
   transaction?: Maybe<Transaction>;
   transactions: Array<Transaction>;
   mint?: Maybe<Mint>;
@@ -2330,6 +2568,22 @@ export type SubscriptionPositionsArgs = {
   orderBy?: Maybe<Position_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   where?: Maybe<Position_Filter>;
+  block?: Maybe<Block_Height>;
+};
+
+
+export type SubscriptionPositionSnapshotArgs = {
+  id: Scalars['ID'];
+  block?: Maybe<Block_Height>;
+};
+
+
+export type SubscriptionPositionSnapshotsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<PositionSnapshot_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  where?: Maybe<PositionSnapshot_Filter>;
   block?: Maybe<Block_Height>;
 };
 
@@ -2745,6 +2999,8 @@ export type Tick = {
   createdAtTimestamp: Scalars['BigInt'];
   createdAtBlockNumber: Scalars['BigInt'];
   liquidityProviderCount: Scalars['BigInt'];
+  feeGrowthOutside0X128: Scalars['BigInt'];
+  feeGrowthOutside1X128: Scalars['BigInt'];
 };
 
 export type TickDayData = {
@@ -2753,12 +3009,14 @@ export type TickDayData = {
   date: Scalars['Int'];
   pool: Pool;
   tick: Tick;
-  liquidityGross: Scalars['BigDecimal'];
-  liquidityNet: Scalars['BigDecimal'];
+  liquidityGross: Scalars['BigInt'];
+  liquidityNet: Scalars['BigInt'];
   volumeToken0: Scalars['BigDecimal'];
   volumeToken1: Scalars['BigDecimal'];
   volumeUSD: Scalars['BigDecimal'];
   feesUSD: Scalars['BigDecimal'];
+  feeGrowthOutside0X128: Scalars['BigInt'];
+  feeGrowthOutside1X128: Scalars['BigInt'];
 };
 
 export type TickDayData_Filter = {
@@ -2806,22 +3064,22 @@ export type TickDayData_Filter = {
   tick_not_starts_with?: Maybe<Scalars['String']>;
   tick_ends_with?: Maybe<Scalars['String']>;
   tick_not_ends_with?: Maybe<Scalars['String']>;
-  liquidityGross?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_not?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_gt?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_lt?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_gte?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_lte?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  liquidityGross_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  liquidityNet?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_not?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_gt?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_lt?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_gte?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_lte?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  liquidityNet_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  liquidityGross?: Maybe<Scalars['BigInt']>;
+  liquidityGross_not?: Maybe<Scalars['BigInt']>;
+  liquidityGross_gt?: Maybe<Scalars['BigInt']>;
+  liquidityGross_lt?: Maybe<Scalars['BigInt']>;
+  liquidityGross_gte?: Maybe<Scalars['BigInt']>;
+  liquidityGross_lte?: Maybe<Scalars['BigInt']>;
+  liquidityGross_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityGross_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityNet?: Maybe<Scalars['BigInt']>;
+  liquidityNet_not?: Maybe<Scalars['BigInt']>;
+  liquidityNet_gt?: Maybe<Scalars['BigInt']>;
+  liquidityNet_lt?: Maybe<Scalars['BigInt']>;
+  liquidityNet_gte?: Maybe<Scalars['BigInt']>;
+  liquidityNet_lte?: Maybe<Scalars['BigInt']>;
+  liquidityNet_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityNet_not_in?: Maybe<Array<Scalars['BigInt']>>;
   volumeToken0?: Maybe<Scalars['BigDecimal']>;
   volumeToken0_not?: Maybe<Scalars['BigDecimal']>;
   volumeToken0_gt?: Maybe<Scalars['BigDecimal']>;
@@ -2854,6 +3112,22 @@ export type TickDayData_Filter = {
   feesUSD_lte?: Maybe<Scalars['BigDecimal']>;
   feesUSD_in?: Maybe<Array<Scalars['BigDecimal']>>;
   feesUSD_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  feeGrowthOutside0X128?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside0X128_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside1X128?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside1X128_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum TickDayData_OrderBy {
@@ -2866,7 +3140,9 @@ export enum TickDayData_OrderBy {
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
   VolumeUsd = 'volumeUSD',
-  FeesUsd = 'feesUSD'
+  FeesUsd = 'feesUSD',
+  FeeGrowthOutside0X128 = 'feeGrowthOutside0X128',
+  FeeGrowthOutside1X128 = 'feeGrowthOutside1X128'
 }
 
 export type TickHourData = {
@@ -2875,8 +3151,8 @@ export type TickHourData = {
   periodStartUnix: Scalars['Int'];
   pool: Pool;
   tick: Tick;
-  liquidityGross: Scalars['BigDecimal'];
-  liquidityNet: Scalars['BigDecimal'];
+  liquidityGross: Scalars['BigInt'];
+  liquidityNet: Scalars['BigInt'];
   volumeToken0: Scalars['BigDecimal'];
   volumeToken1: Scalars['BigDecimal'];
   volumeUSD: Scalars['BigDecimal'];
@@ -2928,22 +3204,22 @@ export type TickHourData_Filter = {
   tick_not_starts_with?: Maybe<Scalars['String']>;
   tick_ends_with?: Maybe<Scalars['String']>;
   tick_not_ends_with?: Maybe<Scalars['String']>;
-  liquidityGross?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_not?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_gt?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_lt?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_gte?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_lte?: Maybe<Scalars['BigDecimal']>;
-  liquidityGross_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  liquidityGross_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  liquidityNet?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_not?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_gt?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_lt?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_gte?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_lte?: Maybe<Scalars['BigDecimal']>;
-  liquidityNet_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  liquidityNet_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  liquidityGross?: Maybe<Scalars['BigInt']>;
+  liquidityGross_not?: Maybe<Scalars['BigInt']>;
+  liquidityGross_gt?: Maybe<Scalars['BigInt']>;
+  liquidityGross_lt?: Maybe<Scalars['BigInt']>;
+  liquidityGross_gte?: Maybe<Scalars['BigInt']>;
+  liquidityGross_lte?: Maybe<Scalars['BigInt']>;
+  liquidityGross_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityGross_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityNet?: Maybe<Scalars['BigInt']>;
+  liquidityNet_not?: Maybe<Scalars['BigInt']>;
+  liquidityNet_gt?: Maybe<Scalars['BigInt']>;
+  liquidityNet_lt?: Maybe<Scalars['BigInt']>;
+  liquidityNet_gte?: Maybe<Scalars['BigInt']>;
+  liquidityNet_lte?: Maybe<Scalars['BigInt']>;
+  liquidityNet_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityNet_not_in?: Maybe<Array<Scalars['BigInt']>>;
   volumeToken0?: Maybe<Scalars['BigDecimal']>;
   volumeToken0_not?: Maybe<Scalars['BigDecimal']>;
   volumeToken0_gt?: Maybe<Scalars['BigDecimal']>;
@@ -3156,6 +3432,22 @@ export type Tick_Filter = {
   liquidityProviderCount_lte?: Maybe<Scalars['BigInt']>;
   liquidityProviderCount_in?: Maybe<Array<Scalars['BigInt']>>;
   liquidityProviderCount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside0X128?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside0X128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside0X128_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside1X128?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_not?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_gt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_lt?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_gte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_lte?: Maybe<Scalars['BigInt']>;
+  feeGrowthOutside1X128_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeGrowthOutside1X128_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum Tick_OrderBy {
@@ -3177,7 +3469,9 @@ export enum Tick_OrderBy {
   CollectedFeesUsd = 'collectedFeesUSD',
   CreatedAtTimestamp = 'createdAtTimestamp',
   CreatedAtBlockNumber = 'createdAtBlockNumber',
-  LiquidityProviderCount = 'liquidityProviderCount'
+  LiquidityProviderCount = 'liquidityProviderCount',
+  FeeGrowthOutside0X128 = 'feeGrowthOutside0X128',
+  FeeGrowthOutside1X128 = 'feeGrowthOutside1X128'
 }
 
 export type Token = {

@@ -5,7 +5,7 @@ import useStarcoinProvider from './useStarcoinProvider'
 import { TransactionPayloadVariantScriptFunction } from '@starcoin/starcoin/dist/src/lib/runtime/starcoin_types'
 import { useTransactionExpirationSecs } from './useTransactionDeadline'
 
-const PREFIX = '0x07fa08a855753f0ff7292fdcbe871216::TokenSwapScripts::'
+const PREFIX = '0xbd7e8be8fae9f60f2f5136433e36a091::TokenSwapScripts::'
 
 function serializeU128(value: string | number): string {
   const se = new bcs.BcsSerializer()
@@ -34,7 +34,7 @@ export function useSwapExactTokenForToken(signer?: string) {
       const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
         data: serializeScriptFunction(scriptFunction),
         // @ts-ignore
-        expirationSecs,
+        // expirationSecs,
       })
       return transactionHash
     },
@@ -57,7 +57,7 @@ export function useSwapTokenForExactToken(signer?: string) {
       const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
         data: serializeScriptFunction(scriptFunction),
         // @ts-ignore
-        expirationSecs,
+        // expirationSecs,
       })
       return transactionHash
     },
@@ -92,7 +92,7 @@ export function useAddLiquidity(signer?: string) {
       const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
         data: serializeScriptFunction(scriptFunction),
         // @ts-ignore
-        expirationSecs,
+        // expirationSecs,
       })
       return transactionHash
     },
@@ -125,7 +125,7 @@ export function useRemoveLiquidity(signer?: string) {
       const transactionHash = await provider.getSigner(signer).sendUncheckedTransaction({
         data: serializeScriptFunction(scriptFunction),
         // @ts-ignore
-        expirationSecs,
+        // expirationSecs,
       })
       return transactionHash
     },

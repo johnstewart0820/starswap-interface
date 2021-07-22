@@ -12,7 +12,7 @@
   "tokens": [
     {
       "chainId": 251,
-      "address": "0x07fa08a855753f0ff7292fdcbe871216::Usdx::Usdx",
+      "address": "0xbd7e8be8fae9f60f2f5136433e36a091::Usdx::Usdx",
       "name": "Usdx",
       "symbol": "Usdx",
       "decimals": 9,
